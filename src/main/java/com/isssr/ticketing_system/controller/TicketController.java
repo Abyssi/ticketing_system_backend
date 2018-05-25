@@ -9,6 +9,7 @@ import com.isssr.ticketing_system.response_entity.ObjectResponseEntityBuilder;
 import com.isssr.ticketing_system.service.TicketService;
 import com.isssr.ticketing_system.validator.TicketValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -109,8 +110,8 @@ public class TicketController {
 
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "size", required = false) Integer size) {
-        Stream<Ticket> tickets;
+    public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+        /*Stream<Ticket> tickets;
         if (page != null && size != null) {
             try {
                 tickets = (ticketService.findAll(page, size).stream());
@@ -124,7 +125,25 @@ public class TicketController {
 
         return new ListObjectResponseEntityBuilder<>(tickets.collect(Collectors.toList()))
                 .setStatus(HttpStatus.OK)
-                .build();
+                .build();*/
+
+        Page<Ticket> ticketPage;
+
+        try {
+
+            ticketPage = ticketService.findAll(page, pageSize);
+
+        } catch (PageableQueryException e) {
+
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+
+        } catch (EntityNotFoundException e) {
+
+            return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
+
+        }
+        return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
+
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
