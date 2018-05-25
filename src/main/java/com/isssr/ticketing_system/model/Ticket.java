@@ -102,6 +102,11 @@ public class Ticket {
     @JoinColumn(name = "ticket_id")
     private Collection<TicketComment> comments;
 
+    @IncludeInResponse({"full"})
+    @NonNull
+    @Column(name = "deleted")
+    private boolean deleted;
+
     public Collection<TicketAttachment> getAttachments() {
         return this.attachments == null ? (this.attachments = new ArrayList<>()) : this.attachments;
     }
@@ -152,5 +157,17 @@ public class Ticket {
         this.events = updatedData.events;
 
         this.comments = updatedData.comments;
+    }
+
+    public void markMeAsDeleted() {
+
+        this.deleted = true;
+
+    }
+
+    public void restoreMe() {
+
+        this.deleted = false;
+
     }
 }

@@ -165,7 +165,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 userService.findByEmail("admin@admin.com").get(),
                 productService.findByName("System").get(),
                 ticketPriorityService.findByName("HIGH").get(),
-                visibilityService.findByName("PRIVATE").get()
+                visibilityService.findByName("PRIVATE").get(),
+                false
         ));
     }
 }

@@ -8,6 +8,7 @@ import com.isssr.ticketing_system.repository.TicketRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -91,5 +92,35 @@ public class TicketService {
             throw new PageableQueryException("Page number higher than the maximum");
 
         return retrievedPage;
+    }
+
+    @Transactional
+    public Page<Ticket> findAllNotDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
+        Page<Ticket> retrievedPage = this.findAllNotDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
+
+        if (page > retrievedPage.getTotalPages() - 1)
+            throw new PageableQueryException("Page number higher than the maximum");
+
+        return retrievedPage;
+    }
+
+    @Transactional
+    public Page<Ticket> findAllNotDeleted(PageRequest pageRequest) {
+        return this.ticketRepository.findAllNotDleted(pageRequest);
+    }
+
+    @Transactional
+    public Page<Ticket> findAllDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
+        Page<Ticket> retrievedPage = this.findAllNotDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
+
+        if (page > retrievedPage.getTotalPages() - 1)
+            throw new PageableQueryException("Page number higher than the maximum");
+
+        return retrievedPage;
+    }
+
+    @Transactional
+    public Page<Ticket> findAllDeleted(PageRequest pageRequest) {
+        return this.ticketRepository.findAllDeleted(pageRequest);
     }
 }

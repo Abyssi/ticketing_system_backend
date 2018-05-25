@@ -108,7 +108,7 @@ public class TicketController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "all", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         /*Stream<Ticket> tickets;
@@ -132,6 +132,82 @@ public class TicketController {
         try {
 
             ticketPage = ticketService.findAll(page, pageSize);
+
+        } catch (PageableQueryException e) {
+
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+
+        } catch (EntityNotFoundException e) {
+
+            return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
+
+        }
+        return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
+
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    public ResponseEntity getAllNotDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+        /*Stream<Ticket> tickets;
+        if (page != null && size != null) {
+            try {
+                tickets = (ticketService.findAll(page, size).stream());
+            } catch (PageableQueryException e) {
+                return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+            } catch (EntityNotFoundException e) {
+                return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
+            }
+        } else
+            tickets = (StreamSupport.stream(ticketService.findAll().spliterator(), false));
+
+        return new ListObjectResponseEntityBuilder<>(tickets.collect(Collectors.toList()))
+                .setStatus(HttpStatus.OK)
+                .build();*/
+
+        Page<Ticket> ticketPage;
+
+        try {
+
+            ticketPage = ticketService.findAllNotDeleted(page, pageSize);
+
+        } catch (PageableQueryException e) {
+
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+
+        } catch (EntityNotFoundException e) {
+
+            return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
+
+        }
+        return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "deleted", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    public ResponseEntity getAllDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+        /*Stream<Ticket> tickets;
+        if (page != null && size != null) {
+            try {
+                tickets = (ticketService.findAll(page, size).stream());
+            } catch (PageableQueryException e) {
+                return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+            } catch (EntityNotFoundException e) {
+                return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
+            }
+        } else
+            tickets = (StreamSupport.stream(ticketService.findAll().spliterator(), false));
+
+        return new ListObjectResponseEntityBuilder<>(tickets.collect(Collectors.toList()))
+                .setStatus(HttpStatus.OK)
+                .build();*/
+
+        Page<Ticket> ticketPage;
+
+        try {
+
+            ticketPage = ticketService.findAllDeleted(page, pageSize);
 
         } catch (PageableQueryException e) {
 
