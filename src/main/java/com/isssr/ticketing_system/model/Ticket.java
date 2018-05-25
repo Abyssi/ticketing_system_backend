@@ -170,4 +170,10 @@ public class Ticket {
         this.deleted = false;
 
     }
+
+    public boolean isDeleted(){
+
+        return this.deleted;
+
+    }
 }

@@ -70,7 +70,22 @@ public class TicketService {
     @Transactional
     public boolean deleteById(Long id) {
         boolean exists = this.ticketRepository.existsById(id);
-        if (exists) this.ticketRepository.deleteById(id);
+
+        if (exists) {
+
+            Ticket ticket = this.ticketRepository.getOne(id);
+
+            if (ticket.isDeleted()) {
+
+                this.ticketRepository.deleteById(id);
+
+            } else {
+
+                ticket.markMeAsDeleted();
+
+                this.ticketRepository.save(ticket);
+            }
+        }
         return exists;
     }
 
