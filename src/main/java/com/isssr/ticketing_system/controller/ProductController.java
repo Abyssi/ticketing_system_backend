@@ -1,6 +1,7 @@
 package com.isssr.ticketing_system.controller;
 
 import com.isssr.ticketing_system.exception.PageableQueryException;
+import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Product;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.ListObjectResponseEntityBuilder;
@@ -50,7 +51,7 @@ public class ProductController {
 
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity get(@PathVariable Long id) {
+    public ResponseEntity getByID(@PathVariable Long id) {
         Optional<Product> product = productService.findById(id);
 
         if (!product.isPresent())
@@ -60,35 +61,55 @@ public class ProductController {
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity get(@PathVariable Long id, @Valid @RequestBody Product product) {
-        Optional<Product> foundProduct = productService.findById(id);
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
+    public ResponseEntity update(@PathVariable Long id, @Valid @RequestBody Product product) {
+        /*Optional<Product> foundProduct = productService.findById(id);
 
         if (!foundProduct.isPresent())
             return CommonResponseEntity.NotFoundResponseEntity("PRODUCT_NOT_FOUND");
 
         product.setId(foundProduct.get().getId());
-        productService.save(product);
+        productService.save(product);*/
+
+        try {
+
+            productService.updateOne(id, product);
+
+        } catch (UpdateException e) {
+
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+
+        } catch (com.isssr.ticketing_system.exception.EntityNotFoundException e) {
+
+            return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
+
+        }
 
         return CommonResponseEntity.OkResponseEntity("UPDATED");
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity delete(@PathVariable Long id) {
-        Optional<Product> foundProduct = productService.findById(id);
+        /*Optional<Product> foundProduct = productService.findById(id);
 
         if (!foundProduct.isPresent())
+            return CommonResponseEntity.NotFoundResponseEntity("PRODUCT_NOT_FOUND");*/
+
+        if (productService.deleteById(id)) {
+
+            return CommonResponseEntity.OkResponseEntity("DELETED");
+
+        } else {
+
             return CommonResponseEntity.NotFoundResponseEntity("PRODUCT_NOT_FOUND");
 
-        productService.deleteById(foundProduct.get().getId());
-
-        return CommonResponseEntity.OkResponseEntity("DELETED");
+        }
     }
-
+    //TODO: AGGIUSTARE!
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity get(@RequestParam(name = "page", required = false) Integer page, @RequestParam(name = "size", required = false) Integer size) {
+    public ResponseEntity getAllPaginated(@RequestParam(name = "page", required = false) Integer page, @RequestParam(name = "size", required = false) Integer size) {
         Stream<Product> products;
         if (page != null && size != null) {
             try {
@@ -108,7 +129,7 @@ public class ProductController {
 
     @RequestMapping(method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
-    public ResponseEntity delete() {
+    public ResponseEntity deleteAll() {
         Long count = productService.count();
 
         if (count == 0)

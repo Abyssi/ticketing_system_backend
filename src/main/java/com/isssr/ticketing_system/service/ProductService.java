@@ -1,6 +1,7 @@
 package com.isssr.ticketing_system.service;
 
 import com.isssr.ticketing_system.exception.PageableQueryException;
+import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Product;
 import com.isssr.ticketing_system.repository.ProductRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
@@ -25,9 +26,21 @@ public class ProductService {
 
     @Transactional
     public Product save(Product product) {
-        if (product.getId() == null && this.productRepository.existsByName(product.getName()))
-            product.setId(this.findByName(product.getName()).get().getId());
+        /*if (product.getId() == null && this.productRepository.existsByName(product.getName()))
+            product.setId(this.findByName(product.getName()).get().getId());*/
         return this.productRepository.save(product);
+    }
+
+    @Transactional
+    public @NotNull Product updateOne(@NotNull Long id, @NotNull Product updatedData) throws UpdateException, com.isssr.ticketing_system.exception.EntityNotFoundException {
+        Product updatingProduct = productRepository.getOne(id);
+
+        if (updatingProduct == null)
+            throw new com.isssr.ticketing_system.exception.EntityNotFoundException("Product to update not found in DB, maybe you have to create a new one");
+
+        updatingProduct.updateMe(updatedData);
+
+        return productRepository.save(updatingProduct);
     }
 
     @Transactional

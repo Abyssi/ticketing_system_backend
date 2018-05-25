@@ -1,7 +1,9 @@
 package com.isssr.ticketing_system.service;
 
 import com.isssr.ticketing_system.exception.PageableQueryException;
+import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Team;
+import com.isssr.ticketing_system.model.Ticket;
 import com.isssr.ticketing_system.repository.TeamRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +27,19 @@ public class TeamService {
 
     @Transactional
     public Team save(Team team) {
-        if (team.getId() == null && this.teamRepository.existsByName(team.getName()))
-            team.setId(this.findByName(team.getName()).get().getId());
         return this.teamRepository.save(team);
+    }
+
+    @Transactional
+    public @NotNull Team updateOne(@NotNull Long id, @NotNull Team updatedData) throws UpdateException, com.isssr.ticketing_system.exception.EntityNotFoundException {
+        Team updatingTeam = teamRepository.getOne(id);
+
+        if (updatingTeam == null)
+            throw new com.isssr.ticketing_system.exception.EntityNotFoundException("Team to update not found in DB, maybe you have to create a new one");
+
+        updatingTeam.updateMe(updatedData);
+
+        return teamRepository.save(updatingTeam);
     }
 
     @Transactional
