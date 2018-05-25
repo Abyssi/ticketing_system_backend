@@ -9,6 +9,7 @@ import com.isssr.ticketing_system.response_entity.ObjectResponseEntityBuilder;
 import com.isssr.ticketing_system.service.ProductService;
 import com.isssr.ticketing_system.validator.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -106,11 +107,11 @@ public class ProductController {
 
         }
     }
-    //TODO: AGGIUSTARE!
+
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity getAllPaginated(@RequestParam(name = "page", required = false) Integer page, @RequestParam(name = "size", required = false) Integer size) {
-        Stream<Product> products;
+    public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+        /*Stream<Product> products;
         if (page != null && size != null) {
             try {
                 products = (productService.findAll(page, size).stream());
@@ -124,7 +125,24 @@ public class ProductController {
 
         return new ListObjectResponseEntityBuilder<>(products.collect(Collectors.toList()))
                 .setStatus(HttpStatus.OK)
-                .build();
+                .build();*/
+
+        Page<Product> productPage;
+        try {
+
+            productPage = productService.findAll(page, pageSize);
+
+        } catch (PageableQueryException e) {
+
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+
+        } catch (EntityNotFoundException e) {
+
+            return CommonResponseEntity.NotFoundResponseEntity("PRODUCTS_NOT_FOUND");
+
+        }
+
+        return new ResponseEntity<Page<Product>>(productPage, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)

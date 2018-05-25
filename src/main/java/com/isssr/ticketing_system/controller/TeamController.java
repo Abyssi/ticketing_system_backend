@@ -9,6 +9,7 @@ import com.isssr.ticketing_system.response_entity.ObjectResponseEntityBuilder;
 import com.isssr.ticketing_system.service.TeamService;
 import com.isssr.ticketing_system.validator.TeamValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -106,11 +107,12 @@ public class TeamController {
 
         }
     }
-    //TODO: AGGIUSTARE!
+
+
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity getAllPaginated(@RequestParam(name = "page", required = false) Integer page, @RequestParam(name = "size", required = false) Integer size) {
-        Stream<Team> teams;
+    public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+        /*Stream<Team> teams;
         if (page != null && size != null) {
             try {
                 teams = (teamService.findAll(page, size).stream());
@@ -124,7 +126,25 @@ public class TeamController {
 
         return new ListObjectResponseEntityBuilder<>(teams.collect(Collectors.toList()))
                 .setStatus(HttpStatus.OK)
-                .build();
+                .build();*/
+
+        Page<Team> teamPage;
+
+        try {
+
+            teamPage = teamService.findAll(page, pageSize);
+
+        } catch (PageableQueryException e) {
+
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+
+        } catch (EntityNotFoundException e) {
+
+            return CommonResponseEntity.NotFoundResponseEntity("TEAMS_NOT_FOUND");
+
+        }
+
+        return new ResponseEntity<Page<Team>>(teamPage, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
