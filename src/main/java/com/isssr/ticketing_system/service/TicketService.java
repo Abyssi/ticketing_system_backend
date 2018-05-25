@@ -1,6 +1,8 @@
 package com.isssr.ticketing_system.service;
 
+import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
+import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Ticket;
 import com.isssr.ticketing_system.repository.TicketRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
@@ -11,7 +13,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
@@ -26,6 +27,18 @@ public class TicketService {
     @Transactional
     public Ticket save(Ticket ticket) {
         return this.ticketRepository.save(ticket);
+    }
+
+    @Transactional
+    public @NotNull Ticket updateOne(@NotNull Long id, @NotNull Ticket updatedData) throws UpdateException, EntityNotFoundException {
+        Ticket updatingTicket = ticketRepository.getOne(id);
+
+        if (updatingTicket == null)
+            throw new EntityNotFoundException("Ticket to update not found in DB, maybe you have to create a new one");
+
+        updatingTicket.updateMe(updatedData);
+
+        return ticketRepository.save(updatingTicket);
     }
 
     @Transactional

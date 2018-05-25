@@ -1,5 +1,6 @@
 package com.isssr.ticketing_system.model;
 
+import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.response_entity.response_serializator.IncludeInResponse;
 import com.isssr.ticketing_system.response_entity.response_serializator.VariableResponseSelector;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -114,5 +116,41 @@ public class Ticket {
 
     public Collection<TicketComment> getComments() {
         return this.comments == null ? (this.comments = new ArrayList<>()) : this.comments;
+    }
+
+    public void updateMe(@NotNull Ticket updatedData) throws UpdateException {
+
+        if (this.id.longValue() != updatedData.id.longValue())
+            throw new UpdateException("Attempt to update a ticket record without ID matching");
+
+        this.status = updatedData.status;
+
+        this.source = updatedData.source;
+
+        this.category = updatedData.category;
+
+        this.title = updatedData.title;
+
+        this.description = updatedData.description;
+
+        this.attachments = updatedData.attachments;
+
+        this.assignee = updatedData.assignee;
+
+        this.target = updatedData.target;
+
+        this.customerPriority = updatedData.customerPriority;
+
+        this.teamPriority = updatedData.teamPriority;
+
+        this.visibility = updatedData.visibility;
+
+        this.relations = updatedData.relations;
+
+        this.difficulty = updatedData.difficulty;
+
+        this.events = updatedData.events;
+
+        this.comments = updatedData.comments;
     }
 }

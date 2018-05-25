@@ -1,6 +1,7 @@
 package com.isssr.ticketing_system.controller;
 
 import com.isssr.ticketing_system.exception.PageableQueryException;
+import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Ticket;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.ListObjectResponseEntityBuilder;
@@ -50,7 +51,7 @@ public class TicketController {
 
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity get(@PathVariable Long id) {
+    public ResponseEntity getByID(@PathVariable Long id) {
         Optional<Ticket> ticket = ticketService.findById(id);
 
         if (!ticket.isPresent())
@@ -60,35 +61,55 @@ public class TicketController {
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity get(@PathVariable Long id, @Valid @RequestBody Ticket ticket) {
-        Optional<Ticket> foundTicket = ticketService.findById(id);
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
+    public ResponseEntity update(@PathVariable Long id, @Valid @RequestBody Ticket ticket) {
+        /*Optional<Ticket> foundTicket = ticketService.findById(id);
 
         if (!foundTicket.isPresent())
-            return CommonResponseEntity.NotFoundResponseEntity("TICKET_NOT_FOUND");
+            return CommonResponseEntity.NotFoundResponseEntity("TICKET_NOT_FOUND");*/
 
-        ticket.setId(foundTicket.get().getId());
-        ticketService.save(ticket);
+        //ticket.setId(foundTicket.get().getId());
+        //ticketService.save(ticket);
+
+        try {
+
+            ticketService.updateOne(id, ticket);
+
+        } catch (UpdateException e) {
+
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+
+        } catch (com.isssr.ticketing_system.exception.EntityNotFoundException e) {
+
+            return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
+
+        }
 
         return CommonResponseEntity.OkResponseEntity("UPDATED");
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity delete(@PathVariable Long id) {
-        Optional<Ticket> foundTicket = ticketService.findById(id);
+        /*Optional<Ticket> foundTicket = ticketService.findById(id);
 
         if (!foundTicket.isPresent())
+            return CommonResponseEntity.NotFoundResponseEntity("TICKET_NOT_FOUND");*/
+
+        if (ticketService.deleteById(id)) {
+
+            return CommonResponseEntity.OkResponseEntity("DELETED");
+
+        } else {
+
             return CommonResponseEntity.NotFoundResponseEntity("TICKET_NOT_FOUND");
 
-        ticketService.deleteById(foundTicket.get().getId());
-
-        return CommonResponseEntity.OkResponseEntity("DELETED");
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity get(@RequestParam(name = "page", required = false) Integer page, @RequestParam(name = "size", required = false) Integer size) {
+    public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "size", required = false) Integer size) {
         Stream<Ticket> tickets;
         if (page != null && size != null) {
             try {
@@ -108,7 +129,7 @@ public class TicketController {
 
     @RequestMapping(method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
-    public ResponseEntity delete() {
+    public ResponseEntity deleteAll() {
         Long count = ticketService.count();
 
         if (count == 0)
