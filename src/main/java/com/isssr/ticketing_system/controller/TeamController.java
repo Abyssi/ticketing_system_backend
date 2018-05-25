@@ -1,6 +1,7 @@
 package com.isssr.ticketing_system.controller;
 
 import com.isssr.ticketing_system.exception.PageableQueryException;
+import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Team;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.ListObjectResponseEntityBuilder;
@@ -50,7 +51,7 @@ public class TeamController {
 
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity get(@PathVariable Long id) {
+    public ResponseEntity getByID(@PathVariable Long id) {
         Optional<Team> team = teamService.findById(id);
 
         if (!team.isPresent())
@@ -60,35 +61,55 @@ public class TeamController {
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity get(@PathVariable Long id, @Valid @RequestBody Team team) {
-        Optional<Team> foundTeam = teamService.findById(id);
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
+    public ResponseEntity update(@PathVariable Long id, @Valid @RequestBody Team team) {
+        /*Optional<Team> foundTeam = teamService.findById(id);
 
         if (!foundTeam.isPresent())
             return CommonResponseEntity.NotFoundResponseEntity("TEAM_NOT_FOUND");
 
         team.setId(foundTeam.get().getId());
-        teamService.save(team);
+        teamService.save(team);*/
+
+        try {
+
+            teamService.updateOne(id, team);
+
+        } catch (UpdateException e) {
+
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+
+        } catch (com.isssr.ticketing_system.exception.EntityNotFoundException e) {
+
+            return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
+
+        }
 
         return CommonResponseEntity.OkResponseEntity("UPDATED");
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity delete(@PathVariable Long id) {
-        Optional<Team> foundTeam = teamService.findById(id);
+        /*Optional<Team> foundTeam = teamService.findById(id);
 
         if (!foundTeam.isPresent())
+            return CommonResponseEntity.NotFoundResponseEntity("TEAM_NOT_FOUND");*/
+
+        if (teamService.deleteById(id)) {
+
+            return CommonResponseEntity.OkResponseEntity("DELETED");
+
+        } else {
+
             return CommonResponseEntity.NotFoundResponseEntity("TEAM_NOT_FOUND");
 
-        teamService.deleteById(foundTeam.get().getId());
-
-        return CommonResponseEntity.OkResponseEntity("DELETED");
+        }
     }
-
+    //TODO: AGGIUSTARE!
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity get(@RequestParam(name = "page", required = false) Integer page, @RequestParam(name = "size", required = false) Integer size) {
+    public ResponseEntity getAllPaginated(@RequestParam(name = "page", required = false) Integer page, @RequestParam(name = "size", required = false) Integer size) {
         Stream<Team> teams;
         if (page != null && size != null) {
             try {
