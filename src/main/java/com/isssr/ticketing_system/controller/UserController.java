@@ -1,5 +1,6 @@
 package com.isssr.ticketing_system.controller;
 
+import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.model.User;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.ListObjectResponseEntityBuilder;
@@ -9,7 +10,6 @@ import com.isssr.ticketing_system.service.UserService;
 import com.isssr.ticketing_system.validator.UserValidator;
 import com.isssr.ticketing_system.validator.ValidString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
@@ -113,9 +114,17 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity get(@RequestParam(name = "page", required = false) Integer page, @RequestParam(name = "size", required = false) Integer size) {
-        Stream<User> users = (page != null && size != null)
-                ? (userService.findAll(PageRequest.of(page, size)).stream())
-                : (StreamSupport.stream(userService.findAll().spliterator(), false));
+        Stream<User> users;
+        if (page != null && size != null) {
+            try {
+                users = (userService.findAll(page, size).stream());
+            } catch (PageableQueryException e) {
+                return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+            } catch (EntityNotFoundException e) {
+                return CommonResponseEntity.NotFoundResponseEntity("USERS_NOT_FOUND");
+            }
+        } else
+            users = (StreamSupport.stream(userService.findAll().spliterator(), false));
 
         return new ListObjectResponseEntityBuilder<>(users.collect(Collectors.toList()))
                 .setStatus(HttpStatus.OK)

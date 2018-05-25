@@ -1,19 +1,27 @@
 package com.isssr.ticketing_system.service;
 
+import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.model.Product;
 import com.isssr.ticketing_system.repository.ProductRepository;
+import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private PageableUtils pageableUtils;
 
     @Transactional
     public Product save(Product product) {
@@ -72,5 +80,15 @@ public class ProductService {
     @Transactional
     public Page<Product> findAll(Pageable pageable) {
         return this.productRepository.findAll(pageable);
+    }
+
+    @Transactional
+    public Page<Product> findAll(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException, EntityNotFoundException {
+        Page<Product> retrievedPage = this.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
+
+        if (page > retrievedPage.getTotalPages() - 1)
+            throw new PageableQueryException("Page number higher than the maximum");
+
+        return retrievedPage;
     }
 }
