@@ -1,6 +1,7 @@
 package com.isssr.ticketing_system.service;
 
 import com.isssr.ticketing_system.exception.PageableQueryException;
+import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.User;
 import com.isssr.ticketing_system.repository.UserRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
@@ -63,6 +64,22 @@ public class UserService {
     }
 
     @Transactional
+    public User updateUser(@NotNull Long id, @NotNull User user) throws EntityNotFoundException, UpdateException {
+
+        Optional<User> updatingUser = findById(id);
+
+        if (!updatingUser.isPresent())
+            throw new EntityNotFoundException("User to update not found in DB, maybe you have to create a new one");
+
+        User toUpdate = updatingUser.get();
+
+        toUpdate.updateMe(user);
+
+        return this.userRepository.save(toUpdate);
+
+    }
+
+    @Transactional
     public void deleteAll() {
         this.userRepository.deleteAll();
     }
@@ -90,5 +107,15 @@ public class UserService {
             throw new PageableQueryException("Page number higher than the maximum");
 
         return retrievedPage;
+    }
+
+    public Optional<User> findUser(String term, String type) {
+        switch (type) {
+            case "id":
+                return findById(Long.parseLong(term));
+            case "email":
+                return findByEmail(term);
+        }
+        return Optional.empty();
     }
 }

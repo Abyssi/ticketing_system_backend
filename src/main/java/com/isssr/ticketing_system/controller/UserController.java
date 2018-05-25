@@ -1,6 +1,7 @@
 package com.isssr.ticketing_system.controller;
 
 import com.isssr.ticketing_system.exception.PageableQueryException;
+import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.User;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.ListObjectResponseEntityBuilder;
@@ -10,6 +11,7 @@ import com.isssr.ticketing_system.service.UserService;
 import com.isssr.ticketing_system.validator.UserValidator;
 import com.isssr.ticketing_system.validator.ValidString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -74,7 +76,7 @@ public class UserController {
     @RequestMapping(path = "{term}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity get(@PathVariable String term, @ValidString(list = {"id", "email"}, message = "Invalid type") @RequestParam("type") String type) {
-        Optional<User> user = findUser(term, type);
+        Optional<User> user = userService.findUser(term, type);
 
         if (!user.isPresent())
             return CommonResponseEntity.NotFoundResponseEntity("USER_NOT_FOUND");
@@ -84,16 +86,19 @@ public class UserController {
 
     @RequestMapping(path = "{term}", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
-    public ResponseEntity delete(@PathVariable String term,
+    public ResponseEntity update(@PathVariable String term,
                                  @ValidString(list = {"id", "email"}, message = "Invalid type") @RequestParam("type") String type,
                                  @Valid @RequestBody User user) {
-        Optional<User> foundUser = findUser(term, type);
+        Optional<User> foundUser = userService.findUser(term, type);
 
         if (!foundUser.isPresent())
             return CommonResponseEntity.NotFoundResponseEntity("USER_NOT_FOUND");
 
-        user.setId(foundUser.get().getId());
-        userService.save(user);
+        try {
+            userService.updateUser(foundUser.get().getId(), user);
+        } catch (UpdateException e) {
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+        }
 
         return CommonResponseEntity.OkResponseEntity("UPDATED");
     }
@@ -101,7 +106,7 @@ public class UserController {
     @RequestMapping(path = "{term}", method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity delete(@PathVariable String term, @ValidString(list = {"id", "email"}, message = "Invalid type") @RequestParam("type") String type) {
-        Optional<User> user = findUser(term, type);
+        Optional<User> user = userService.findUser(term, type);
 
         if (!user.isPresent())
             return CommonResponseEntity.NotFoundResponseEntity("USER_NOT_FOUND");
@@ -113,8 +118,8 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity get(@RequestParam(name = "page", required = false) Integer page, @RequestParam(name = "size", required = false) Integer size) {
-        Stream<User> users;
+    public ResponseEntity get(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+        /*Stream<User> users;
         if (page != null && size != null) {
             try {
                 users = (userService.findAll(page, size).stream());
@@ -126,9 +131,29 @@ public class UserController {
         } else
             users = (StreamSupport.stream(userService.findAll().spliterator(), false));
 
-        return new ListObjectResponseEntityBuilder<>(users.collect(Collectors.toList()))
+        /*return new ListObjectResponseEntityBuilder<>(users.collect(Collectors.toList()))
                 .setStatus(HttpStatus.OK)
-                .build();
+                .build();*/
+
+        Page<User> userPage = null;
+
+        try {
+
+            userPage = userService.findAll(page, pageSize);
+
+        } catch (PageableQueryException e) {
+
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+
+        } catch (EntityNotFoundException e) {
+
+            return CommonResponseEntity.NotFoundResponseEntity("USERS_NOT_FOUND");
+
+        }
+
+        return new ResponseEntity<Page<User>>(userPage, HttpStatus.OK);
+
+
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
@@ -142,15 +167,5 @@ public class UserController {
         userService.deleteAll();
 
         return CommonResponseEntity.OkResponseEntity("DELETED");
-    }
-
-    private Optional<User> findUser(String term, String type) {
-        switch (type) {
-            case "id":
-                return userService.findById(Long.parseLong(term));
-            case "email":
-                return userService.findByEmail(term);
-        }
-        return Optional.empty();
     }
 }

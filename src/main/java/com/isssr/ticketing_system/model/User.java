@@ -1,5 +1,6 @@
 package com.isssr.ticketing_system.model;
 
+import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.response_entity.response_serializator.IncludeInResponse;
 import com.isssr.ticketing_system.response_entity.response_serializator.VariableResponseSelector;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @VariableResponseSelector
@@ -48,5 +50,28 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
+
+    public void updateMe(@NotNull User updatedData) throws UpdateException {
+
+        if (this.id.longValue() != updatedData.id.longValue())
+            throw new UpdateException("Attempt to update a User record without ID matching");
+
+        this.firstName = updatedData.firstName;
+
+        this.lastName = updatedData.lastName;
+
+        this.email = updatedData.email;
+
+        //no password update because in this method is always null
+        //this.password = updatedData.password;
+
+        this.roles = updatedData.roles;
+
+        this.team = updatedData.team;
+    }
+
+    public void updatePassword(@NotNull Long id, @NotNull String password){
+        //TODO update only password
+    }
 }
 
