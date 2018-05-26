@@ -5,8 +5,8 @@ import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Ticket;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
-import com.isssr.ticketing_system.response_entity.ListObjectResponseEntityBuilder;
 import com.isssr.ticketing_system.response_entity.ObjectResponseEntityBuilder;
+import com.isssr.ticketing_system.response_entity.PageResponseEntityBuilder;
 import com.isssr.ticketing_system.service.TicketService;
 import com.isssr.ticketing_system.validator.TicketValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 @Validated
 @RestController
@@ -124,7 +121,17 @@ public class TicketController {
 
     @RequestMapping(value = "all", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+    public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "size", required = false) Integer size) {
+        Page<Ticket> ticketPage;
+        try {
+            ticketPage = ticketService.findAll(page, size);
+        } catch (PageableQueryException e) {
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+        }
+        return new PageResponseEntityBuilder(ticketPage)
+                .setStatus(HttpStatus.OK)
+                .build();
+
         /*Stream<Ticket> tickets;
         if (page != null && size != null) {
             try {
@@ -141,6 +148,7 @@ public class TicketController {
                 .setStatus(HttpStatus.OK)
                 .build();*/
 
+        /*
         Page<Ticket> ticketPage;
 
         try {
@@ -156,13 +164,25 @@ public class TicketController {
             return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
 
         }*/
-        return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
+        //return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
+
 
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity getAllNotDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+    public ResponseEntity getAllNotDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "size", required = false) Integer size) {
+
+        Page<Ticket> ticketPage;
+        try {
+            ticketPage = ticketService.findAllNotDeleted(page, size);
+        } catch (PageableQueryException e) {
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+        }
+        return new PageResponseEntityBuilder(ticketPage)
+                .setStatus(HttpStatus.OK)
+                .build();
+
         /*Stream<Ticket> tickets;
         if (page != null && size != null) {
             try {
@@ -179,6 +199,7 @@ public class TicketController {
                 .setStatus(HttpStatus.OK)
                 .build();*/
 
+        /*
         Page<Ticket> ticketPage;
 
         try {
@@ -194,13 +215,24 @@ public class TicketController {
             return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
 
         }*/
-        return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
+        //return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
 
     }
 
     @RequestMapping(value = "deleted", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity getAllDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+    public ResponseEntity getAllDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "size", required = false) Integer size) {
+
+        Page<Ticket> ticketPage;
+        try {
+            ticketPage = ticketService.findAllDeleted(page, size);
+        } catch (PageableQueryException e) {
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+        }
+        return new PageResponseEntityBuilder(ticketPage)
+                .setStatus(HttpStatus.OK)
+                .build();
+
         /*Stream<Ticket> tickets;
         if (page != null && size != null) {
             try {
@@ -217,6 +249,7 @@ public class TicketController {
                 .setStatus(HttpStatus.OK)
                 .build();*/
 
+        /*
         Page<Ticket> ticketPage;
 
         try {
@@ -232,7 +265,7 @@ public class TicketController {
             return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
 
         }*/
-        return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
+        //return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
 
     }
 

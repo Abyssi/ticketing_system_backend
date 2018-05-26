@@ -145,7 +145,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureProducts() {
-        this.productService.save(new Product("System", "1.0"));
+        this.productService.save(new Product("System", "1.0", false));
     }
 
     private void configureTeams() {
