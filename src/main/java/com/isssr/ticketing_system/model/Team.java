@@ -21,9 +21,10 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "ts_team")
-@DynamicInsert()
-@DynamicUpdate()
+@DynamicInsert
+@DynamicUpdate
 public class Team {
+    @IncludeInResponse({"base", "full"})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

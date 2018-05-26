@@ -19,9 +19,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ts_visibility")
-@DynamicInsert()
-@DynamicUpdate()
+@DynamicInsert
+@DynamicUpdate
 public class Visibility {
+    @IncludeInResponse({"base", "full"})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

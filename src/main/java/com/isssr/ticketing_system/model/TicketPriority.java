@@ -19,9 +19,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ts_ticket_priority")
-@DynamicInsert()
-@DynamicUpdate()
+@DynamicInsert
+@DynamicUpdate
 public class TicketPriority {
+    @IncludeInResponse({"base", "full"})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -20,9 +20,10 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "ts_role")
-@DynamicInsert()
-@DynamicUpdate()
+@DynamicInsert
+@DynamicUpdate
 public class Role {
+    @IncludeInResponse({"base", "full"})
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

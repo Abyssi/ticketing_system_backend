@@ -20,9 +20,10 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "ts_ticket_event")
-@DynamicInsert()
-@DynamicUpdate()
+@DynamicInsert
+@DynamicUpdate
 public class TicketEvent {
+    @IncludeInResponse({"base", "full"})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

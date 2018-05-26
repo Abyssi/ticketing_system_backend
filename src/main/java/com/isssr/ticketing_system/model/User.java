@@ -22,9 +22,10 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "ts_user") //user is a reserved word in postgres
-@DynamicInsert()
-@DynamicUpdate()
+@DynamicInsert
+@DynamicUpdate
 public class User {
+    @IncludeInResponse({"base", "full"})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

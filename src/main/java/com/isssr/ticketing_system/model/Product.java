@@ -21,9 +21,10 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ts_product")
-@DynamicInsert()
-@DynamicUpdate()
+@DynamicInsert
+@DynamicUpdate
 public class Product {
+    @IncludeInResponse({"base", "full"})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
