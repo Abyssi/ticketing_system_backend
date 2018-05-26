@@ -31,7 +31,7 @@ public class QueryController {
     /*@Autowired
     private TaskScheduler taskScheduler;*/
 
-    @PostConstruct
+    //@PostConstruct
     public void testInit() throws NoSuchMethodException {
 
         Query dbIntegerQuery = new DataBaseQuery(
