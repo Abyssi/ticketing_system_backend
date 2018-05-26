@@ -4,6 +4,7 @@ import com.isssr.ticketing_system.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     boolean existsByName(String name);
 
     Page<Product> findAll(Pageable pageable);
+
+    @Query("SELECT p FROM Product p where p.deleted = false")
+    Page<Product> findAllNotDeleted(Pageable pageable);
+
+    @Query("SELECT p FROM Product p where p.deleted = true")
+    Page<Product> findAllDeleted(Pageable pageable);
 }

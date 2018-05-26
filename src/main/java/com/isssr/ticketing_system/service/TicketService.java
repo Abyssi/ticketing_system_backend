@@ -90,6 +90,23 @@ public class TicketService {
     }
 
     @Transactional
+    public Ticket restoreById(Long id) throws EntityNotFoundException {
+
+        if (this.ticketRepository.existsById(id)) {
+
+            Ticket ticket = this.ticketRepository.getOne(id);
+
+            ticket.restoreMe();
+
+            return this.ticketRepository.save(ticket);
+
+        } else {
+            throw new EntityNotFoundException("Trying to restore Product not present in db");
+        }
+
+    }
+
+    @Transactional
     public void deleteAll() {
         this.ticketRepository.deleteAll();
     }
@@ -121,12 +138,12 @@ public class TicketService {
 
     @Transactional
     public Page<Ticket> findAllNotDeleted(PageRequest pageRequest) {
-        return this.ticketRepository.findAllNotDleted(pageRequest);
+        return this.ticketRepository.findAllNotDeleted(pageRequest);
     }
 
     @Transactional
     public Page<Ticket> findAllDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
-        Page<Ticket> retrievedPage = this.findAllNotDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
+        Page<Ticket> retrievedPage = this.findAllDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
         if (page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");

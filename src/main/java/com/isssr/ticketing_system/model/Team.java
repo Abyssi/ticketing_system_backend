@@ -42,6 +42,11 @@ public class Team {
     @JoinColumn(name = "team_id")
     private Collection<User> members;
 
+    @IncludeInResponse({"full"})
+    @NonNull
+    @Column(name = "deleted")
+    private boolean deleted;
+
     // leader should be one of members
     public Team(String name, User leader) {
         this.name = name;
@@ -68,6 +73,24 @@ public class Team {
         this.leader = updatedData.leader;
 
         this.members = updatedData.members;
+
+    }
+
+    public void markMeAsDeleted() {
+
+        this.deleted = true;
+
+    }
+
+    public void restoreMe() {
+
+        this.deleted = false;
+
+    }
+
+    public boolean isDeleted(){
+
+        return this.deleted;
 
     }
 }

@@ -1,5 +1,6 @@
 package com.isssr.ticketing_system.controller;
 
+import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Team;
@@ -17,7 +18,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,7 +80,7 @@ public class TeamController {
 
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
 
-        } catch (com.isssr.ticketing_system.exception.EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
 
             return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
 
@@ -106,6 +106,20 @@ public class TeamController {
             return CommonResponseEntity.NotFoundResponseEntity("TEAM_NOT_FOUND");
 
         }
+    }
+
+    @RequestMapping(path = "restore/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
+    public ResponseEntity restore(@PathVariable Long id){
+
+        try {
+            Team restoredTeam = this.teamService.restoreById(id);
+
+            return new ObjectResponseEntityBuilder<Team>(restoredTeam, "full").setStatus(HttpStatus.OK).build();
+        } catch (EntityNotFoundException e) {
+            return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
+        }
+
     }
 
 
@@ -138,11 +152,11 @@ public class TeamController {
 
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
 
-        } catch (EntityNotFoundException e) {
+        } /*catch (EntityNotFoundException e) {
 
             return CommonResponseEntity.NotFoundResponseEntity("TEAMS_NOT_FOUND");
 
-        }
+        }*/
 
         return new ResponseEntity<Page<Team>>(teamPage, HttpStatus.OK);
     }

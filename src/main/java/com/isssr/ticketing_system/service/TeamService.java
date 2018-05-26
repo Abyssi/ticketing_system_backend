@@ -1,19 +1,19 @@
 package com.isssr.ticketing_system.service;
 
+import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Team;
-import com.isssr.ticketing_system.model.Ticket;
 import com.isssr.ticketing_system.repository.TeamRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
@@ -31,11 +31,11 @@ public class TeamService {
     }
 
     @Transactional
-    public @NotNull Team updateOne(@NotNull Long id, @NotNull Team updatedData) throws UpdateException, com.isssr.ticketing_system.exception.EntityNotFoundException {
+    public @NotNull Team updateOne(@NotNull Long id, @NotNull Team updatedData) throws UpdateException, EntityNotFoundException {
         Team updatingTeam = teamRepository.getOne(id);
 
         if (updatingTeam == null)
-            throw new com.isssr.ticketing_system.exception.EntityNotFoundException("Team to update not found in DB, maybe you have to create a new one");
+            throw new EntityNotFoundException("Team to update not found in DB, maybe you have to create a new one");
 
         updatingTeam.updateMe(updatedData);
 
@@ -70,8 +70,40 @@ public class TeamService {
     @Transactional
     public boolean deleteById(Long id) {
         boolean exists = this.teamRepository.existsById(id);
-        if (exists) this.teamRepository.deleteById(id);
+
+        if (exists) {
+
+            Team team = this.teamRepository.getOne(id);
+
+            if (team.isDeleted()) {
+
+                this.teamRepository.deleteById(id);
+
+            } else {
+
+                team.markMeAsDeleted();
+
+                this.teamRepository.save(team);
+            }
+        }
         return exists;
+    }
+
+    @Transactional
+    public Team restoreById(Long id) throws EntityNotFoundException {
+
+        if (this.teamRepository.existsById(id)) {
+
+            Team team = this.teamRepository.getOne(id);
+
+            team.restoreMe();
+
+            return this.teamRepository.save(team);
+
+        } else {
+            throw new EntityNotFoundException("Trying to restore Product not present in db");
+        }
+
     }
 
     @Transactional
@@ -95,12 +127,42 @@ public class TeamService {
     }
 
     @Transactional
-    public Page<Team> findAll(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException, EntityNotFoundException {
+    public Page<Team> findAll(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
         Page<Team> retrievedPage = this.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
         if (page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
 
         return retrievedPage;
+    }
+
+    @Transactional
+    public Page<Team> findAllNotDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
+        Page<Team> retrievedPage = this.findAllNotDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
+
+        if (page > retrievedPage.getTotalPages() - 1)
+            throw new PageableQueryException("Page number higher than the maximum");
+
+        return retrievedPage;
+    }
+
+    @Transactional
+    public Page<Team> findAllNotDeleted(PageRequest pageRequest) {
+        return this.teamRepository.findAllNotDeleted(pageRequest);
+    }
+
+    @Transactional
+    public Page<Team> findAllDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
+        Page<Team> retrievedPage = this.findAllDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
+
+        if (page > retrievedPage.getTotalPages() - 1)
+            throw new PageableQueryException("Page number higher than the maximum");
+
+        return retrievedPage;
+    }
+
+    @Transactional
+    public Page<Team> findAllDeleted(PageRequest pageRequest) {
+        return this.teamRepository.findAllDeleted(pageRequest);
     }
 }

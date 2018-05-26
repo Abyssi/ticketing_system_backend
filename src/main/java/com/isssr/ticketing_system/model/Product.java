@@ -36,6 +36,11 @@ public class Product {
     @NonNull
     private String version;
 
+    @IncludeInResponse({"full"})
+    @NonNull
+    @Column(name = "deleted")
+    private boolean deleted;
+
     public void updateMe(@NotNull Product updatedData) throws UpdateException {
 
         if (this.id.longValue() != updatedData.id.longValue())
@@ -44,6 +49,24 @@ public class Product {
         this.name = updatedData.name;
 
         this.version = updatedData.version;
+
+    }
+
+    public void markMeAsDeleted() {
+
+        this.deleted = true;
+
+    }
+
+    public void restoreMe() {
+
+        this.deleted = false;
+
+    }
+
+    public boolean isDeleted(){
+
+        return this.deleted;
 
     }
 }

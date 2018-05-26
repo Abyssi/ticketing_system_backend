@@ -1,5 +1,6 @@
 package com.isssr.ticketing_system.controller;
 
+import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Ticket;
@@ -17,7 +18,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,7 +80,7 @@ public class TicketController {
 
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
 
-        } catch (com.isssr.ticketing_system.exception.EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
 
             return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
 
@@ -106,6 +106,20 @@ public class TicketController {
             return CommonResponseEntity.NotFoundResponseEntity("TICKET_NOT_FOUND");
 
         }
+    }
+
+    @RequestMapping(path = "restore/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
+    public ResponseEntity restore(@PathVariable Long id){
+
+        try {
+            Ticket restoredTicket = this.ticketService.restoreById(id);
+
+            return new ObjectResponseEntityBuilder<Ticket>(restoredTicket, "full").setStatus(HttpStatus.OK).build();
+        } catch (EntityNotFoundException e) {
+            return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
+        }
+
     }
 
     @RequestMapping(value = "all", method = RequestMethod.GET)
@@ -137,11 +151,11 @@ public class TicketController {
 
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
 
-        } catch (EntityNotFoundException e) {
+        } /*catch (EntityNotFoundException e) {
 
             return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
 
-        }
+        }*/
         return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
 
     }
@@ -175,11 +189,11 @@ public class TicketController {
 
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
 
-        } catch (EntityNotFoundException e) {
+        } /*catch (EntityNotFoundException e) {
 
             return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
 
-        }
+        }*/
         return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
 
     }
@@ -213,11 +227,11 @@ public class TicketController {
 
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
 
-        } catch (EntityNotFoundException e) {
+        } /*catch (EntityNotFoundException e) {
 
             return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
 
-        }
+        }*/
         return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
 
     }

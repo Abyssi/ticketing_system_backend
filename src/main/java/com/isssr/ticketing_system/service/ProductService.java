@@ -1,5 +1,6 @@
 package com.isssr.ticketing_system.service;
 
+import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Product;
@@ -7,12 +8,12 @@ import com.isssr.ticketing_system.repository.ProductRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
@@ -32,11 +33,11 @@ public class ProductService {
     }
 
     @Transactional
-    public @NotNull Product updateOne(@NotNull Long id, @NotNull Product updatedData) throws UpdateException, com.isssr.ticketing_system.exception.EntityNotFoundException {
+    public @NotNull Product updateOne(@NotNull Long id, @NotNull Product updatedData) throws UpdateException, EntityNotFoundException {
         Product updatingProduct = productRepository.getOne(id);
 
         if (updatingProduct == null)
-            throw new com.isssr.ticketing_system.exception.EntityNotFoundException("Product to update not found in DB, maybe you have to create a new one");
+            throw new EntityNotFoundException("Product to update not found in DB, maybe you have to create a new one");
 
         updatingProduct.updateMe(updatedData);
 
@@ -71,8 +72,40 @@ public class ProductService {
     @Transactional
     public boolean deleteById(Long id) {
         boolean exists = this.productRepository.existsById(id);
-        if (exists) this.productRepository.deleteById(id);
+
+        if (exists) {
+
+            Product product = this.productRepository.getOne(id);
+
+            if (product.isDeleted()) {
+
+                this.productRepository.deleteById(id);
+
+            } else {
+
+                product.markMeAsDeleted();
+
+                this.productRepository.save(product);
+            }
+        }
         return exists;
+    }
+
+    @Transactional
+    public Product restoreById(Long id) throws EntityNotFoundException {
+
+        if (this.productRepository.existsById(id)) {
+
+            Product product = this.productRepository.getOne(id);
+
+            product.restoreMe();
+
+            return this.productRepository.save(product);
+
+        } else {
+            throw new EntityNotFoundException("Trying to restore Product not present in db");
+        }
+
     }
 
     @Transactional
@@ -96,12 +129,42 @@ public class ProductService {
     }
 
     @Transactional
-    public Page<Product> findAll(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException, EntityNotFoundException {
+    public Page<Product> findAll(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
         Page<Product> retrievedPage = this.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
         if (page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
 
         return retrievedPage;
+    }
+
+    @Transactional
+    public Page<Product> findAllNotDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
+        Page<Product> retrievedPage = this.findAllNotDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
+
+        if (page > retrievedPage.getTotalPages() - 1)
+            throw new PageableQueryException("Page number higher than the maximum");
+
+        return retrievedPage;
+    }
+
+    @Transactional
+    public Page<Product> findAllNotDeleted(PageRequest pageRequest) {
+        return this.productRepository.findAllNotDeleted(pageRequest);
+    }
+
+    @Transactional
+    public Page<Product> findAllDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
+        Page<Product> retrievedPage = this.findAllDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
+
+        if (page > retrievedPage.getTotalPages() - 1)
+            throw new PageableQueryException("Page number higher than the maximum");
+
+        return retrievedPage;
+    }
+
+    @Transactional
+    public Page<Product> findAllDeleted(PageRequest pageRequest) {
+        return this.productRepository.findAllDeleted(pageRequest);
     }
 }
