@@ -127,6 +127,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureStatuses() {
+        this.ticketStatusService.save(new TicketStatus("PENDING"));
         this.ticketStatusService.save(new TicketStatus("INITIALIZED"));
         this.ticketStatusService.save(new TicketStatus("WORK_IN_PROGRESS"));
         this.ticketStatusService.save(new TicketStatus("FINISHED"));
