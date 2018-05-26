@@ -7,6 +7,7 @@ import com.isssr.ticketing_system.model.Product;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.ListObjectResponseEntityBuilder;
 import com.isssr.ticketing_system.response_entity.ObjectResponseEntityBuilder;
+import com.isssr.ticketing_system.response_entity.PageResponseEntityBuilder;
 import com.isssr.ticketing_system.service.ProductService;
 import com.isssr.ticketing_system.validator.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,9 +123,19 @@ public class ProductController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "all", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+
+        Page<Product> productPage;
+        try {
+            productPage = productService.findAll(page, pageSize);
+        } catch (PageableQueryException e) {
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+        }
+        return new PageResponseEntityBuilder(productPage)
+                .setStatus(HttpStatus.OK)
+                .build();
         /*Stream<Product> products;
         if (page != null && size != null) {
             try {
@@ -141,7 +152,7 @@ public class ProductController {
                 .setStatus(HttpStatus.OK)
                 .build();*/
 
-        Page<Product> productPage;
+        /*Page<Product> productPage;
         try {
 
             productPage = productService.findAll(page, pageSize);
@@ -156,7 +167,107 @@ public class ProductController {
 
         }*/
 
-        return new ResponseEntity<Page<Product>>(productPage, HttpStatus.OK);
+        //return new ResponseEntity<Page<Product>>(productPage, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    public ResponseEntity getAllNotDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+
+        Page<Product> productPage;
+        try {
+            productPage = productService.findAllNotDeleted(page, pageSize);
+        } catch (PageableQueryException e) {
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+        }
+        return new PageResponseEntityBuilder(productPage)
+                .setStatus(HttpStatus.OK)
+                .build();
+
+        /*Stream<Ticket> tickets;
+        if (page != null && size != null) {
+            try {
+                tickets = (ticketService.findAll(page, size).stream());
+            } catch (PageableQueryException e) {
+                return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+            } catch (EntityNotFoundException e) {
+                return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
+            }
+        } else
+            tickets = (StreamSupport.stream(ticketService.findAll().spliterator(), false));
+
+        return new ListObjectResponseEntityBuilder<>(tickets.collect(Collectors.toList()))
+                .setStatus(HttpStatus.OK)
+                .build();*/
+
+        /*
+        Page<Ticket> ticketPage;
+
+        try {
+
+            ticketPage = ticketService.findAllNotDeleted(page, pageSize);
+
+        } catch (PageableQueryException e) {
+
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+
+        } /*catch (EntityNotFoundException e) {
+
+            return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
+
+        }*/
+        //return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "deleted", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    public ResponseEntity getAllDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+
+        Page<Product> productPage;
+        try {
+            productPage = productService.findAllDeleted(page, pageSize);
+        } catch (PageableQueryException e) {
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+        }
+        return new PageResponseEntityBuilder(productPage)
+                .setStatus(HttpStatus.OK)
+                .build();
+
+        /*Stream<Ticket> tickets;
+        if (page != null && size != null) {
+            try {
+                tickets = (ticketService.findAll(page, size).stream());
+            } catch (PageableQueryException e) {
+                return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+            } catch (EntityNotFoundException e) {
+                return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
+            }
+        } else
+            tickets = (StreamSupport.stream(ticketService.findAll().spliterator(), false));
+
+        return new ListObjectResponseEntityBuilder<>(tickets.collect(Collectors.toList()))
+                .setStatus(HttpStatus.OK)
+                .build();*/
+
+        /*
+        Page<Ticket> ticketPage;
+
+        try {
+
+            ticketPage = ticketService.findAllDeleted(page, pageSize);
+
+        } catch (PageableQueryException e) {
+
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+
+        } /*catch (EntityNotFoundException e) {
+
+            return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
+
+        }*/
+        //return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
+
     }
 
     @RequestMapping(method = RequestMethod.DELETE)

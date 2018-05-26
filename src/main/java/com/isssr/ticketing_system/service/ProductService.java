@@ -27,8 +27,8 @@ public class ProductService {
 
     @Transactional
     public Product save(Product product) {
-        /*if (product.getId() == null && this.productRepository.existsByName(product.getName()))
-            product.setId(this.findByName(product.getName()).get().getId());*/
+        if (product.getId() == null && this.productRepository.existsByName(product.getName()))
+            product.setId(this.findByName(product.getName()).get().getId());
         return this.productRepository.save(product);
     }
 

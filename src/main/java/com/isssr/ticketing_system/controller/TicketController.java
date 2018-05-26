@@ -121,10 +121,10 @@ public class TicketController {
 
     @RequestMapping(value = "all", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "size", required = false) Integer size) {
+    public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         Page<Ticket> ticketPage;
         try {
-            ticketPage = ticketService.findAll(page, size);
+            ticketPage = ticketService.findAll(page, pageSize);
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
         }
@@ -171,11 +171,11 @@ public class TicketController {
 
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity getAllNotDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "size", required = false) Integer size) {
+    public ResponseEntity getAllNotDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
 
         Page<Ticket> ticketPage;
         try {
-            ticketPage = ticketService.findAllNotDeleted(page, size);
+            ticketPage = ticketService.findAllNotDeleted(page, pageSize);
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
         }
@@ -221,11 +221,11 @@ public class TicketController {
 
     @RequestMapping(value = "deleted", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity getAllDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "size", required = false) Integer size) {
+    public ResponseEntity getAllDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
 
         Page<Ticket> ticketPage;
         try {
-            ticketPage = ticketService.findAllDeleted(page, size);
+            ticketPage = ticketService.findAllDeleted(page, pageSize);
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
         }
