@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -18,6 +20,8 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "ts_role")
+@DynamicInsert()
+@DynamicUpdate()
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

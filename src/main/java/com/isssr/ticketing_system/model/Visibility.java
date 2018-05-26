@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
@@ -17,6 +19,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ts_visibility")
+@DynamicInsert()
+@DynamicUpdate()
 public class Visibility {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

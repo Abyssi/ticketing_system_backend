@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -18,6 +20,8 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "ts_ticket_comment")
+@DynamicInsert()
+@DynamicUpdate()
 public class TicketComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,6 +21,8 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ts_product")
+@DynamicInsert()
+@DynamicUpdate()
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,6 +22,8 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "ts_user") //user is a reserved word in postgres
+@DynamicInsert()
+@DynamicUpdate()
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

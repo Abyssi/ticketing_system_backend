@@ -6,6 +6,8 @@ import com.isssr.ticketing_system.response_entity.response_serializator.Variable
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,6 +21,8 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "ts_team")
+@DynamicInsert()
+@DynamicUpdate()
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
