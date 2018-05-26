@@ -12,9 +12,9 @@ public class TaskScheduler {
     @Autowired
     private ThreadPoolTaskScheduler scheduler;
 
-    public boolean addJob(Query query){
+    public boolean addJob(Query query) {
 
-        if ( query.getCron() != null) {
+        if (query.getCron() != null) {
 
             scheduler.schedule(query, new CronTrigger(query.getCron()));
 

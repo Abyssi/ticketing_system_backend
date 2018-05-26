@@ -5,7 +5,6 @@ import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Team;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
-import com.isssr.ticketing_system.response_entity.ListObjectResponseEntityBuilder;
 import com.isssr.ticketing_system.response_entity.ObjectResponseEntityBuilder;
 import com.isssr.ticketing_system.response_entity.PageResponseEntityBuilder;
 import com.isssr.ticketing_system.service.TeamService;
@@ -21,9 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 @Validated
 @RestController
@@ -111,7 +107,7 @@ public class TeamController {
 
     @RequestMapping(path = "restore/{id}", method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
-    public ResponseEntity restore(@PathVariable Long id){
+    public ResponseEntity restore(@PathVariable Long id) {
 
         try {
             Team restoredTeam = this.teamService.restoreById(id);
@@ -177,7 +173,7 @@ public class TeamController {
 
         Page<Team> teamPage;
         try {
-            teamPage= teamService.findAllNotDeleted(page, pageSize);
+            teamPage = teamService.findAllNotDeleted(page, pageSize);
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
         }

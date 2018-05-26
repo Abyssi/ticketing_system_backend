@@ -1,15 +1,9 @@
 package com.isssr.ticketing_system.model.auto_generated.decorator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.isssr.ticketing_system.model.auto_generated.Query;
 import com.isssr.ticketing_system.model.auto_generated.enumeration.ComparisonOperatorsEnum;
-import com.isssr.ticketing_system.response_entity.response_serializator.IncludeInResponse;
-import com.isssr.ticketing_system.response_entity.response_serializator.VariableResponseSelector;
-import lombok.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.persistence.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -24,8 +18,8 @@ import java.util.List;
 @NoArgsConstructor*/
 public class DataBaseQuery extends QueryDecorator {
 
-   /*@JsonIgnore
-    @NonNull*/
+    /*@JsonIgnore
+     @NonNull*/
     protected Class referenceClass;
 
     /*@JsonIgnore
@@ -72,7 +66,7 @@ public class DataBaseQuery extends QueryDecorator {
     @Override
     public Boolean executeQuery(Object o) {
 
-        if(o instanceof JpaRepository) {
+        if (o instanceof JpaRepository) {
 
             try {
 

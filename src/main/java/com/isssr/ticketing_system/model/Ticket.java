@@ -176,7 +176,7 @@ public class Ticket {
 
     }
 
-    public boolean isDeleted(){
+    public boolean isDeleted() {
 
         return this.deleted;
 

@@ -1,11 +1,7 @@
 package com.isssr.ticketing_system.model.auto_generated;
 
 import com.isssr.ticketing_system.model.TicketPriority;
-import com.isssr.ticketing_system.response_entity.response_serializator.IncludeInResponse;
-import com.isssr.ticketing_system.response_entity.response_serializator.VariableResponseSelector;
-import lombok.*;
 
-import javax.persistence.*;
 import java.util.Observable;
 
 /*@VariableResponseSelector
@@ -15,7 +11,7 @@ import java.util.Observable;
 @Getter
 @Setter
 @NoArgsConstructor*/
-public abstract class Query  extends Observable implements Runnable {
+public abstract class Query extends Observable implements Runnable {
 
     /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +35,14 @@ public abstract class Query  extends Observable implements Runnable {
     @NonNull*/
     protected boolean deleted = false;
 
-    /**implement this method to activate query process**/
+    /**
+     * implement this method to activate query process
+     **/
     public abstract void wakeUp();
 
-    /** return cron only if query is a composition of ConcreteTimeQuery**/
+    /**
+     * return cron only if query is a composition of ConcreteTimeQuery
+     **/
     public abstract String getCron();
 
     public abstract String printQuery();
@@ -63,19 +63,19 @@ public abstract class Query  extends Observable implements Runnable {
 
     }
 
-    public boolean isDeleted(){
+    public boolean isDeleted() {
 
         return this.deleted;
 
     }
 
-    public void markMeAsNotActive(){
+    public void markMeAsNotActive() {
 
         this.active = false;
 
     }
 
-    public void activeMe(){
+    public void activeMe() {
 
         this.active = true;
 

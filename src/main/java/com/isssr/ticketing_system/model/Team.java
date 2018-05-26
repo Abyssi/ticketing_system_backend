@@ -89,7 +89,7 @@ public class Team {
 
     }
 
-    public boolean isDeleted(){
+    public boolean isDeleted() {
 
         return this.deleted;
 

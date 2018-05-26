@@ -65,7 +65,7 @@ public class Product {
 
     }
 
-    public boolean isDeleted(){
+    public boolean isDeleted() {
 
         return this.deleted;
 

@@ -18,8 +18,8 @@ public class TicketValidator implements Validator {
     public void validate(Object o, Errors errors) {
         Ticket team = (Ticket) o;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.required", "Ticket name required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.required", "Ticket title required");
         if (team.getTitle() != null && (team.getTitle().length() < 1))
-            errors.rejectValue("name", "Insert a ticket name bigger than 1 char");
+            errors.rejectValue("title", "Insert a ticket title bigger than 1 char");
     }
 }

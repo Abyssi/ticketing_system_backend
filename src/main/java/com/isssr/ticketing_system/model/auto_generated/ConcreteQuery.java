@@ -1,15 +1,6 @@
 package com.isssr.ticketing_system.model.auto_generated;
 
 import com.isssr.ticketing_system.model.TicketPriority;
-import com.isssr.ticketing_system.response_entity.response_serializator.VariableResponseSelector;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 
 
 /*@VariableResponseSelector

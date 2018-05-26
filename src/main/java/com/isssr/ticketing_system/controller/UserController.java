@@ -4,7 +4,6 @@ import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.User;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
-import com.isssr.ticketing_system.response_entity.ListObjectResponseEntityBuilder;
 import com.isssr.ticketing_system.response_entity.ObjectResponseEntityBuilder;
 import com.isssr.ticketing_system.service.RoleService;
 import com.isssr.ticketing_system.service.UserService;
@@ -25,9 +24,6 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 @Validated
 @RestController

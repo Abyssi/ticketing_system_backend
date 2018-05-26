@@ -8,12 +8,12 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 @Configuration
 @ComponentScan(
-        basePackages="com.isssr.ticketing_system",
-        basePackageClasses={TaskScheduler.class})
+        basePackages = "com.isssr.ticketing_system",
+        basePackageClasses = {TaskScheduler.class})
 public class ThreadPoolTaskSchedulerConfig {
 
     @Bean
-    public ThreadPoolTaskScheduler threadPoolTaskScheduler(){
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
         ThreadPoolTaskScheduler threadPoolTaskScheduler
                 = new ThreadPoolTaskScheduler();
         threadPoolTaskScheduler.setPoolSize(5);

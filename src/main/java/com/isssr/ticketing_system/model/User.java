@@ -75,7 +75,7 @@ public class User {
         this.team = updatedData.team;
     }
 
-    public void updatePassword(@NotNull Long id, @NotNull String password){
+    public void updatePassword(@NotNull Long id, @NotNull String password) {
         //TODO update only password
     }
 }

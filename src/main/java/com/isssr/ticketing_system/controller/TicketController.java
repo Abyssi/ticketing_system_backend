@@ -3,23 +3,27 @@ package com.isssr.ticketing_system.controller;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
-import com.isssr.ticketing_system.model.Ticket;
-import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
-import com.isssr.ticketing_system.response_entity.ObjectResponseEntityBuilder;
-import com.isssr.ticketing_system.response_entity.PageResponseEntityBuilder;
-import com.isssr.ticketing_system.service.TicketService;
+import com.isssr.ticketing_system.model.*;
+import com.isssr.ticketing_system.response_entity.*;
+import com.isssr.ticketing_system.service.*;
 import com.isssr.ticketing_system.validator.TicketValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.time.Instant;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Validated
 @RestController
@@ -27,6 +31,27 @@ import java.util.Optional;
 public class TicketController {
     @Autowired
     private TicketService ticketService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private TicketSourceService ticketSourceService;
+
+    @Autowired
+    private VisibilityService visibilityService;
+
+    @Autowired
+    private TicketCategoryService ticketCategoryService;
+
+    @Autowired
+    private TicketStatusService ticketStatusService;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private TicketPriorityService priorityService;
 
     private TicketValidator ticketValidator;
 
@@ -40,8 +65,33 @@ public class TicketController {
         binder.addValidators(ticketValidator);
     }
 
+    @RequestMapping(path = "metadata", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    public ResponseEntity metadata(@AuthenticationPrincipal Principal principal) {
+        Optional<User> user = userService.findByEmail(principal.getName());
+
+        Iterable<Visibility> visibilities = visibilityService.findAll();
+        Collection<User> assignees = user.get().getTeam().getMembers();
+        Iterable<TicketCategory> categories = ticketCategoryService.findAll();
+        Iterable<Product> targets = productService.findAll();
+        Iterable<TicketPriority> priorities = priorityService.findAll();
+
+        return new HashMapResponseEntityBuilder()
+                .setBuilder("visibilities", new ListObjectResponseEntityBuilder<>((StreamSupport.stream(visibilities.spliterator(), false)).collect(Collectors.toList())))
+                .setBuilder("assignees", new ListObjectResponseEntityBuilder<>(assignees))
+                .setBuilder("categories", new ListObjectResponseEntityBuilder<>((StreamSupport.stream(categories.spliterator(), false)).collect(Collectors.toList())))
+                .setBuilder("targets", new ListObjectResponseEntityBuilder<>((StreamSupport.stream(targets.spliterator(), false)).collect(Collectors.toList())))
+                .setBuilder("priorities", new ListObjectResponseEntityBuilder<>((StreamSupport.stream(priorities.spliterator(), false)).collect(Collectors.toList())))
+                .setStatus(HttpStatus.OK)
+                .build();
+    }
+
     @RequestMapping(method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity create(@Valid @RequestBody Ticket ticket) {
+        ticket.setCreationTimestamp(Instant.now());
+        ticket.setSource(ticketSourceService.findByName("CLIENT").get());
+        ticket.setStatus(ticketStatusService.findByName("INITIALIZED").get());
         ticketService.save(ticket);
 
         return CommonResponseEntity.OkResponseEntity("CREATED");
@@ -107,7 +157,7 @@ public class TicketController {
 
     @RequestMapping(path = "restore/{id}", method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
-    public ResponseEntity restore(@PathVariable Long id){
+    public ResponseEntity restore(@PathVariable Long id) {
 
         try {
             Ticket restoredTicket = this.ticketService.restoreById(id);

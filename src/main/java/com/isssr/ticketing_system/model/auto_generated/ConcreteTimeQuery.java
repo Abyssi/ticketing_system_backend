@@ -1,13 +1,6 @@
 package com.isssr.ticketing_system.model.auto_generated;
 
 import com.isssr.ticketing_system.model.TicketPriority;
-import com.isssr.ticketing_system.response_entity.response_serializator.IncludeInResponse;
-import com.isssr.ticketing_system.response_entity.response_serializator.VariableResponseSelector;
-import lombok.*;
-
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 
 
 /*@VariableResponseSelector
@@ -18,7 +11,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @NoArgsConstructor*/
-public class ConcreteTimeQuery extends ConcreteQuery{
+public class ConcreteTimeQuery extends ConcreteQuery {
 
     /*@IncludeInResponse({"base", "full"})
     @NonNull*/

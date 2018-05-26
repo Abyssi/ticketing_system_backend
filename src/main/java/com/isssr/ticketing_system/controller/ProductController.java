@@ -5,7 +5,6 @@ import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Product;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
-import com.isssr.ticketing_system.response_entity.ListObjectResponseEntityBuilder;
 import com.isssr.ticketing_system.response_entity.ObjectResponseEntityBuilder;
 import com.isssr.ticketing_system.response_entity.PageResponseEntityBuilder;
 import com.isssr.ticketing_system.service.ProductService;
@@ -21,9 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 @Validated
 @RestController
@@ -111,7 +107,7 @@ public class ProductController {
 
     @RequestMapping(path = "restore/{id}", method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
-    public ResponseEntity restore(@PathVariable Long id){
+    public ResponseEntity restore(@PathVariable Long id) {
 
         try {
             Product restoredProduct = this.productService.restoreById(id);
