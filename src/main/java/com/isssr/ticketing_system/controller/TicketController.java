@@ -99,7 +99,7 @@ public class TicketController {
 
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity getByID(@PathVariable Long id) {
+    public ResponseEntity get(@PathVariable Long id) {
         Optional<Ticket> ticket = ticketService.findById(id);
 
         if (!ticket.isPresent())
@@ -120,6 +120,8 @@ public class TicketController {
         //ticketService.save(ticket);
 
         try {
+
+            ticket.setId(id);
 
             ticketService.updateOne(id, ticket);
 
