@@ -47,7 +47,7 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable {
     @ManyToOne
     private TicketPriority queryPriority;
 
-    @IncludeInResponse({"full"})
+    @IncludeInResponse({"base", "full"})
     @NonNull
     private String cron;
 
