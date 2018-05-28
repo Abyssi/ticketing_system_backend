@@ -1,7 +1,11 @@
 package com.isssr.ticketing_system;
 
 import com.isssr.ticketing_system.model.*;
+import com.isssr.ticketing_system.model.auto_generated.enumeration.ComparisonOperatorsEnum;
+import com.isssr.ticketing_system.model.auto_generated.temporary.DataBaseTimeQuery;
+import com.isssr.ticketing_system.model.auto_generated.temporary.QueryType;
 import com.isssr.ticketing_system.service.*;
+import com.isssr.ticketing_system.service.auto_generated.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -60,6 +64,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private QueryService queryService;
+
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -78,6 +85,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.configureProducts();
         this.configureTeams();
         this.generateTicket();
+        //this.generateQueries();
 
         alreadySetup = true;
     }
@@ -169,5 +177,54 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 visibilityService.findByName("PRIVATE").get(),
                 false
         ));
+    }
+
+    private void generateQueries(){
+
+        DataBaseTimeQuery query = new DataBaseTimeQuery(
+                "This query check number of products in product table, if it is grater than 1 generate alert ticket",
+                "SELECT count(*) FROM ts_product",
+                ticketPriorityService.findByName("HIGH").get(),
+                "*/5 * * * * ?",
+                true,
+                false,
+                ComparisonOperatorsEnum.GRATHER,
+                1L,
+                null,
+                QueryType.DATA_BASE_INSTANT_CHECK
+        );
+
+        this.queryService.create(query);
+
+        query = new DataBaseTimeQuery(
+                "This query check number of teams in product table, if it is less than 1000 generate alert ticket",
+                "SELECT count(*) FROM ts_team",
+                ticketPriorityService.findByName("HIGH").get(),
+                "*/8 * * * * ?",
+                true,
+                false,
+                ComparisonOperatorsEnum.LESS,
+                1000L,
+                null,
+                QueryType.DATA_BASE_INSTANT_CHECK
+        );
+
+        this.queryService.create(query);
+
+        query = new DataBaseTimeQuery(
+                "This query check number of products in product table, if it is growth of 1 or more generate alert ticket",
+                "SELECT count(*) FROM ts_product",
+                ticketPriorityService.findByName("HIGH").get(),
+                "0 */1 * * * ?",
+                true,
+                false,
+                ComparisonOperatorsEnum.GRATHER_EQUALS,
+                1L,
+                null,
+                QueryType.DATA_BASE_TABLE_MONITOR
+        );
+
+        this.queryService.create(query);
+
     }
 }
