@@ -26,6 +26,7 @@ import java.util.Observable;
 @Setter
 @PersistJobDataAfterExecution //persist data after execution of a job
 @DisallowConcurrentExecution //avoid race condition on persisted data
+@Component
 public class DataBaseTimeQuery extends Observable implements Job, Serializable {
 
     @Id
@@ -76,7 +77,7 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable {
     @Transient
     private JobKey jobKey; //key in scheduler at runtime execution
 
-    @Transient
+    /*@Transient
     public static final String MAP_ID = "id";
 
     @Transient
@@ -89,7 +90,7 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable {
     public static final String MAP_QUERY_PRIORITY = "query_priority";
 
     @Transient
-    public static final String MAP_CRON = "cron";
+    public static final String MAP_CRON = "cron";*/
 
     @Transient
     public static final String MAP_ME = "ME";

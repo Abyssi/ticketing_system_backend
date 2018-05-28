@@ -47,7 +47,7 @@ public class QueryController {
     /*@Autowired
     private TaskScheduler taskScheduler;*/
 
-    //@PostConstruct
+    @PostConstruct
     public void startScheduling() {
 
         try {
