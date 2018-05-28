@@ -55,7 +55,6 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable {
     @NonNull
     private boolean active = true;
 
-    @IncludeInResponse({"full"})
     @NonNull
     @Column(name = "deleted")
     private boolean deleted = false;
@@ -64,13 +63,10 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable {
     @NonNull
     private ComparisonOperatorsEnum comparisonOperator;
 
-    @JsonIgnore
     private Long referenceValue;
 
-    @JsonIgnore
     private Long lastValue;
 
-    @JsonIgnore
     @NonNull
     private QueryType queryType;
 
