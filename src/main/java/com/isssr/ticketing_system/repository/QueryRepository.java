@@ -22,4 +22,5 @@ public interface QueryRepository extends JpaRepository<DataBaseTimeQuery, Long> 
 
     List<DataBaseTimeQuery> findAllByActiveTrue();
 
+    List<DataBaseTimeQuery> findAllByActive(boolean isActive);
 }

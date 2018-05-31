@@ -84,7 +84,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.configureRelationTypes();
         this.configureProducts();
         this.configureTeams();
-        this.generateTicket();
+        //this.generateTicket();
         //this.generateQueries();
 
         alreadySetup = true;

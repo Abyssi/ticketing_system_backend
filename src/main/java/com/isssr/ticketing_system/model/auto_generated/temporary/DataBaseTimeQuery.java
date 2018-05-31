@@ -26,7 +26,6 @@ import java.util.Observable;
 @Setter
 @PersistJobDataAfterExecution //persist data after execution of a job
 @DisallowConcurrentExecution //avoid race condition on persisted data
-@Component
 public class DataBaseTimeQuery extends Observable implements Job, Serializable {
 
     @Id
