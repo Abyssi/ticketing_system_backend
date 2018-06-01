@@ -70,7 +70,9 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable {
     @JsonView(JsonViews.Detailed.class)
     @NonNull
     private ComparisonOperatorsEnum comparisonOperator;
+
     private Long referenceValue;
+
     private Long lastValue;
 
     @NonNull
