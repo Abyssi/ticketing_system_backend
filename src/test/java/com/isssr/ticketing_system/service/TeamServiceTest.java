@@ -130,7 +130,7 @@ public class TeamServiceTest {
                 "password", true);
         //Team team = new Team(testId, teamManager, assistantList);
         HashSet<Ticket> hashSet = new HashSet<>();
-        Product product = new Product(1L, "testProd", "testVer", hashSet);
+        Target product = new Target(1L, "testProd", "testVer", hashSet);
         //team.addProduct(testId, product);
         return  null;
     }*/

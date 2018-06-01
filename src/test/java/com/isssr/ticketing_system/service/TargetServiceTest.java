@@ -14,22 +14,22 @@ import javax.persistence.EntityNotFoundException;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ProductServiceTest {
+public class TargetServiceTest {
 
     private Long index = 134L; //index = last ID in DB + 2
 
     @Autowired
-    private ProductService productService;
+    private TargetService targetService;
 
     @Test
     public void Acreate() throws EntityNotFoundException, PageableQueryException {
 
-        /*List<Product> prodLis =  productService.findAll(0, null);
+        /*List<Target> prodLis =  productService.findAll(0, null);
         int firstFindAll = prodLis.size();
 
         Long testId = index;
-        Product testProduct = createRandomProduct(testId);
-        Product insertedProduct = productService.create(testProduct);
+        Target testProduct = createRandomProduct(testId);
+        Target insertedProduct = productService.create(testProduct);
 
         assertTrue(testProduct.equals(insertedProduct));
 
@@ -41,9 +41,9 @@ public class ProductServiceTest {
     @Test
     public void BfindOneById() {
         /*Long testId = index + 1;
-        Product checkProduct = createRandomProduct(testId);
-        Product createdProduct = productService.create(checkProduct);
-        Product foundProduct = productService.findOneById(testId);
+        Target checkProduct = createRandomProduct(testId);
+        Target createdProduct = productService.create(checkProduct);
+        Target foundProduct = productService.findOneById(testId);
         System.out.println(createdProduct.toString());
         System.out.println(foundProduct.toString());
         System.out.println(createdProduct.equals(foundProduct));
@@ -56,7 +56,7 @@ public class ProductServiceTest {
     public void CfindAll() throws EntityNotFoundException, PageableQueryException {
         /*Long testId = index + 2;
         int firstFindAll = productService.findAll(0, null).size();
-        Product testProduct = createRandomProduct(testId);
+        Target testProduct = createRandomProduct(testId);
         productService.create(testProduct);
 
         assertEquals(firstFindAll + 1, productService.findAll(0, null).size());*/
@@ -65,29 +65,29 @@ public class ProductServiceTest {
     @Test
     public void DupdateOne() throws Exception {
         /*Long testId = index;
-        Product toUpdateProduct = new Product(testId, "updated", "ver2", new HashSet<Ticket>());
+        Target toUpdateProduct = new Target(testId, "updated", "ver2", new HashSet<Ticket>());
 
-        Product updatedProduct = productService.updateOne(testId, toUpdateProduct);
+        Target updatedProduct = productService.updateOne(testId, toUpdateProduct);
         assertTrue(toUpdateProduct.equals(updatedProduct));*/
     }
 
     @Test
     public void EdeleteOneById() throws EntityNotFoundException, PageableQueryException {
         /*Long testId = index + 3;
-        List<Product> prodList = productService.findAll(0 , null);
+        List<Target> prodList = productService.findAll(0 , null);
         int firstFindAll = prodList.size();
-        Product toDelete = createRandomProduct(testId);
+        Target toDelete = createRandomProduct(testId);
         productService.create(toDelete);
         assertTrue(productService.deleteOneById(testId));
         assertEquals(firstFindAll, productService.findAll(0, null).size());*/
 
     }
 
-    /*private Product createRandomProduct(long Id){
-        Product proudct = null;
+    /*private Target createRandomProduct(long Id){
+        Target proudct = null;
         HashSet<Ticket> hashSet = new HashSet<Ticket>();
         try {
-            proudct = new Product(Id, "testProd", "testVer", hashSet);
+            proudct = new Target(Id, "testProd", "testVer", hashSet);
         } catch (Exception e) {
             e.printStackTrace();
         }

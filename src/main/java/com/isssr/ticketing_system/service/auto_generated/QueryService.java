@@ -114,7 +114,7 @@ public class QueryService {
             return this.queryRepository.save(query);
 
         } else {
-            throw new EntityNotFoundException("Trying to restore Product not present in db");
+            throw new EntityNotFoundException("Trying to restore Target not present in db");
         }
 
     }

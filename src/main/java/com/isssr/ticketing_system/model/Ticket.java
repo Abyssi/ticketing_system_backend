@@ -72,7 +72,7 @@ public class Ticket {
     @IncludeInResponse({"base", "full"})
     @NonNull
     @ManyToOne
-    private Product target;
+    private Target target;
 
     @IncludeInResponse({"base", "full"})
     @NonNull

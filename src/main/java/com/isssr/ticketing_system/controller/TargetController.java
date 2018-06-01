@@ -3,11 +3,11 @@ package com.isssr.ticketing_system.controller;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
-import com.isssr.ticketing_system.model.Product;
+import com.isssr.ticketing_system.model.Target;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.ObjectResponseEntityBuilder;
 import com.isssr.ticketing_system.response_entity.PageResponseEntityBuilder;
-import com.isssr.ticketing_system.service.ProductService;
+import com.isssr.ticketing_system.service.TargetService;
 import com.isssr.ticketing_system.validator.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,15 +23,15 @@ import java.util.Optional;
 
 @Validated
 @RestController
-@RequestMapping("/api/v1/products/")
-public class ProductController {
+@RequestMapping("/api/v1/targets/")
+public class TargetController {
     @Autowired
-    private ProductService productService;
+    private TargetService targetService;
 
     private ProductValidator productValidator;
 
     @Autowired
-    public ProductController(ProductValidator productValidator) {
+    public TargetController(ProductValidator productValidator) {
         this.productValidator = productValidator;
     }
 
@@ -41,8 +41,8 @@ public class ProductController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity create(@Valid @RequestBody Product product) {
-        productService.save(product);
+    public ResponseEntity create(@Valid @RequestBody Target target) {
+        targetService.save(target);
 
         return CommonResponseEntity.OkResponseEntity("CREATED");
     }
@@ -50,7 +50,7 @@ public class ProductController {
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getByID(@PathVariable Long id) {
-        Optional<Product> product = productService.findById(id);
+        Optional<Target> product = targetService.findById(id);
 
         if (!product.isPresent())
             return CommonResponseEntity.NotFoundResponseEntity("PRODUCT_NOT_FOUND");
@@ -60,18 +60,18 @@ public class ProductController {
 
     @RequestMapping(path = "{id}", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
-    public ResponseEntity update(@PathVariable Long id, @Valid @RequestBody Product product) {
-        /*Optional<Product> foundProduct = productService.findById(id);
+    public ResponseEntity update(@PathVariable Long id, @Valid @RequestBody Target target) {
+        /*Optional<Target> foundProduct = productService.findById(id);
 
         if (!foundProduct.isPresent())
             return CommonResponseEntity.NotFoundResponseEntity("PRODUCT_NOT_FOUND");
 
-        product.setId(foundProduct.get().getId());
-        productService.save(product);*/
+        target.setId(foundProduct.get().getId());
+        productService.save(target);*/
 
         try {
 
-            productService.updateOne(id, product);
+            targetService.updateOne(id, target);
 
         } catch (UpdateException e) {
 
@@ -89,12 +89,12 @@ public class ProductController {
     @RequestMapping(path = "{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity delete(@PathVariable Long id) {
-        /*Optional<Product> foundProduct = productService.findById(id);
+        /*Optional<Target> foundProduct = productService.findById(id);
 
         if (!foundProduct.isPresent())
             return CommonResponseEntity.NotFoundResponseEntity("PRODUCT_NOT_FOUND");*/
 
-        if (productService.deleteById(id)) {
+        if (targetService.deleteById(id)) {
 
             return CommonResponseEntity.OkResponseEntity("DELETED");
 
@@ -110,9 +110,9 @@ public class ProductController {
     public ResponseEntity restore(@PathVariable Long id) {
 
         try {
-            Product restoredProduct = this.productService.restoreById(id);
+            Target restoredTarget = this.targetService.restoreById(id);
 
-            return new ObjectResponseEntityBuilder<Product>(restoredProduct, "full").setStatus(HttpStatus.OK).build();
+            return new ObjectResponseEntityBuilder<Target>(restoredTarget, "full").setStatus(HttpStatus.OK).build();
         } catch (EntityNotFoundException e) {
             return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
         }
@@ -123,16 +123,16 @@ public class ProductController {
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
 
-        Page<Product> productPage;
+        Page<Target> productPage;
         try {
-            productPage = productService.findAll(page, pageSize);
+            productPage = targetService.findAll(page, pageSize);
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
         }
         return new PageResponseEntityBuilder(productPage)
                 .setStatus(HttpStatus.OK)
                 .build();
-        /*Stream<Product> products;
+        /*Stream<Target> products;
         if (page != null && size != null) {
             try {
                 products = (productService.findAll(page, size).stream());
@@ -148,7 +148,7 @@ public class ProductController {
                 .setStatus(HttpStatus.OK)
                 .build();*/
 
-        /*Page<Product> productPage;
+        /*Page<Target> productPage;
         try {
 
             productPage = productService.findAll(page, pageSize);
@@ -163,16 +163,16 @@ public class ProductController {
 
         }*/
 
-        //return new ResponseEntity<Page<Product>>(productPage, HttpStatus.OK);
+        //return new ResponseEntity<Page<Target>>(productPage, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllNotDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
 
-        Page<Product> productPage;
+        Page<Target> productPage;
         try {
-            productPage = productService.findAllNotDeleted(page, pageSize);
+            productPage = targetService.findAllNotDeleted(page, pageSize);
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
         }
@@ -220,9 +220,9 @@ public class ProductController {
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
 
-        Page<Product> productPage;
+        Page<Target> productPage;
         try {
-            productPage = productService.findAllDeleted(page, pageSize);
+            productPage = targetService.findAllDeleted(page, pageSize);
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
         }
@@ -269,12 +269,12 @@ public class ProductController {
     @RequestMapping(method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity deleteAll() {
-        Long count = productService.count();
+        Long count = targetService.count();
 
         if (count == 0)
             return CommonResponseEntity.NotFoundResponseEntity("PRODUCTS_NOT_FOUND");
 
-        productService.deleteAll();
+        targetService.deleteAll();
 
         return CommonResponseEntity.OkResponseEntity("DELETED");
     }

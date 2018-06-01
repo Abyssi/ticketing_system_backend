@@ -48,7 +48,7 @@ public class TicketController {
     private TicketStatusService ticketStatusService;
 
     @Autowired
-    private ProductService productService;
+    private TargetService targetService;
 
     @Autowired
     private TicketPriorityService priorityService;
@@ -73,7 +73,7 @@ public class TicketController {
         Iterable<Visibility> visibilities = visibilityService.findAll();
         Collection<User> assignees = user.get().getTeam().getMembers();
         Iterable<TicketCategory> categories = ticketCategoryService.findAll();
-        Iterable<Product> targets = productService.findAll();
+        Iterable<Target> targets = targetService.findAll();
         Iterable<TicketPriority> priorities = priorityService.findAll();
 
         return new HashMapResponseEntityBuilder()

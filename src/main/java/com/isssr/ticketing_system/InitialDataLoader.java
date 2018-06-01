@@ -59,7 +59,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private TicketService ticketService;
 
     @Autowired
-    private ProductService productService;
+    private TargetService targetService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -154,7 +154,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureProducts() {
-        this.productService.save(new Product("System", "1.0", false));
+        this.targetService.save(new Target("System", "1.0", false));
     }
 
     private void configureTeams() {
@@ -172,7 +172,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 "Auto generated ticket",
                 "This is an auto generated ticket description",
                 userService.findByEmail("admin@admin.com").get(),
-                productService.findByName("System").get(),
+                targetService.findByName("System").get(),
                 ticketPriorityService.findByName("HIGH").get(),
                 visibilityService.findByName("PRIVATE").get(),
                 false

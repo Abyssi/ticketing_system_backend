@@ -20,10 +20,10 @@ import javax.validation.constraints.NotNull;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_product")
+@Table(name = "ts_target")
 @DynamicInsert
 @DynamicUpdate
-public class Product {
+public class Target {
     @IncludeInResponse({"base", "full"})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +42,7 @@ public class Product {
     @Column(name = "deleted")
     private boolean deleted;
 
-    public void updateMe(@NotNull Product updatedData) throws UpdateException {
+    public void updateMe(@NotNull Target updatedData) throws UpdateException {
 
         if (this.id.longValue() != updatedData.id.longValue())
             throw new UpdateException("Attempt to update a product record without ID matching");

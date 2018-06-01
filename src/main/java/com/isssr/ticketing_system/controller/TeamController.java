@@ -133,7 +133,7 @@ public class TeamController {
         return new PageResponseEntityBuilder(teamPage)
                 .setStatus(HttpStatus.OK)
                 .build();
-        /*Stream<Product> products;
+        /*Stream<Target> products;
         if (page != null && size != null) {
             try {
                 products = (productService.findAll(page, size).stream());
@@ -149,7 +149,7 @@ public class TeamController {
                 .setStatus(HttpStatus.OK)
                 .build();*/
 
-        /*Page<Product> productPage;
+        /*Page<Target> productPage;
         try {
 
             productPage = productService.findAll(page, pageSize);
@@ -164,7 +164,7 @@ public class TeamController {
 
         }*/
 
-        //return new ResponseEntity<Page<Product>>(productPage, HttpStatus.OK);
+        //return new ResponseEntity<Page<Target>>(productPage, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)
