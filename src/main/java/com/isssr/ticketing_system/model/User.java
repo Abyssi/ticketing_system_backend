@@ -3,7 +3,6 @@ package com.isssr.ticketing_system.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
