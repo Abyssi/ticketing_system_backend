@@ -20,7 +20,7 @@ public class TicketServiceTest {
 
     @Test
     public void aCreate() throws Exception {
-        /*List<Ticket> tickLis =  ticketService.findAll(0, null);
+        /*Basic<Ticket> tickLis =  ticketService.findAll(0, null);
         int firstFindAll = tickLis.size();
 
         Long testId = index;
@@ -74,7 +74,7 @@ public class TicketServiceTest {
     @Test
     public void eDeleteOneByID() throws Exception {
         /*Long testId = index + 3;
-        List<Ticket> ticketList = ticketService.findAll(0, null);
+        Basic<Ticket> ticketList = ticketService.findAll(0, null);
         int firstFindAll = ticketList.size();
         Ticket toDelete = createTestTicket(testId);
         ticketService.create(toDelete);

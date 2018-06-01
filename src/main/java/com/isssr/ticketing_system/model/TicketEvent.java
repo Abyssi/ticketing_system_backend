@@ -1,7 +1,7 @@
 package com.isssr.ticketing_system.model;
 
-import com.isssr.ticketing_system.response_entity.response_serializator.IncludeInResponse;
-import com.isssr.ticketing_system.response_entity.response_serializator.VariableResponseSelector;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -12,8 +12,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.time.Instant;
 
-@VariableResponseSelector
-
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -23,20 +21,20 @@ import java.time.Instant;
 @DynamicInsert
 @DynamicUpdate
 public class TicketEvent {
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.IdentifierOnly.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     private String description;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     private Instant timestamp;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;

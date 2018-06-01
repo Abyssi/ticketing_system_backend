@@ -1,5 +1,6 @@
 package com.isssr.ticketing_system.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
@@ -65,6 +66,7 @@ public class TicketController {
         binder.addValidators(ticketValidator);
     }
 
+    @JsonView(JsonViews.Basic.class)
     @RequestMapping(path = "metadata", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity metadata(@AuthenticationPrincipal Principal principal) {
@@ -76,16 +78,16 @@ public class TicketController {
         Iterable<Target> targets = targetService.findAll();
         Iterable<TicketPriority> priorities = priorityService.findAll();
 
-        return new HashMapResponseEntityBuilder()
-                .setBuilder("visibilities", new ListObjectResponseEntityBuilder<>((StreamSupport.stream(visibilities.spliterator(), false)).collect(Collectors.toList())))
-                .setBuilder("assignees", new ListObjectResponseEntityBuilder<>(assignees))
-                .setBuilder("categories", new ListObjectResponseEntityBuilder<>((StreamSupport.stream(categories.spliterator(), false)).collect(Collectors.toList())))
-                .setBuilder("targets", new ListObjectResponseEntityBuilder<>((StreamSupport.stream(targets.spliterator(), false)).collect(Collectors.toList())))
-                .setBuilder("priorities", new ListObjectResponseEntityBuilder<>((StreamSupport.stream(priorities.spliterator(), false)).collect(Collectors.toList())))
-                .setStatus(HttpStatus.OK)
+        return new HashMapResponseEntityBuilder(HttpStatus.OK)
+                .set("visibilities", StreamSupport.stream(visibilities.spliterator(), false).collect(Collectors.toList()))
+                .set("assignees", assignees)
+                .set("categories", StreamSupport.stream(categories.spliterator(), false).collect(Collectors.toList()))
+                .set("targets", StreamSupport.stream(targets.spliterator(), false).collect(Collectors.toList()))
+                .set("priorities", StreamSupport.stream(priorities.spliterator(), false).collect(Collectors.toList()))
                 .build();
     }
 
+    @JsonView(JsonViews.DetailedTicket.class)
     @RequestMapping(method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity create(@Valid @RequestBody Ticket ticket) {
@@ -97,6 +99,7 @@ public class TicketController {
         return CommonResponseEntity.OkResponseEntity("CREATED");
     }
 
+    @JsonView(JsonViews.DetailedTicket.class)
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity get(@PathVariable Long id) {
@@ -105,222 +108,83 @@ public class TicketController {
         if (!ticket.isPresent())
             return CommonResponseEntity.NotFoundResponseEntity("TICKET_NOT_FOUND");
 
-        return new ObjectResponseEntityBuilder<>(ticket.get(), "full").setStatus(HttpStatus.OK).build();
+        return new ResponseEntityBuilder<>(ticket.get()).setStatus(HttpStatus.OK).build();
     }
 
+    @JsonView(JsonViews.DetailedTicket.class)
     @RequestMapping(path = "{id}", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity update(@PathVariable Long id, @Valid @RequestBody Ticket ticket) {
-        /*Optional<Ticket> foundTicket = ticketService.findById(id);
-
-        if (!foundTicket.isPresent())
-            return CommonResponseEntity.NotFoundResponseEntity("TICKET_NOT_FOUND");*/
-
-        //ticket.setId(foundTicket.get().getId());
-        //ticketService.save(ticket);
-
         try {
-
-            ticket.setId(id);
-
             ticketService.updateOne(id, ticket);
-
         } catch (UpdateException e) {
-
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
-
         } catch (EntityNotFoundException e) {
-
             return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
-
         }
 
         return CommonResponseEntity.OkResponseEntity("UPDATED");
     }
 
+    @JsonView(JsonViews.DetailedTicket.class)
     @RequestMapping(path = "{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity delete(@PathVariable Long id) {
-        /*Optional<Ticket> foundTicket = ticketService.findById(id);
-
-        if (!foundTicket.isPresent())
-            return CommonResponseEntity.NotFoundResponseEntity("TICKET_NOT_FOUND");*/
-
-        if (ticketService.deleteById(id)) {
-
+        if (ticketService.deleteById(id))
             return CommonResponseEntity.OkResponseEntity("DELETED");
-
-        } else {
-
+        else
             return CommonResponseEntity.NotFoundResponseEntity("TICKET_NOT_FOUND");
-
-        }
     }
 
+    @JsonView(JsonViews.DetailedTicket.class)
     @RequestMapping(path = "restore/{id}", method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity restore(@PathVariable Long id) {
-
         try {
             Ticket restoredTicket = this.ticketService.restoreById(id);
-
-            return new ObjectResponseEntityBuilder<Ticket>(restoredTicket, "full").setStatus(HttpStatus.OK).build();
+            return new ResponseEntityBuilder<>(restoredTicket).setStatus(HttpStatus.OK).build();
         } catch (EntityNotFoundException e) {
             return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
         }
-
     }
 
+    @JsonView(JsonViews.Basic.class)
     @RequestMapping(value = "all", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
-        Page<Ticket> ticketPage;
         try {
-            ticketPage = ticketService.findAll(page, pageSize);
+            Page<Ticket> ticketPage = ticketService.findAll(page, pageSize);
+            return new PageResponseEntityBuilder(ticketPage).setStatus(HttpStatus.OK).build();
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
         }
-        return new PageResponseEntityBuilder(ticketPage)
-                .setStatus(HttpStatus.OK)
-                .build();
-
-        /*Stream<Ticket> tickets;
-        if (page != null && size != null) {
-            try {
-                tickets = (ticketService.findAll(page, size).stream());
-            } catch (PageableQueryException e) {
-                return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
-            } catch (EntityNotFoundException e) {
-                return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
-            }
-        } else
-            tickets = (StreamSupport.stream(ticketService.findAll().spliterator(), false));
-
-        return new ListObjectResponseEntityBuilder<>(tickets.collect(Collectors.toList()))
-                .setStatus(HttpStatus.OK)
-                .build();*/
-
-        /*
-        Page<Ticket> ticketPage;
-
-        try {
-
-            ticketPage = ticketService.findAll(page, pageSize);
-
-        } catch (PageableQueryException e) {
-
-            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
-
-        } /*catch (EntityNotFoundException e) {
-
-            return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
-
-        }*/
-        //return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
-
-
     }
 
+    @JsonView(JsonViews.Basic.class)
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllNotDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
-
-        Page<Ticket> ticketPage;
         try {
-            ticketPage = ticketService.findAllNotDeleted(page, pageSize);
+            Page<Ticket> ticketPage = ticketService.findAllNotDeleted(page, pageSize);
+            return new PageResponseEntityBuilder(ticketPage).setStatus(HttpStatus.OK).build();
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
         }
-        return new PageResponseEntityBuilder(ticketPage)
-                .setStatus(HttpStatus.OK)
-                .build();
-
-        /*Stream<Ticket> tickets;
-        if (page != null && size != null) {
-            try {
-                tickets = (ticketService.findAll(page, size).stream());
-            } catch (PageableQueryException e) {
-                return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
-            } catch (EntityNotFoundException e) {
-                return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
-            }
-        } else
-            tickets = (StreamSupport.stream(ticketService.findAll().spliterator(), false));
-
-        return new ListObjectResponseEntityBuilder<>(tickets.collect(Collectors.toList()))
-                .setStatus(HttpStatus.OK)
-                .build();*/
-
-        /*
-        Page<Ticket> ticketPage;
-
-        try {
-
-            ticketPage = ticketService.findAllNotDeleted(page, pageSize);
-
-        } catch (PageableQueryException e) {
-
-            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
-
-        } /*catch (EntityNotFoundException e) {
-
-            return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
-
-        }*/
-        //return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
-
     }
 
+    @JsonView(JsonViews.Basic.class)
     @RequestMapping(value = "deleted", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
-
-        Page<Ticket> ticketPage;
         try {
-            ticketPage = ticketService.findAllDeleted(page, pageSize);
+            Page<Ticket> ticketPage = ticketService.findAllDeleted(page, pageSize);
+            return new PageResponseEntityBuilder(ticketPage).setStatus(HttpStatus.OK).build();
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
         }
-        return new PageResponseEntityBuilder(ticketPage)
-                .setStatus(HttpStatus.OK)
-                .build();
-
-        /*Stream<Ticket> tickets;
-        if (page != null && size != null) {
-            try {
-                tickets = (ticketService.findAll(page, size).stream());
-            } catch (PageableQueryException e) {
-                return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
-            } catch (EntityNotFoundException e) {
-                return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
-            }
-        } else
-            tickets = (StreamSupport.stream(ticketService.findAll().spliterator(), false));
-
-        return new ListObjectResponseEntityBuilder<>(tickets.collect(Collectors.toList()))
-                .setStatus(HttpStatus.OK)
-                .build();*/
-
-        /*
-        Page<Ticket> ticketPage;
-
-        try {
-
-            ticketPage = ticketService.findAllDeleted(page, pageSize);
-
-        } catch (PageableQueryException e) {
-
-            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
-
-        } /*catch (EntityNotFoundException e) {
-
-            return CommonResponseEntity.NotFoundResponseEntity("TICKETS_NOT_FOUND");
-
-        }*/
-        //return new ResponseEntity<Page<Ticket>>(ticketPage, HttpStatus.OK);
-
     }
 
+    @JsonView(JsonViews.DetailedTicket.class)
     @RequestMapping(method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity deleteAll() {

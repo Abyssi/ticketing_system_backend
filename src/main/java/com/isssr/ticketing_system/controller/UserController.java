@@ -1,10 +1,13 @@
 package com.isssr.ticketing_system.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.response_entity.JsonViews;
 import com.isssr.ticketing_system.model.User;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
-import com.isssr.ticketing_system.response_entity.ObjectResponseEntityBuilder;
+import com.isssr.ticketing_system.response_entity.PageResponseEntityBuilder;
+import com.isssr.ticketing_system.response_entity.ResponseEntityBuilder;
 import com.isssr.ticketing_system.service.RoleService;
 import com.isssr.ticketing_system.service.UserService;
 import com.isssr.ticketing_system.validator.UserValidator;
@@ -19,7 +22,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
@@ -47,8 +49,22 @@ public class UserController {
         binder.addValidators(userValidator);
     }
 
-    @RequestMapping(path = "register", method = RequestMethod.PUT)
-    public ResponseEntity register(@Valid @RequestBody User user) {
+    @JsonView(JsonViews.DetailedUser.class)
+    @RequestMapping(path = "self", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    public ResponseEntity self(@AuthenticationPrincipal Principal principal) {
+        Optional<User> user = userService.findByEmail(principal.getName());
+
+        if (!user.isPresent())
+            return CommonResponseEntity.NotFoundResponseEntity("USER_NOT_FOUND");
+
+        return new ResponseEntityBuilder<>(user.get()).setStatus(HttpStatus.OK).build();
+    }
+
+    @JsonView(JsonViews.DetailedUser.class)
+    @RequestMapping(method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
+    public ResponseEntity create(@Valid @RequestBody User user) {
         if (userService.existsByEmail(user.getEmail()))
             return CommonResponseEntity.UnprocessableEntityResponseEntity("EMAIL_ALREADY_REGISTERED");
 
@@ -58,17 +74,7 @@ public class UserController {
         return CommonResponseEntity.OkResponseEntity("REGISTERED");
     }
 
-    @RequestMapping(path = "self", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity self(@AuthenticationPrincipal Principal principal) {
-        Optional<User> user = userService.findByEmail(principal.getName());
-
-        if (!user.isPresent())
-            return CommonResponseEntity.NotFoundResponseEntity("USER_NOT_FOUND");
-
-        return new ObjectResponseEntityBuilder<>(user.get(), "full").setStatus(HttpStatus.OK).build();
-    }
-
+    @JsonView(JsonViews.DetailedUser.class)
     @RequestMapping(path = "{term}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity get(@PathVariable String term, @ValidString(list = {"id", "email"}, message = "Invalid type") @RequestParam("type") String type) {
@@ -77,9 +83,10 @@ public class UserController {
         if (!user.isPresent())
             return CommonResponseEntity.NotFoundResponseEntity("USER_NOT_FOUND");
 
-        return new ObjectResponseEntityBuilder<>(user.get(), "full").setStatus(HttpStatus.OK).build();
+        return new ResponseEntityBuilder<>(user.get()).setStatus(HttpStatus.OK).build();
     }
 
+    @JsonView(JsonViews.DetailedUser.class)
     @RequestMapping(path = "{term}", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity update(@PathVariable String term,
@@ -99,6 +106,7 @@ public class UserController {
         return CommonResponseEntity.OkResponseEntity("UPDATED");
     }
 
+    @JsonView(JsonViews.DetailedUser.class)
     @RequestMapping(path = "{term}", method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity delete(@PathVariable String term, @ValidString(list = {"id", "email"}, message = "Invalid type") @RequestParam("type") String type) {
@@ -112,49 +120,22 @@ public class UserController {
         return CommonResponseEntity.OkResponseEntity("DELETED");
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @JsonView(JsonViews.Basic.class)
+    @RequestMapping(value = "all", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    public ResponseEntity get(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
-        /*Stream<User> users;
-        if (page != null && size != null) {
-            try {
-                users = (userService.findAll(page, size).stream());
-            } catch (PageableQueryException e) {
-                return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
-            } catch (EntityNotFoundException e) {
-                return CommonResponseEntity.NotFoundResponseEntity("USERS_NOT_FOUND");
-            }
-        } else
-            users = (StreamSupport.stream(userService.findAll().spliterator(), false));
-
-        /*return new ListObjectResponseEntityBuilder<>(users.collect(Collectors.toList()))
-                .setStatus(HttpStatus.OK)
-                .build();*/
-
-        Page<User> userPage = null;
-
+    public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         try {
-
-            userPage = userService.findAll(page, pageSize);
-
+            Page<User> userPage = userService.findAll(page, pageSize);
+            return new PageResponseEntityBuilder(userPage).setStatus(HttpStatus.OK).build();
         } catch (PageableQueryException e) {
-
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
-
-        } catch (EntityNotFoundException e) {
-
-            return CommonResponseEntity.NotFoundResponseEntity("USERS_NOT_FOUND");
-
         }
-
-        return new ResponseEntity<Page<User>>(userPage, HttpStatus.OK);
-
-
     }
 
+    @JsonView(JsonViews.DetailedUser.class)
     @RequestMapping(method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
-    public ResponseEntity delete() {
+    public ResponseEntity deleteAll() {
         Long count = userService.count();
 
         if (count == 0)
