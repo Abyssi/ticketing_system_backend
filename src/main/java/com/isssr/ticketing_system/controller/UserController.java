@@ -132,6 +132,18 @@ public class UserController {
         }
     }
 
+    @JsonView(JsonViews.Basic.class)
+    @RequestMapping(path= "search/{email}", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    public ResponseEntity searchByEmailPaginated(@PathVariable String email, @RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+        try {
+            Page<User> userPage = userService.findByEmailContaining(email, page, pageSize);
+            return new PageResponseEntityBuilder(userPage).setStatus(HttpStatus.OK).build();
+        } catch (PageableQueryException e) {
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+        }
+    }
+
     @JsonView(JsonViews.DetailedUser.class)
     @RequestMapping(method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")

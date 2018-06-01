@@ -109,6 +109,21 @@ public class UserService {
         return retrievedPage;
     }
 
+    @Transactional
+    public Page<User> findByEmailContaining(@NotNull String email, Pageable pageable) {
+        return this.userRepository.findByEmailContaining(email, pageable);
+    }
+
+    @Transactional
+    public Page<User> findByEmailContaining(@NotNull String email, @NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException, EntityNotFoundException {
+        Page<User> retrievedPage = this.findByEmailContaining(email, pageableUtils.instantiatePageableObject(page, pageSize, null));
+
+        if (page > retrievedPage.getTotalPages() - 1)
+            throw new PageableQueryException("Page number higher than the maximum");
+
+        return retrievedPage;
+    }
+
     public Optional<User> findUser(String term, String type) {
         switch (type) {
             case "id":
