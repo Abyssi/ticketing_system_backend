@@ -121,7 +121,7 @@ public class UserController {
     }
 
     @JsonView(JsonViews.Basic.class)
-    @RequestMapping(value = "all", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         try {
