@@ -3,7 +3,6 @@ package com.isssr.ticketing_system.service.auto_generated;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
-import com.isssr.ticketing_system.model.auto_generated.Query;
 import com.isssr.ticketing_system.model.auto_generated.temporary.DataBaseTimeQuery;
 import com.isssr.ticketing_system.repository.QueryRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
@@ -193,7 +192,7 @@ public class QueryService {
     }
 
     @Transactional
-    public List<DataBaseTimeQuery> findAllActiveQueries(){
+    public List<DataBaseTimeQuery> findAllActiveQueries() {
 
         return this.queryRepository.findAllByActiveTrue();
 
