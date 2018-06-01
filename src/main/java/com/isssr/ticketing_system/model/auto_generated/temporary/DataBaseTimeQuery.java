@@ -53,8 +53,11 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable {
     @IncludeInResponse({"full"})
     @NonNull
     private ComparisonOperatorsEnum comparisonOperator;
+
     private Long referenceValue;
+
     private Long lastValue;
+
     @NonNull
     private QueryType queryType;
 
