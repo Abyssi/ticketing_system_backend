@@ -26,13 +26,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                .formLogin()
-                .usernameParameter("email")
-                .and()
-                .requestMatchers()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/**/", "/api/v1/users/register", "/oauth/**").permitAll()
-                .antMatchers("/api/**").authenticated();
+                .authorizeRequests().antMatchers("/api/v1/users/register").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().usernameParameter("email").permitAll()
+                .and().csrf().disable();
+
     }
 }

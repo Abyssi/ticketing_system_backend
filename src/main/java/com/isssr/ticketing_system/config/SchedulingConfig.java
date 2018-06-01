@@ -1,20 +1,13 @@
 package com.isssr.ticketing_system.config;
 
-import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
-import org.quartz.spi.JobFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
+import org.quartz.Trigger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.scheduling.quartz.*;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 @Configuration
 public class SchedulingConfig {

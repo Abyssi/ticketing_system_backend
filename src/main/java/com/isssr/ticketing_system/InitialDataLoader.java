@@ -179,7 +179,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         ));
     }
 
-    private void generateQueries(){
+    private void generateQueries() {
 
         DataBaseTimeQuery query = new DataBaseTimeQuery(
                 "This query check number of products in product table, if it is grater than 1 generate alert ticket",

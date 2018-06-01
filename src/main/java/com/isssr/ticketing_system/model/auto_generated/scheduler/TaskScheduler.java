@@ -2,11 +2,12 @@ package com.isssr.ticketing_system.model.auto_generated.scheduler;
 
 import com.isssr.ticketing_system.model.auto_generated.temporary.DataBaseTimeQuery;
 import lombok.RequiredArgsConstructor;
-import org.quartz.*;
-import org.quartz.core.SchedulerSignalerImpl;
+import org.quartz.CronTrigger;
+import org.quartz.JobDataMap;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.impl.JobDetailImpl;
 import org.quartz.impl.triggers.CronTriggerImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
