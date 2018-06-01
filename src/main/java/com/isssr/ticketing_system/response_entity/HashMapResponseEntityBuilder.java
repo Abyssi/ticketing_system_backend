@@ -1,20 +1,22 @@
 package com.isssr.ticketing_system.response_entity;
 
+import org.springframework.http.HttpStatus;
+
 import java.util.HashMap;
 
-public class HashMapResponseEntityBuilder extends ResponseEntityBuilder<HashMap> {
+public class HashMapResponseEntityBuilder extends ResponseEntityBuilder<HashMap<String, Object>> {
 
     public HashMapResponseEntityBuilder() {
-        this.body = new HashMap<>();
+        super(new HashMap<>());
     }
 
-    @SuppressWarnings("unchecked")
+    public HashMapResponseEntityBuilder(HttpStatus status) {
+        this();
+        this.setStatus(status);
+    }
+
     public HashMapResponseEntityBuilder set(String key, Object value) {
         this.body.put(key, value);
         return this;
-    }
-
-    public HashMapResponseEntityBuilder setBuilder(String key, ResponseEntityBuilder responseEntityBuilder) {
-        return this.set(key, responseEntityBuilder.getBody());
     }
 }

@@ -1,8 +1,10 @@
 package com.isssr.ticketing_system.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.isssr.ticketing_system.exception.UpdateException;
-import com.isssr.ticketing_system.response_entity.response_serializator.IncludeInResponse;
-import com.isssr.ticketing_system.response_entity.response_serializator.VariableResponseSelector;
+import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -14,8 +16,6 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@VariableResponseSelector
-
 @Data
 @NoArgsConstructor
 
@@ -23,27 +23,28 @@ import java.util.Collection;
 @Table(name = "ts_team")
 @DynamicInsert
 @DynamicUpdate
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Team {
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.IdentifierOnly.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     private String name;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     @OneToOne
     private User leader;
 
-    @IncludeInResponse({"full"})
+    @JsonView(JsonViews.DetailedTeam.class)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "team_id")
     private Collection<User> members;
 
-    @IncludeInResponse({"full"})
+    @JsonView(JsonViews.DetailedTeam.class)
     @NonNull
     @Column(name = "deleted")
     private boolean deleted;

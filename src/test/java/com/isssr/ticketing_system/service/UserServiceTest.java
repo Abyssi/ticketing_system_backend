@@ -21,7 +21,7 @@ public class UserServiceTest {
     @Test
     public void aCreateUser() throws Exception {
         /*
-        List<User> userList =  userService.findAll();
+        Basic<User> userList =  userService.findAll();
         int firstFindAll = userList.size();
 
         Long testId = index;
@@ -93,7 +93,7 @@ public class UserServiceTest {
     public void eDeleteOneByID() throws Exception {
         /*
         Long testId = index + 5;
-        List<User> userList = userService.findAll();
+        Basic<User> userList = userService.findAll();
         int firstFindAll = userList.size();
         Customer toDelete = createCustomer(testId);
         userService.createUser(toDelete);

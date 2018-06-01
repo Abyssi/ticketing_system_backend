@@ -22,7 +22,7 @@ public class TaskScheduler {
     private ThreadPoolTaskScheduler scheduler;
 
 
-    private List<ScheduledFuture> scheduledFutures = new ArrayList<>();
+    private Basic<ScheduledFuture> scheduledFutures = new ArrayList<>();
 
     public boolean addJob(Query query) {
 

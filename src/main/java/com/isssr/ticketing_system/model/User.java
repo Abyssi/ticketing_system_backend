@@ -1,8 +1,10 @@
 package com.isssr.ticketing_system.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.isssr.ticketing_system.exception.UpdateException;
-import com.isssr.ticketing_system.response_entity.response_serializator.IncludeInResponse;
-import com.isssr.ticketing_system.response_entity.response_serializator.VariableResponseSelector;
+import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -14,8 +16,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
-@VariableResponseSelector
-
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -24,34 +24,35 @@ import java.util.Collection;
 @Table(name = "ts_user") //user is a reserved word in postgres
 @DynamicInsert
 @DynamicUpdate
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.IdentifierOnly.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     private String firstName;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     private String lastName;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     private String email;
 
     @NonNull
     private String password;
 
-    @IncludeInResponse({"full"})
+    @JsonView(JsonViews.DetailedUser.class)
     @NonNull
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ts_user_role")
     private Collection<Role> roles;
 
-    @IncludeInResponse({"full"})
+    @JsonView(JsonViews.DetailedUser.class)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;

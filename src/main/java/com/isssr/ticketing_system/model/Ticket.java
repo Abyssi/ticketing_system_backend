@@ -1,8 +1,8 @@
 package com.isssr.ticketing_system.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.UpdateException;
-import com.isssr.ticketing_system.response_entity.response_serializator.IncludeInResponse;
-import com.isssr.ticketing_system.response_entity.response_serializator.VariableResponseSelector;
+import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -16,8 +16,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@VariableResponseSelector
-
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -27,87 +25,87 @@ import java.util.Collection;
 @DynamicInsert
 @DynamicUpdate
 public class Ticket {
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.IdentifierOnly.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     @ManyToOne
     private TicketStatus status;
 
-    @IncludeInResponse({"full"})
+    @JsonView(JsonViews.DetailedTicket.class)
     @NonNull
     @ManyToOne
     private TicketSource source;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     private Instant creationTimestamp;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     @ManyToOne
     private TicketCategory category;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     private String title;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     private String description;
 
-    @IncludeInResponse({"full"})
+    @JsonView(JsonViews.DetailedTicket.class)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ticket_id")
     private Collection<TicketAttachment> attachments;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     @ManyToOne
     private User assignee;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     @ManyToOne
     private Target target;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     @ManyToOne
     private TicketPriority customerPriority;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @ManyToOne
     private TicketPriority teamPriority;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     @ManyToOne
     private Visibility visibility;
 
-    @IncludeInResponse({"full"})
+    @JsonView(JsonViews.DetailedTicket.class)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ticket_id")
     private Collection<TicketRelation> relations;
 
-    @IncludeInResponse
+    @JsonView(JsonViews.DetailedTicket.class)
     @ManyToOne
     private TicketDifficulty difficulty;
 
-    @IncludeInResponse({"full"})
+    @JsonView(JsonViews.DetailedTicket.class)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ticket_id")
     private Collection<TicketEvent> events;
 
-    @IncludeInResponse({"full"})
+    @JsonView(JsonViews.DetailedTicket.class)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ticket_id")
     private Collection<TicketComment> comments;
 
-    @IncludeInResponse({"full"})
+    @JsonView(JsonViews.DetailedTicket.class)
     @NonNull
     @Column(name = "deleted")
     private boolean deleted;

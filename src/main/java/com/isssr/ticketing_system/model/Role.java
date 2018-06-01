@@ -1,7 +1,7 @@
 package com.isssr.ticketing_system.model;
 
-import com.isssr.ticketing_system.response_entity.response_serializator.IncludeInResponse;
-import com.isssr.ticketing_system.response_entity.response_serializator.VariableResponseSelector;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -12,8 +12,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.util.Collection;
 
-@VariableResponseSelector
-
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -23,16 +21,16 @@ import java.util.Collection;
 @DynamicInsert
 @DynamicUpdate
 public class Role {
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.IdentifierOnly.class)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @IncludeInResponse({"base", "full"})
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     private String name;
 
-    @IncludeInResponse({"full"})
+    @JsonView(JsonViews.DetailedRole.class)
     @NonNull
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ts_role_privilege")

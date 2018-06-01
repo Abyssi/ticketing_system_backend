@@ -21,7 +21,7 @@ public class TeamServiceTest {
     @Test
     public void aCreate() throws Exception {
 
-        /*List<Team> teamList =  teamService.findAll(0, null);
+        /*Basic<Team> teamList =  teamService.findAll(0, null);
         int firstFindAll = teamList.size();
 
         Long testId = index;
@@ -113,7 +113,7 @@ public class TeamServiceTest {
     @Test
     public void fDeleteOneByID() throws Exception {
         /*Long testId = index + 3;
-        List<Team> teamList = teamService.findAll(0, null);
+        Basic<Team> teamList = teamService.findAll(0, null);
         int firstFindAll = teamList.size();
         Team toDelete = createTestTeam(testId);
         teamService.create(toDelete);
@@ -122,7 +122,7 @@ public class TeamServiceTest {
     }
 
     /*private Team createTestTeam(Long testId) throws Exception {
-        List<TeamMember> assistantList = new ArrayList<TeamMember>();
+        Basic<TeamMember> assistantList = new ArrayList<TeamMember>();
         TeamMember assistant =  new TeamMember(23L, "testTeamMember", "test", "test@mail",
                 "password", false);
         assistantList.add(assistant);

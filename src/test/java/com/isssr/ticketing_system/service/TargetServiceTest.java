@@ -24,7 +24,7 @@ public class TargetServiceTest {
     @Test
     public void Acreate() throws EntityNotFoundException, PageableQueryException {
 
-        /*List<Target> prodLis =  productService.findAll(0, null);
+        /*Basic<Target> prodLis =  productService.findAll(0, null);
         int firstFindAll = prodLis.size();
 
         Long testId = index;
@@ -74,7 +74,7 @@ public class TargetServiceTest {
     @Test
     public void EdeleteOneById() throws EntityNotFoundException, PageableQueryException {
         /*Long testId = index + 3;
-        List<Target> prodList = productService.findAll(0 , null);
+        Basic<Target> prodList = productService.findAll(0 , null);
         int firstFindAll = prodList.size();
         Target toDelete = createRandomProduct(testId);
         productService.create(toDelete);
