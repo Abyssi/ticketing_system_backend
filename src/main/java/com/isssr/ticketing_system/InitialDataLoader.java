@@ -62,6 +62,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private TargetService targetService;
 
     @Autowired
+    private MailService mailService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -84,6 +87,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.configureRelationTypes();
         this.configureProducts();
         this.configureTeams();
+        this.configureEmail();
         //this.generateTicket();
         //this.generateQueries();
 
@@ -93,6 +97,10 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private void configurePrivileges() {
         this.privilegeService.save(new Privilege("READ_PRIVILEGE"));
         this.privilegeService.save(new Privilege("WRITE_PRIVILEGE"));
+    }
+
+    private void configureEmail() {
+        this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
     }
 
     private void configureRoles() {
