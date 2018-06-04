@@ -9,10 +9,14 @@ import com.isssr.ticketing_system.service.auto_generated.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,6 +74,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     @Autowired
     private QueryService queryService;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -88,6 +95,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.configureProducts();
         this.configureTeams();
         this.configureEmail();
+        //this.createReadOnlyUser();
         //this.generateTicket();
         //this.generateQueries();
 
@@ -169,6 +177,22 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         Team systemTeam = this.teamService.save(new Team("System team", userService.findByEmail("admin@admin.com").get()));
         systemTeam.getMembers().add(this.userService.findByEmail("andrea.silvi@mail.com").get());
         this.teamService.save(systemTeam);
+    }
+
+    private void createReadOnlyUser() {
+        try {
+            Connection connection = this.jdbcTemplate.getDataSource().getConnection();
+            Statement statement = connection.createStatement();
+            statement.execute("CREATE ROLE Read_Only_User WITH LOGIN PASSWORD 'user' \n" +
+                    "NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION VALID UNTIL 'infinity';");
+            statement.execute("GRANT CONNECT ON DATABASE ticketing_system_db TO Read_Only_User;\n" +
+                    "GRANT USAGE ON SCHEMA public TO Read_Only_User;\n" +
+                    "GRANT SELECT ON ALL TABLES IN SCHEMA public TO Read_Only_User;\n" +
+                    "GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO Read_Only_User;");
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void generateTicket() {
