@@ -1,6 +1,8 @@
 package com.isssr.ticketing_system.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,29 +12,33 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_role")
+@Table(name = "ts_email")
 @DynamicInsert
 @DynamicUpdate
-public class Role {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class Mail {
+
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonView(JsonViews.Basic.class)
     @NonNull
-    private String name;
+    private String subject;
 
-    @JsonView(JsonViews.DetailedRole.class)
+    @JsonView(JsonViews.Basic.class)
     @NonNull
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "ts_role_privilege")
-    private Collection<Privilege> privileges;
+    private String description;
+
+    @JsonView(JsonViews.Basic.class)
+    @NonNull
+    private String type;
+
 }
