@@ -194,7 +194,7 @@ public class QueryService {
     @Transactional
     public List<DataBaseTimeQuery> findAllActiveQueries() {
 
-        return this.queryRepository.findAllByActiveTrue();
+        return this.queryRepository.findAllByActive(true);
 
     }
 

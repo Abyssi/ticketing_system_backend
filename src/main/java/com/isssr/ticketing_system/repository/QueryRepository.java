@@ -20,7 +20,5 @@ public interface QueryRepository extends JpaRepository<DataBaseTimeQuery, Long> 
     @Query("SELECT q FROM DataBaseTimeQuery q where q.deleted = true")
     Page<DataBaseTimeQuery> findAllDeleted(Pageable pageable);
 
-    List<DataBaseTimeQuery> findAllByActiveTrue();
-
     List<DataBaseTimeQuery> findAllByActive(boolean isActive);
 }
