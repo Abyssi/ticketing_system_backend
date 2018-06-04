@@ -55,6 +55,7 @@ public class Ticket {
 
     @JsonView(JsonViews.Basic.class)
     @NonNull
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @JsonView(JsonViews.DetailedTicket.class)
