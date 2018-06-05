@@ -4,6 +4,7 @@ import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Ticket;
+import com.isssr.ticketing_system.model.User;
 import com.isssr.ticketing_system.repository.TicketRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,5 +155,20 @@ public class TicketService {
     @Transactional
     public Page<Ticket> findAllDeleted(PageRequest pageRequest) {
         return this.ticketRepository.findAllDeleted(pageRequest);
+    }
+
+    @Transactional
+    public Page<Ticket> findByTitleContaining(@NotNull String title, Pageable pageable) {
+        return this.ticketRepository.findByTitleContaining(title, pageable);
+    }
+
+    @Transactional
+    public Page<Ticket> findByTitleContaining(@NotNull String title, @NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException, javax.persistence.EntityNotFoundException {
+        Page<Ticket> retrievedPage = this.findByTitleContaining(title, pageableUtils.instantiatePageableObject(page, pageSize, null));
+
+        if (page > retrievedPage.getTotalPages() - 1)
+            throw new PageableQueryException("Page number higher than the maximum");
+
+        return retrievedPage;
     }
 }
