@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.plaf.nimbus.State;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -75,6 +76,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private MailService mailService;
 
     @Autowired
+    private CompanyService companyService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -91,6 +95,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (alreadySetup) return;
 
+        //this.configureCompany();
         this.configurePrivileges();
         this.configureRoles();
         this.configureVisibilities();
@@ -103,14 +108,29 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.configureRelationTypes();
         this.configureProducts();
         this.configureTeams();
-        this.configureEmail();
+        //this.configureEmail();
+        this.createTicketAttachmentDir();
         //this.generateTicket();
         //this.generateQueries();
-        this.createReadOnlyUser();
+        //this.createReadOnlyUser();
 
         //this.startScheduling();
 
         alreadySetup = true;
+    }
+
+    private void configureCompany() {
+        this.companyService.save(new Company("tor vergata", true, "uniroma2.it"));
+        this.companyService.save(new Company("own", false, "own.it"));
+    }
+
+    private void createTicketAttachmentDir() {
+        File dir = new File(System.getProperty("user.dir") + "/ticket_attachment");
+        //If directory doesn't exists create it
+        if (!dir.exists()){
+            boolean succes = dir.mkdir();
+            if (!succes) System.out.println("Error creating directory");
+        }
     }
 
     private void configurePrivileges() {
@@ -140,8 +160,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureUsers() {
-        this.userService.save(new User("Admin", "Admin", "admin@admin.com", passwordEncoder.encode("password"), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
-        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi@mail.com", passwordEncoder.encode("password"), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Admin", "Admin", "admin@admin.com", passwordEncoder.encode("password"), this.companyService.findByName("own").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
+        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi@mail.com", passwordEncoder.encode("password"), this.companyService.findByName("tor vergata").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
     }
 
     private void configurePriorities() {
