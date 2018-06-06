@@ -185,7 +185,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private void configureTeams() {
         Team systemTeam = this.teamService.save(new Team("System team", userService.findByEmail("admin@admin.com").get()));
         systemTeam.getMembers().add(this.userService.findByEmail("andrea.silvi@mail.com").get());
-        this.teamService.save(systemTeam);
+        if (!this.teamService.existsByName(systemTeam.getName())) this.teamService.save(systemTeam);
     }
 
     private void createReadOnlyUser() {
