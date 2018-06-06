@@ -58,7 +58,7 @@ public class JsonViews {
     public static class DetailedUser extends Detailed {
     }
 
-    public static class DetailedCompany extends Detailed{
+    public static class DetailedCompany extends Detailed {
     }
 
     public static class DetailedVisibility extends Detailed {

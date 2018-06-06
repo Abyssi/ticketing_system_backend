@@ -11,7 +11,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
