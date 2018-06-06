@@ -121,7 +121,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
         if (this.firstSchedulingAlreadyDone) return;
 
-        this.startScheduling();
+        //this.startScheduling();
 
         this.firstSchedulingAlreadyDone = true;
 
