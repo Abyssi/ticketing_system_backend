@@ -185,7 +185,7 @@ public class TicketController {
     }
 
     @JsonView(JsonViews.Basic.class)
-    @RequestMapping(path= "search/{title}", method = RequestMethod.GET)
+    @RequestMapping(path = "search/{title}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity searchByTitlePaginated(@PathVariable String title, @RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         try {

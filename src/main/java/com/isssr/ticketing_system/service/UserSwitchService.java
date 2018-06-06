@@ -72,12 +72,12 @@ public class UserSwitchService {
         dataSource.setUrl(url);
 
         //Connect read-only privilege
-        if (mode.equals(USER_MODE)){
+        if (mode.equals(USER_MODE)) {
             dataSource.setUsername(USER_USERNAME);
             dataSource.setPassword(USER_PASSWORD);
         }
         //Connect root privilege
-        else if (mode.equals(ROOT_MODE)){
+        else if (mode.equals(ROOT_MODE)) {
             dataSource.setUsername(ROOT_USERNAME);
             dataSource.setPassword(ROOT_PASSWORD);
         }

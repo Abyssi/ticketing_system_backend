@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 @Configuration
 @Component
 @Controller
-public abstract class MailController implements IMailController{
+public abstract class MailController implements IMailController {
 
     //IMAP server settings -----------
 

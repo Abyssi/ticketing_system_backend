@@ -64,9 +64,12 @@ public class Ticket {
     private Collection<TicketAttachment> attachments;
 
     @JsonView(JsonViews.Basic.class)
-    @NonNull
     @ManyToOne
     private User assignee;
+
+    @JsonView(JsonViews.Basic.class)
+    @ManyToOne
+    private User customer;
 
     @JsonView(JsonViews.Basic.class)
     @NonNull

@@ -1,7 +1,6 @@
 package com.isssr.ticketing_system;
 
 import com.isssr.ticketing_system.model.*;
-import com.isssr.ticketing_system.model.auto_generated.Query;
 import com.isssr.ticketing_system.model.auto_generated.enumeration.ComparisonOperatorsEnum;
 import com.isssr.ticketing_system.model.auto_generated.temporary.DataBaseTimeQuery;
 import com.isssr.ticketing_system.model.auto_generated.temporary.QueryType;
@@ -17,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -190,7 +188,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.teamService.save(systemTeam);
     }
 
-    private void createReadOnlyUser(){
+    private void createReadOnlyUser() {
         try {
             Connection connection = this.jdbcTemplate.getDataSource().getConnection();
             Statement statement = connection.createStatement();
@@ -214,7 +212,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 ticketCategoryService.findByName("SYSTEM").get(),
                 "Auto generated ticket",
                 "This is an auto generated ticket description",
-                userService.findByEmail("admin@admin.com").get(),
                 targetService.findByName("System").get(),
                 ticketPriorityService.findByName("HIGH").get(),
                 visibilityService.findByName("PRIVATE").get(),

@@ -10,5 +10,5 @@ public interface IMailController {
     public void receiveMail();
 
     //Check if server is running
-    public  boolean isServerRunning();
+    public boolean isServerRunning();
 }

@@ -1,7 +1,6 @@
 package com.isssr.ticketing_system.repository;
 
 import com.isssr.ticketing_system.model.Ticket;
-import com.isssr.ticketing_system.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

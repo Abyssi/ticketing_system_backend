@@ -4,7 +4,6 @@ import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Ticket;
-import com.isssr.ticketing_system.model.User;
 import com.isssr.ticketing_system.repository.TicketRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
