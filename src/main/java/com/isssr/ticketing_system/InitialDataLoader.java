@@ -96,7 +96,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         //Check if db is already setup, Otherwise set up it
-        if (!this.checkConfig()){
+        if (!this.checkConfig()) {
             this.configureCompany();
             this.configurePrivileges();
             this.configureRoles();
@@ -127,9 +127,13 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     }
 
-    private void setAlreadySetup(boolean b) { this.setupService.save(new Setup(true)); }
+    private void setAlreadySetup(boolean b) {
+        this.setupService.save(new Setup(true));
+    }
 
-    private boolean checkConfig() { return this.setupService.existsBySetup(true); }
+    private boolean checkConfig() {
+        return this.setupService.existsBySetup(true);
+    }
 
     private void configureCompany() {
         if (!this.companyService.existsByName("test")) this.companyService.save(new Company("test", false, "test.it"));
@@ -141,7 +145,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureEmail() {
-        if (!this.mailService.existsByType("FORMAT")) this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
+        if (!this.mailService.existsByType("FORMAT"))
+            this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
     }
 
     private void configureRoles() {

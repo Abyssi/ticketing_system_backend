@@ -24,7 +24,7 @@ import java.util.Properties;
 @NoArgsConstructor
 @Controller
 @EnableScheduling
-public class MailReceiverController extends MailController{
+public class MailReceiverController extends MailController {
 
     private MimeBodyPart bodyPart;
     private String fileName;
@@ -75,7 +75,7 @@ public class MailReceiverController extends MailController{
         properties.setProperty("mail.imap.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         properties.setProperty("mail.imap.socketFactory.fallback", "true");
         properties.setProperty("mail.imap.socketFactory.port", String.valueOf(port));
-        properties.put("mail.imap.ssl.enable","true");
+        properties.put("mail.imap.ssl.enable", "true");
         properties.put("mail.imap.starttls.enable", "true");
         properties.put("mail.imap.ssl.trust", "*");
 
@@ -119,13 +119,12 @@ public class MailReceiverController extends MailController{
                 from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
 
                 //Checking sender address, looking for match in db
-                if (!checkAddress(from)){
-                    if (!checkDomain(from)){
+                if (!checkAddress(from)) {
+                    if (!checkDomain(from)) {
                         msg.setFlag(Flags.Flag.SEEN, true);
                         throw new MailRejectedException("***** E-mail rejected ******");
                     }
-                }
-                else assignee = userService.findByEmail(from.toLowerCase().trim());
+                } else assignee = userService.findByEmail(from.toLowerCase().trim());
 
 
                 /*
@@ -156,14 +155,13 @@ public class MailReceiverController extends MailController{
                 System.out.println("\t Sent Date: " + sentDate);
                 System.out.println("\t Message: " + messageContent);
 
-                if (isFormatted(messageContent)){
-                    if (parseFormattedEmail(subject, messageContent, ticketSource, ticketStatus, visibility, assignee.get()) == null){
+                if (isFormatted(messageContent)) {
+                    if (parseFormattedEmail(subject, messageContent, ticketSource, ticketStatus, visibility, assignee.get()) == null) {
                         this.mailSenderController.sendMail(from, "FORMAT");
                         throw new MailRejectedException("***** Sintax Error *****");
                     }
                     //else ticketService.save(ticket);
-                }
-                else {
+                } else {
                     //Send email response
                     this.mailSenderController.sendMail(from, "FORMAT");
                 }
@@ -221,7 +219,7 @@ public class MailReceiverController extends MailController{
     }
 
     //get text from message, multipart
-    private String getTextFromMimeMultipart(MimeMultipart mimeMultipart)  throws MessagingException, IOException{
+    private String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws MessagingException, IOException {
         String result = "";
         int count = mimeMultipart.getCount();
         for (int i = 0; i < count; i++) {
@@ -237,8 +235,8 @@ public class MailReceiverController extends MailController{
             } else if (bodyPart.isMimeType("text/html")) {
                 String html = (String) bodyPart.getContent();
                 result = result + "\n" + org.jsoup.Jsoup.parse(html).text();
-            } else if (bodyPart.getContent() instanceof MimeMultipart){
-                result = result + getTextFromMimeMultipart((MimeMultipart)bodyPart.getContent());
+            } else if (bodyPart.getContent() instanceof MimeMultipart) {
+                result = result + getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent());
             }
         }
         return result;
@@ -260,7 +258,7 @@ public class MailReceiverController extends MailController{
     }
 
     //Check email sender
-    private boolean checkAddress(String sender){
+    private boolean checkAddress(String sender) {
         return userService.findByEmail(sender) != null;
     }
 
@@ -309,7 +307,7 @@ public class MailReceiverController extends MailController{
 
             TicketAttachment ticketAttachment = new TicketAttachment();
             //Check if exists attachment and save it
-            if (this.flag){
+            if (this.flag) {
                 bodyPart.saveFile(System.getProperty("user.dir") + saveDirectory + File.separator + fileName);
                 ticketAttachment.setFileName(fileName);
                 ticketAttachment.setTimestamp(Instant.now());

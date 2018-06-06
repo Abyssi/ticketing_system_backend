@@ -20,10 +20,14 @@ public class SetupService {
     }
 
     @Transactional
-    public Iterable<Setup> findAll() { return this.setupRepository.findAll(); }
+    public Iterable<Setup> findAll() {
+        return this.setupRepository.findAll();
+    }
 
     @Transactional
-    public Optional<Setup> findById(Setup setup) { return this.setupRepository.findById(setup); }
+    public Optional<Setup> findById(Setup setup) {
+        return this.setupRepository.findById(setup);
+    }
 
     @Transactional
     public boolean existsBySetup(boolean setup) {

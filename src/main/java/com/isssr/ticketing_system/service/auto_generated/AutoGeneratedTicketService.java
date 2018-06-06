@@ -10,7 +10,6 @@ import com.isssr.ticketing_system.repository.TicketRepository;
 import com.isssr.ticketing_system.service.*;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
