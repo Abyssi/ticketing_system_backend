@@ -28,8 +28,6 @@ import java.util.List;
 @Component
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    private boolean alreadySetup = false;
-
     @Autowired
     private PrivilegeService privilegeService;
 
@@ -73,6 +71,12 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private MailService mailService;
 
     @Autowired
+    private CompanyService companyService;
+
+    @Autowired
+    private SetupService setupService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -87,28 +91,40 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        if (alreadySetup) return;
 
-        this.configurePrivileges();
-        this.configureRoles();
-        this.configureVisibilities();
-        this.configureUsers();
-        this.configurePriorities();
-        this.configureCategories();
-        this.configureSources();
-        this.configureStatuses();
-        this.configureDifficulties();
-        this.configureRelationTypes();
-        this.configureProducts();
-        this.configureTeams();
-        this.configureEmail();
-        //this.generateTicket();
-        //this.generateQueries();
-        this.createReadOnlyUser();
+        //Check if db is already setup, Otherwise set up it
+        if (!this.checkConfig()){
+            this.configureCompany();
+            this.configurePrivileges();
+            this.configureRoles();
+            this.configureVisibilities();
+            this.configureUsers();
+            this.configurePriorities();
+            this.configureCategories();
+            this.configureSources();
+            this.configureStatuses();
+            this.configureDifficulties();
+            this.configureRelationTypes();
+            this.configureProducts();
+            this.configureTeams();
+            this.configureEmail();
+            //this.generateTicket();
+            //this.generateQueries();
+            this.createReadOnlyUser();
+            //this.startScheduling();
 
-        //this.startScheduling();
+            //Make db setup
+            this.setAlreadySetup(true);
+        }
 
-        alreadySetup = true;
+    }
+
+    private void setAlreadySetup(boolean b) { this.setupService.save(new Setup(true)); }
+
+    private boolean checkConfig() { return this.setupService.existsBySetup(true); }
+
+    private void configureCompany() {
+        if (!this.companyService.existsByName("test")) this.companyService.save(new Company("test", false, "test.it"));
     }
 
     private void configurePrivileges() {
@@ -117,7 +133,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureEmail() {
-        this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
+        if (!this.mailService.existsByType("FORMAT")) this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
     }
 
     private void configureRoles() {
@@ -138,8 +154,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureUsers() {
-        this.userService.save(new User("Admin", "Admin", "admin@admin.com", passwordEncoder.encode("password"), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
-        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi@mail.com", passwordEncoder.encode("password"), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Admin", "Admin", "admin@admin.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
+        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi@mail.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
     }
 
     private void configurePriorities() {

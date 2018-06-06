@@ -103,7 +103,7 @@ public class MailReceiverController extends MailController{
             TicketSource ticketSource = null;
             TicketStatus ticketStatus = null;
             Visibility visibility = null;
-            Optional<User> assignee;
+            Optional<User> assignee = Optional.empty();
             if (messages.length != 0) {
                 ticketSource = ticketSourceService.findByName("MAIL").get();
                 ticketStatus = ticketStatusService.findByName("PENDING").get();
@@ -125,7 +125,8 @@ public class MailReceiverController extends MailController{
                         throw new MailRejectedException("***** E-mail rejected ******");
                     }
                 }
-                assignee = userService.findByEmail(from.toLowerCase().trim());
+                else assignee = userService.findByEmail(from.toLowerCase().trim());
+
 
                 /*
                 if (!assignee.isPresent()){
@@ -273,7 +274,7 @@ public class MailReceiverController extends MailController{
 
             //Get right formatted text
             String productID = lines[1].substring(lines[1].indexOf(": ") + 1).toLowerCase();
-            productID = productID.substring(0, 1).toUpperCase() + productID.substring(1).trim();
+            productID = productID.substring(0, 2).toUpperCase() + productID.substring(1).trim();
             String category0 = lines[2].substring(lines[2].indexOf(": ") + 1).toLowerCase();
             String priority = lines[3].substring(lines[3].indexOf(": ") + 1).toLowerCase();
             String description = lines[4].substring(lines[4].indexOf(": ") + 1).toLowerCase();
