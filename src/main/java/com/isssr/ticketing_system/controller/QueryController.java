@@ -1,11 +1,8 @@
 package com.isssr.ticketing_system.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
-import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.TicketPriority;
-import com.isssr.ticketing_system.model.auto_generated.Query;
 import com.isssr.ticketing_system.model.auto_generated.temporary.DataBaseTimeQuery;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.HashMapResponseEntityBuilder;
@@ -79,7 +76,7 @@ public class QueryController {
             }*/
             e.printStackTrace();
             //return CommonResponseEntity.UnprocessableEntityResponseEntity("CREATED BUT NOT INITIALIZED BECAUSE " +e.getMessage());
-            return CommonResponseEntity.UnprocessableEntityResponseEntity("NOT CREATED BECAUSE " +e.getMessage());
+            return CommonResponseEntity.UnprocessableEntityResponseEntity("NOT CREATED BECAUSE " + e.getMessage());
         }
 
         this.queryService.create(dataBaseTimeQuery);

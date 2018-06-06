@@ -184,6 +184,18 @@ public class TicketController {
         }
     }
 
+    @JsonView(JsonViews.Basic.class)
+    @RequestMapping(path = "search/{title}", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    public ResponseEntity searchByTitlePaginated(@PathVariable String title, @RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+        try {
+            Page<Ticket> ticketPage = ticketService.findByTitleContaining(title, page, pageSize);
+            return new PageResponseEntityBuilder(ticketPage).setStatus(HttpStatus.OK).build();
+        } catch (PageableQueryException e) {
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+        }
+    }
+
     @JsonView(JsonViews.DetailedTicket.class)
     @RequestMapping(method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")

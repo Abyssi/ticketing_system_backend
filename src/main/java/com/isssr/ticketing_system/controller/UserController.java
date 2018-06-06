@@ -133,7 +133,7 @@ public class UserController {
     }
 
     @JsonView(JsonViews.Basic.class)
-    @RequestMapping(path= "search/{email}", method = RequestMethod.GET)
+    @RequestMapping(path = "search/{email}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity searchByEmailPaginated(@PathVariable String email, @RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         try {
