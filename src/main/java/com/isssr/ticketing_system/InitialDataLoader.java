@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -88,6 +89,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private boolean firstSchedulingAlreadyDone = false;
+
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -108,14 +111,19 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
             this.configureProducts();
             this.configureTeams();
             this.configureEmail();
-            //this.generateTicket();
-            //this.generateQueries();
+            this.generateTicket();
+            this.generateQueries();
             this.createReadOnlyUser();
-            //this.startScheduling();
 
             //Make db setup
             this.setAlreadySetup(true);
         }
+
+        if (this.firstSchedulingAlreadyDone) return;
+
+        this.startScheduling();
+
+        this.firstSchedulingAlreadyDone = true;
 
     }
 
@@ -238,14 +246,14 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private void generateQueries() {
 
         DataBaseTimeQuery query = new DataBaseTimeQuery(
-                "This query check number of products in product table, if it is grater than 1 generate alert ticket",
-                "SELECT count(*) FROM ts_product",
+                "This query check number of targets in target table, if it is grater than 1 generate alert ticket",
+                "SELECT count(*) FROM ts_target",
                 ticketPriorityService.findByName("HIGH").get(),
                 "*/5 * * * * ?",
                 true,
                 false,
                 ComparisonOperatorsEnum.GRATHER,
-                1L,
+                BigInteger.valueOf(1),
                 null,
                 QueryType.DATA_BASE_INSTANT_CHECK
         );
@@ -253,14 +261,14 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.queryService.create(query);
 
         query = new DataBaseTimeQuery(
-                "This query check number of teams in product table, if it is less than 1000 generate alert ticket",
+                "This query check number of teams in team table, if it is less than 1000 generate alert ticket",
                 "SELECT count(*) FROM ts_team",
                 ticketPriorityService.findByName("HIGH").get(),
                 "*/8 * * * * ?",
                 true,
                 false,
                 ComparisonOperatorsEnum.LESS,
-                1000L,
+                BigInteger.valueOf(1000),
                 null,
                 QueryType.DATA_BASE_INSTANT_CHECK
         );
@@ -268,14 +276,14 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.queryService.create(query);
 
         query = new DataBaseTimeQuery(
-                "This query check number of products in product table, if it is growth of 1 or more generate alert ticket",
-                "SELECT count(*) FROM ts_product",
+                "This query check number of targets in target table, if it is growth of 1 or more generate alert ticket",
+                "SELECT count(*) FROM ts_target",
                 ticketPriorityService.findByName("HIGH").get(),
                 "0 */1 * * * ?",
                 true,
                 false,
                 ComparisonOperatorsEnum.GRATHER_EQUALS,
-                1L,
+                BigInteger.valueOf(1),
                 null,
                 QueryType.DATA_BASE_TABLE_MONITOR
         );
