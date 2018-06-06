@@ -55,6 +55,9 @@ public class MailReceiverController extends MailController{
     private TicketService ticketService;
 
     @Autowired
+    private CompanyService companyService;
+
+    @Autowired
     private TicketAttachmentService ticketAttachmentService;
 
     @Autowired
@@ -113,18 +116,22 @@ public class MailReceiverController extends MailController{
                 Message msg = messages[i];
                 Address[] fromAddress = msg.getFrom();
                 String from = fromAddress[0].toString();
+                from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
 
                 //Checking sender address, looking for match in db
                 if (!checkAddress(from)){
-                    msg.setFlag(Flags.Flag.SEEN, true);
-                    throw new MailRejectedException("***** E-mail rejected ******");
+                    if (!checkDomain(from)){
+                        msg.setFlag(Flags.Flag.SEEN, true);
+                        throw new MailRejectedException("***** E-mail rejected ******");
+                    }
                 }
-                from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
                 assignee = userService.findByEmail(from.toLowerCase().trim());
+
+                /*
                 if (!assignee.isPresent()){
                     msg.setFlag(Flags.Flag.SEEN, true);
                     throw new MailRejectedException("***** E-mail rejected ******");
-                }
+                }*/
 
                 String subject = msg.getSubject();
                 String toList = parseAddresses(msg.getRecipients(RecipientType.TO));
@@ -177,6 +184,10 @@ public class MailReceiverController extends MailController{
         } catch (MailRejectedException e) {
             System.out.println("Email rejected");
         }
+    }
+
+    private boolean checkDomain(String from) {
+        return this.companyService.existsByDomain(from.substring(from.indexOf("@") + 1));
     }
 
     //Returns a list of addresses in String format separated by comma
@@ -298,14 +309,13 @@ public class MailReceiverController extends MailController{
             TicketAttachment ticketAttachment = new TicketAttachment();
             //Check if exists attachment and save it
             if (this.flag){
-                bodyPart.saveFile(saveDirectory + File.separator + fileName);
+                bodyPart.saveFile(System.getProperty("user.dir") + saveDirectory + File.separator + fileName);
                 ticketAttachment.setFileName(fileName);
                 ticketAttachment.setTimestamp(Instant.now());
                 ticketAttachment.setTicket(ticket);
                 this.ticketAttachmentService.save(ticketAttachment);
                 this.flag = false;
             }
-
 
         } catch (Exception e) {
             System.out.println("Email rejected, format not respected");
