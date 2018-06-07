@@ -1,7 +1,6 @@
 package com.isssr.ticketing_system;
 
 import com.isssr.ticketing_system.model.*;
-import com.isssr.ticketing_system.model.auto_generated.Query;
 import com.isssr.ticketing_system.model.auto_generated.enumeration.ComparisonOperatorsEnum;
 import com.isssr.ticketing_system.model.auto_generated.temporary.DataBaseTimeQuery;
 import com.isssr.ticketing_system.model.auto_generated.temporary.QueryType;
@@ -17,8 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.plaf.nimbus.State;
-import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -76,9 +73,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private MailService mailService;
 
     @Autowired
-    private CompanyService companyService;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -95,7 +89,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (alreadySetup) return;
 
-        //this.configureCompany();
         this.configurePrivileges();
         this.configureRoles();
         this.configureVisibilities();
@@ -108,29 +101,14 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.configureRelationTypes();
         this.configureProducts();
         this.configureTeams();
-        //this.configureEmail();
-        this.createTicketAttachmentDir();
+        this.configureEmail();
         //this.generateTicket();
         //this.generateQueries();
-        //this.createReadOnlyUser();
+        this.createReadOnlyUser();
 
         //this.startScheduling();
 
         alreadySetup = true;
-    }
-
-    private void configureCompany() {
-        this.companyService.save(new Company("tor vergata", true, "uniroma2.it"));
-        this.companyService.save(new Company("own", false, "own.it"));
-    }
-
-    private void createTicketAttachmentDir() {
-        File dir = new File(System.getProperty("user.dir") + "/ticket_attachment");
-        //If directory doesn't exists create it
-        if (!dir.exists()){
-            boolean succes = dir.mkdir();
-            if (!succes) System.out.println("Error creating directory");
-        }
     }
 
     private void configurePrivileges() {
@@ -160,8 +138,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureUsers() {
-        this.userService.save(new User("Admin", "Admin", "admin@admin.com", passwordEncoder.encode("password"), this.companyService.findByName("own").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
-        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi@mail.com", passwordEncoder.encode("password"), this.companyService.findByName("tor vergata").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Admin", "Admin", "admin@admin.com", passwordEncoder.encode("password"), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
+        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi@mail.com", passwordEncoder.encode("password"), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
     }
 
     private void configurePriorities() {
@@ -207,10 +185,10 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private void configureTeams() {
         Team systemTeam = this.teamService.save(new Team("System team", userService.findByEmail("admin@admin.com").get()));
         systemTeam.getMembers().add(this.userService.findByEmail("andrea.silvi@mail.com").get());
-        this.teamService.save(systemTeam);
+        if (!this.teamService.existsByName(systemTeam.getName())) this.teamService.save(systemTeam);
     }
 
-    private void createReadOnlyUser(){
+    private void createReadOnlyUser() {
         try {
             Connection connection = this.jdbcTemplate.getDataSource().getConnection();
             Statement statement = connection.createStatement();
@@ -234,7 +212,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 ticketCategoryService.findByName("SYSTEM").get(),
                 "Auto generated ticket",
                 "This is an auto generated ticket description",
-                userService.findByEmail("admin@admin.com").get(),
                 targetService.findByName("System").get(),
                 ticketPriorityService.findByName("HIGH").get(),
                 visibilityService.findByName("PRIVATE").get(),

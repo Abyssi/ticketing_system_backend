@@ -25,6 +25,11 @@ public class UserService {
     private PageableUtils pageableUtils;
 
     @Transactional
+    public User create(User user) {
+        return this.userRepository.save(user);
+    }
+
+    @Transactional
     public User save(User user) {
         if (user.getId() == null && this.userRepository.existsByEmail(user.getEmail()))
             user.setId(this.findByEmail(user.getEmail()).get().getId());
