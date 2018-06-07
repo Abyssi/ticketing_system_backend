@@ -83,7 +83,7 @@ public class MailReceiverController extends MailController{
     }
 
     //Waiting for e-mails
-    @Scheduled(fixedDelay = 10000)
+    //@Scheduled(fixedDelay = 10000)
     public void receiveMail() {
         System.out.println("Reading emails...");
         Properties properties = getServerProperties(receiverHost, port);
@@ -103,7 +103,7 @@ public class MailReceiverController extends MailController{
             TicketSource ticketSource = null;
             TicketStatus ticketStatus = null;
             Visibility visibility = null;
-            Optional<User> assignee;
+            Optional<User> assignee = Optional.empty();
             if (messages.length != 0) {
                 ticketSource = ticketSourceService.findByName("MAIL").get();
                 ticketStatus = ticketStatusService.findByName("PENDING").get();
@@ -125,7 +125,8 @@ public class MailReceiverController extends MailController{
                         throw new MailRejectedException("***** E-mail rejected ******");
                     }
                 }
-                assignee = userService.findByEmail(from.toLowerCase().trim());
+                else assignee = userService.findByEmail(from.toLowerCase().trim());
+
 
                 /*
                 if (!assignee.isPresent()){

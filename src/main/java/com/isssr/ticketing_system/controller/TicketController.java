@@ -102,6 +102,7 @@ public class TicketController {
     @JsonView(JsonViews.DetailedTicket.class)
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_TEAM_COORDINATOR')")
     public ResponseEntity get(@PathVariable Long id) {
         Optional<Ticket> ticket = ticketService.findById(id);
 
