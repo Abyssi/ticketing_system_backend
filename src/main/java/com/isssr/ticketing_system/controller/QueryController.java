@@ -3,6 +3,8 @@ package com.isssr.ticketing_system.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.model.TicketPriority;
+import com.isssr.ticketing_system.model.auto_generated.db_metadata.Column;
+import com.isssr.ticketing_system.model.auto_generated.db_metadata.Table;
 import com.isssr.ticketing_system.model.auto_generated.temporary.DataBaseTimeQuery;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.HashMapResponseEntityBuilder;
@@ -111,9 +113,9 @@ public class QueryController {
 
         try {
 
-            List<String> tableNames = this.dbMetadataExtractor.getTableMetadata();
+            List<Table> tables = this.dbMetadataExtractor.getTableMetadata();
 
-            return new ResponseEntity<List<String>>(tableNames, HttpStatus.OK);
+            return new ResponseEntity<List<Table>>(tables, HttpStatus.OK);
 
         } catch (SQLException e) {
 
@@ -127,9 +129,9 @@ public class QueryController {
 
         try {
 
-            List<String> columns = this.dbMetadataExtractor.getTableColumns(tableName);
+            List<Column> columns = this.dbMetadataExtractor.getTableColumns(tableName);
 
-            return new ResponseEntity<List<String>>(columns, HttpStatus.OK);
+            return new ResponseEntity<List<Column>>(columns, HttpStatus.OK);
 
         } catch (SQLException e) {
 
