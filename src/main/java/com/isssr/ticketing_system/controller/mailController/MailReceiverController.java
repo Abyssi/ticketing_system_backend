@@ -83,7 +83,7 @@ public class MailReceiverController extends MailController {
     }
 
     //Waiting for e-mails
-    //@Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 10000)
     public void receiveMail() {
         System.out.println("Reading emails...");
         Properties properties = getServerProperties(receiverHost, port);
@@ -120,7 +120,9 @@ public class MailReceiverController extends MailController {
 
                 //Checking sender address, looking for match in db
                 if (!checkAddress(from)) {
+                    System.out.println("dmn");
                     if (!checkDomain(from)) {
+                        System.out.println("dmn");
                         msg.setFlag(Flags.Flag.SEEN, true);
                         throw new MailRejectedException("***** E-mail rejected ******");
                     }
@@ -272,7 +274,7 @@ public class MailReceiverController extends MailController {
 
             //Get right formatted text
             String productID = lines[1].substring(lines[1].indexOf(": ") + 1).toLowerCase();
-            productID = productID.substring(0, 2).toUpperCase() + productID.substring(1).trim();
+            productID = productID.substring(0, 1).toUpperCase() + productID.substring(1).trim();
             String category0 = lines[2].substring(lines[2].indexOf(": ") + 1).toLowerCase();
             String priority = lines[3].substring(lines[3].indexOf(": ") + 1).toLowerCase();
             String description = lines[4].substring(lines[4].indexOf(": ") + 1).toLowerCase();
