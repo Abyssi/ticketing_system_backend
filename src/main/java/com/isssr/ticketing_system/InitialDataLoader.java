@@ -257,7 +257,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 "*/5 * * * * ?",
                 true,
                 false,
-                ComparisonOperatorsEnum.GRATHER,
+                ComparisonOperatorsEnum.GREATER,
                 BigInteger.valueOf(1),
                 null,
                 QueryType.DATA_BASE_INSTANT_CHECK
@@ -287,7 +287,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 "0 */1 * * * ?",
                 true,
                 false,
-                ComparisonOperatorsEnum.GRATHER_EQUALS,
+                ComparisonOperatorsEnum.GREATER_EQUALS,
                 BigInteger.valueOf(1),
                 null,
                 QueryType.DATA_BASE_TABLE_MONITOR
