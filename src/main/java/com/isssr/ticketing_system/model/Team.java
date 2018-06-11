@@ -39,7 +39,7 @@ public class Team {
     @OneToOne
     private User leader;
 
-    @JsonView(JsonViews.DetailedTeam.class)
+    @JsonView(JsonViews.Basic.class)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "team_id")
     private Collection<User> members;

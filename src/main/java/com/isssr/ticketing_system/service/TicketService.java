@@ -158,7 +158,7 @@ public class TicketService {
 
     @Transactional
     public Page<Ticket> findByTitleContaining(@NotNull String title, Pageable pageable) {
-        return this.ticketRepository.findByTitleContaining(title, pageable);
+        return this.ticketRepository.findByTitleContainingAndDeleted(title, false, pageable);
     }
 
     @Transactional
