@@ -2,6 +2,7 @@ package com.isssr.ticketing_system.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.model.SoftDelete.SoftDeletableEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ import java.util.Collection;
 @Table(name = "ts_ticket")
 @DynamicInsert
 @DynamicUpdate
-public class Ticket {
+public class Ticket extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -109,11 +110,6 @@ public class Ticket {
     @JoinColumn(name = "ticket_id")
     private Collection<TicketComment> comments;
 
-    @JsonView(JsonViews.DetailedTicket.class)
-    @NonNull
-    @Column(name = "deleted")
-    private boolean deleted;
-
     public Collection<TicketAttachment> getAttachments() {
         return this.attachments == null ? (this.attachments = new ArrayList<>()) : this.attachments;
     }
@@ -164,23 +160,5 @@ public class Ticket {
         this.events = updatedData.events;
 
         this.comments = updatedData.comments;
-    }
-
-    public void markMeAsDeleted() {
-
-        this.deleted = true;
-
-    }
-
-    public void restoreMe() {
-
-        this.deleted = false;
-
-    }
-
-    public boolean isDeleted() {
-
-        return this.deleted;
-
     }
 }

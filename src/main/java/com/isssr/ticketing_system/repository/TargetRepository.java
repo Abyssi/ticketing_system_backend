@@ -16,10 +16,4 @@ public interface TargetRepository extends JpaRepository<Target, Long> {
     boolean existsByName(String name);
 
     Page<Target> findAll(Pageable pageable);
-
-    @Query("SELECT p FROM Target p where p.deleted = false")
-    Page<Target> findAllNotDeleted(Pageable pageable);
-
-    @Query("SELECT p FROM Target p where p.deleted = true")
-    Page<Target> findAllDeleted(Pageable pageable);
 }

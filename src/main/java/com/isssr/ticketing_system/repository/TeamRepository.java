@@ -16,10 +16,4 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     boolean existsByName(String name);
 
     Page<Team> findAll(Pageable pageable);
-
-    @Query("SELECT t FROM Team t where t.deleted = false")
-    Page<Team> findAllNotDeleted(Pageable pageable);
-
-    @Query("SELECT t FROM Team t where t.deleted = true")
-    Page<Team> findAllDeleted(Pageable pageable);
 }

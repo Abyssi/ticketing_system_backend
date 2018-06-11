@@ -208,7 +208,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureProducts() {
-        this.targetService.save(new Target("System", "1.0", false));
+        this.targetService.save(new Target("System", "1.0"));
     }
 
     private void configureTeams() {
@@ -243,8 +243,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 "This is an auto generated ticket description",
                 targetService.findByName("System").get(),
                 ticketPriorityService.findByName("HIGH").get(),
-                visibilityService.findByName("PRIVATE").get(),
-                false
+                visibilityService.findByName("PRIVATE").get()
         ));
     }
 
