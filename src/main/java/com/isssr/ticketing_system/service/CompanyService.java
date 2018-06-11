@@ -15,9 +15,7 @@ public class CompanyService {
     private CompanyRepository companyRepository;
 
     @Transactional
-    public Company save(Company company) {
-        return this.companyRepository.save(company);
-    }
+    public Company save(Company company) {return this.companyRepository.save(company); }
 
     @Transactional
     public Optional<Company> findByName(String name) {
@@ -25,12 +23,10 @@ public class CompanyService {
     }
 
     @Transactional
-    public boolean existsByName(String name) {
-        return this.companyRepository.existsByName(name);
+    public boolean existsByName(String name) {return this.companyRepository.existsByName(name);
     }
 
     @Transactional
-    public boolean existsByDomain(String domain) {
-        return this.companyRepository.existsByDomain(domain);
+    public boolean existsByDomain(String domain) {return this.companyRepository.existsByDomain(domain);
     }
 }
