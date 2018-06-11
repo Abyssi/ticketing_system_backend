@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -74,6 +75,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private CompanyService companyService;
 
     @Autowired
+    private SetupService setupService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -85,32 +89,51 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private boolean firstSchedulingAlreadyDone = false;
+
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        this.configureCompany();
-        this.configurePrivileges();
-        this.configureRoles();
-        this.configureVisibilities();
-        this.configureUsers();
-        this.configurePriorities();
-        this.configureCategories();
-        this.configureSources();
-        this.configureStatuses();
-        this.configureDifficulties();
-        this.configureRelationTypes();
-        this.configureProducts();
-        this.configureTeams();
-        this.configureEmail();
-        //this.generateTicket();
-        //this.generateQueries();
-        //this.createReadOnlyUser();
+        //Check if db is already setup, Otherwise set up it
+        if (!this.checkConfig()) {
+            this.configureCompany();
+            this.configurePrivileges();
+            this.configureRoles();
+            this.configureVisibilities();
+            this.configureUsers();
+            this.configurePriorities();
+            this.configureCategories();
+            this.configureSources();
+            this.configureStatuses();
+            this.configureDifficulties();
+            this.configureRelationTypes();
+            this.configureProducts();
+            this.configureTeams();
+            this.configureEmail();
+            this.generateTicket();
+            this.generateQueries();
+            this.createReadOnlyUser();
+
+            //Make db setup
+            this.setAlreadySetup(true);
+        }
+
+        if (this.firstSchedulingAlreadyDone) return;
 
         //this.startScheduling();
 
+        this.firstSchedulingAlreadyDone = true;
+
     }
 
+    private void setAlreadySetup(boolean b) {
+        this.setupService.save(new Setup(true));
+    }
+
+    private boolean checkConfig() {
+        return this.setupService.existsBySetup(true);
+    }
 
     private void configureCompany() {
         if (!this.companyService.existsByName("test")) this.companyService.save(new Company("test", false, "test.it"));
@@ -122,7 +145,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureEmail() {
-        if (!this.mailService.existsByType("FORMAT")) this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
+        if (!this.mailService.existsByType("FORMAT"))
+            this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
     }
 
     private void configureRoles() {
@@ -227,14 +251,14 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private void generateQueries() {
 
         DataBaseTimeQuery query = new DataBaseTimeQuery(
-                "This query check number of products in product table, if it is grater than 1 generate alert ticket",
-                "SELECT count(*) FROM ts_product",
+                "This query check number of targets in target table, if it is grater than 1 generate alert ticket",
+                "SELECT count(*) FROM ts_target",
                 ticketPriorityService.findByName("HIGH").get(),
                 "*/5 * * * * ?",
                 true,
                 false,
-                ComparisonOperatorsEnum.GRATHER,
-                1L,
+                ComparisonOperatorsEnum.GREATER,
+                BigInteger.valueOf(1),
                 null,
                 QueryType.DATA_BASE_INSTANT_CHECK
         );
@@ -242,14 +266,14 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.queryService.create(query);
 
         query = new DataBaseTimeQuery(
-                "This query check number of teams in product table, if it is less than 1000 generate alert ticket",
+                "This query check number of teams in team table, if it is less than 1000 generate alert ticket",
                 "SELECT count(*) FROM ts_team",
                 ticketPriorityService.findByName("HIGH").get(),
                 "*/8 * * * * ?",
                 true,
                 false,
                 ComparisonOperatorsEnum.LESS,
-                1000L,
+                BigInteger.valueOf(1000),
                 null,
                 QueryType.DATA_BASE_INSTANT_CHECK
         );
@@ -257,14 +281,14 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.queryService.create(query);
 
         query = new DataBaseTimeQuery(
-                "This query check number of products in product table, if it is growth of 1 or more generate alert ticket",
-                "SELECT count(*) FROM ts_product",
+                "This query check number of targets in target table, if it is growth of 1 or more generate alert ticket",
+                "SELECT count(*) FROM ts_target",
                 ticketPriorityService.findByName("HIGH").get(),
                 "0 */1 * * * ?",
                 true,
                 false,
-                ComparisonOperatorsEnum.GRATHER_EQUALS,
-                1L,
+                ComparisonOperatorsEnum.GREATER_EQUALS,
+                BigInteger.valueOf(1),
                 null,
                 QueryType.DATA_BASE_TABLE_MONITOR
         );

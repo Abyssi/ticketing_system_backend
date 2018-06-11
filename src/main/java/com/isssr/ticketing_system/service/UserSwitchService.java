@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 @Configuration
@@ -62,6 +63,13 @@ public class UserSwitchService {
             System.out.println("Query not allowed");
         }
         return list;
+    }
+
+    public Connection getReadOnlyConnection() throws SQLException {
+
+        this.jdbcTemplate.setDataSource(getDataSource(USER_MODE));
+
+        return this.jdbcTemplate.getDataSource().getConnection();
     }
 
     //Get Connection with a 'read only' user to db

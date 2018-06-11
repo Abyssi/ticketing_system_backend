@@ -103,14 +103,14 @@ public class DataBaseQuery extends QueryDecorator {
 
                 return comparison == 0;
 
-            case GRATHER:
+            case GREATER:
 
                 return comparison > 0;
             case LESS_EQUALS:
 
                 return comparison <= 0;
 
-            case GRATHER_EQUALS:
+            case GREATER_EQUALS:
 
                 return comparison >= 0;
 

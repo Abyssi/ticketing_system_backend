@@ -8,6 +8,7 @@ import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -18,13 +19,15 @@ import java.util.Collection;
 
 @Data
 @NoArgsConstructor
+@RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_team")
+@Table(name = "ts_company")
 @DynamicInsert
 @DynamicUpdate
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Team {
+public class Company {
+
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,63 +39,44 @@ public class Team {
 
     @JsonView(JsonViews.Basic.class)
     @NonNull
-    @OneToOne
-    private User leader;
+    @Column(name = "enable")
+    private boolean enable;
 
     @JsonView(JsonViews.Basic.class)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "team_id")
-    private Collection<User> members;
-
-    @JsonView(JsonViews.DetailedTeam.class)
     @NonNull
-    @Column(name = "deleted")
-    private boolean deleted;
+    private String domain;
 
-    // leader should be one of members
-    public Team(String name, User leader) {
-        this.name = name;
-        this.setLeader(leader);
-    }
-
-    public void setLeader(User leader) {
-        if (this.leader != null) this.getMembers().remove(this.leader);
-        this.getMembers().add(leader);
-        this.leader = leader;
-    }
+    @JsonView(JsonViews.DetailedCompany.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "company_id")
+    private Collection<User> members;
 
     public Collection<User> getMembers() {
         return this.members == null ? (this.members = new ArrayList<>()) : this.members;
     }
 
-    public void updateMe(@NotNull Team updatedData) throws UpdateException {
+    public void updateMe(@NotNull Company updatedData) throws UpdateException {
 
         if (this.id.longValue() != updatedData.id.longValue())
             throw new UpdateException("Attempt to update a team record without ID matching");
 
-        this.name = updatedData.name;
+        this.enable = updatedData.enable;
 
-        this.leader = updatedData.leader;
+        this.domain = updatedData.domain;
 
         this.members = updatedData.members;
 
     }
 
-    public void markMeAsDeleted() {
+    public void setDomainEnable(boolean flag) {
 
-        this.deleted = true;
-
-    }
-
-    public void restoreMe() {
-
-        this.deleted = false;
+        this.enable = flag;
 
     }
 
-    public boolean isDeleted() {
+    public boolean isEnabled() {
 
-        return this.deleted;
+        return this.enable;
 
     }
 }

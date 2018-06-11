@@ -18,7 +18,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     @Query("SELECT t FROM Ticket t where t.deleted = true")
     Page<Ticket> findAllDeleted(Pageable pageable);
 
-    Page<Ticket> findByTitleContaining(String title, Pageable pageable);
+    Page<Ticket> findByTitleContainingAndDeleted(String title, boolean isDeleted, Pageable pageable);
 
 
 }
