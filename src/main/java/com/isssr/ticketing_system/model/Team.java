@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.model.SoftDelete.SoftDeletableEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ import java.util.Collection;
 @DynamicInsert
 @DynamicUpdate
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Team {
+public class Team extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,11 +44,6 @@ public class Team {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "team_id")
     private Collection<User> members;
-
-    @JsonView(JsonViews.DetailedTeam.class)
-    @NonNull
-    @Column(name = "deleted")
-    private boolean deleted;
 
     // leader should be one of members
     public Team(String name, User leader) {
@@ -75,24 +71,6 @@ public class Team {
         this.leader = updatedData.leader;
 
         this.members = updatedData.members;
-
-    }
-
-    public void markMeAsDeleted() {
-
-        this.deleted = true;
-
-    }
-
-    public void restoreMe() {
-
-        this.deleted = false;
-
-    }
-
-    public boolean isDeleted() {
-
-        return this.deleted;
 
     }
 }

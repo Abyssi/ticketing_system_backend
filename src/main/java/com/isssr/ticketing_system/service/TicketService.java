@@ -3,12 +3,13 @@ package com.isssr.ticketing_system.service;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.model.SoftDelete.SoftDelete;
+import com.isssr.ticketing_system.model.SoftDelete.SoftDeleteKind;
 import com.isssr.ticketing_system.model.Ticket;
 import com.isssr.ticketing_system.repository.TicketRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
+@SoftDelete(SoftDeleteKind.NOT_DELETED)
 public class TicketService {
     @Autowired
     private TicketRepository ticketRepository;
@@ -81,7 +83,7 @@ public class TicketService {
 
             } else {
 
-                ticket.markMeAsDeleted();
+                ticket.delete();
 
                 this.ticketRepository.save(ticket);
             }
@@ -96,7 +98,7 @@ public class TicketService {
 
             Ticket ticket = this.ticketRepository.getOne(id);
 
-            ticket.restoreMe();
+            ticket.restore();
 
             return this.ticketRepository.save(ticket);
 
@@ -112,13 +114,9 @@ public class TicketService {
     }
 
     @Transactional
-    public Page<Ticket> findAll(Pageable pageable) {
-        return this.ticketRepository.findAll(pageable);
-    }
-
-    @Transactional
+    @SoftDelete(SoftDeleteKind.ALL)
     public Page<Ticket> findAll(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
-        Page<Ticket> retrievedPage = this.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
+        Page<Ticket> retrievedPage = this.ticketRepository.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
         if (page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
@@ -127,8 +125,9 @@ public class TicketService {
     }
 
     @Transactional
+    @SoftDelete(SoftDeleteKind.NOT_DELETED)
     public Page<Ticket> findAllNotDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
-        Page<Ticket> retrievedPage = this.findAllNotDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
+        Page<Ticket> retrievedPage = this.ticketRepository.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
         if (page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
@@ -137,28 +136,19 @@ public class TicketService {
     }
 
     @Transactional
-    public Page<Ticket> findAllNotDeleted(PageRequest pageRequest) {
-        return this.ticketRepository.findAllNotDeleted(pageRequest);
-    }
-
-    @Transactional
+    @SoftDelete(SoftDeleteKind.DELETED)
     public Page<Ticket> findAllDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
-        Page<Ticket> retrievedPage = this.findAllDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
+        Page<Ticket> retrievedPage = this.ticketRepository.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
         if (page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
 
         return retrievedPage;
-    }
-
-    @Transactional
-    public Page<Ticket> findAllDeleted(PageRequest pageRequest) {
-        return this.ticketRepository.findAllDeleted(pageRequest);
     }
 
     @Transactional
     public Page<Ticket> findByTitleContaining(@NotNull String title, Pageable pageable) {
-        return this.ticketRepository.findByTitleContainingAndDeleted(title, false, pageable);
+        return this.ticketRepository.findByTitleContaining(title, pageable);
     }
 
     @Transactional

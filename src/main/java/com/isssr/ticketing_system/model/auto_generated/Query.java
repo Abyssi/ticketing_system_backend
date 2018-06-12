@@ -1,6 +1,10 @@
 package com.isssr.ticketing_system.model.auto_generated;
 
+import com.isssr.ticketing_system.model.SoftDelete.SoftDeletable;
 import com.isssr.ticketing_system.model.TicketPriority;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 
 import java.util.Observable;
 
@@ -11,7 +15,9 @@ import java.util.Observable;
 @Getter
 @Setter
 @NoArgsConstructor*/
-public abstract class Query extends Observable implements Runnable {
+@FilterDef(name = "deleted_filter", parameters = {@ParamDef(name = "value", type = "boolean")})
+@Filter(name = "deleted_filter", condition = "deleted = :value")
+public abstract class Query extends Observable implements Runnable, SoftDeletable {
 
     /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +37,7 @@ public abstract class Query extends Observable implements Runnable {
     @NonNull*/
     protected boolean active = true;
 
-    /*@IncludeInResponse({"full"})
-    @NonNull*/
-    protected boolean deleted = false;
+    private boolean deleted;
 
     /**
      * implement this method to activate query process
@@ -51,22 +55,20 @@ public abstract class Query extends Observable implements Runnable {
 
     public abstract TicketPriority priority();
 
-    public void markMeAsDeleted() {
 
+    @Override
+    public void delete() {
         this.deleted = true;
-
     }
 
-    public void restoreMe() {
-
+    @Override
+    public void restore() {
         this.deleted = false;
-
     }
 
+    @Override
     public boolean isDeleted() {
-
         return this.deleted;
-
     }
 
     public void markMeAsNotActive() {

@@ -147,6 +147,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private void configureEmail() {
         if (!this.mailService.existsByType("FORMAT"))
             this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
+        if (!this.mailService.existsByType("TICKET_OPENED"))
+            this.mailService.save(new Mail("Ticket opened", "Ticket successfully created", "TICKET_OPENED"));
     }
 
     private void configureRoles() {
@@ -168,7 +170,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private void configureUsers() {
         this.userService.save(new User("Admin", "Admin", "admin@admin.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
-        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi@mail.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi94@gmail.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
     }
 
     private void configurePriorities() {
@@ -208,12 +210,12 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureProducts() {
-        this.targetService.save(new Target("System", "1.0", false));
+        this.targetService.save(new Target("System", "1.0"));
     }
 
     private void configureTeams() {
         Team systemTeam = this.teamService.save(new Team("System team", userService.findByEmail("admin@admin.com").get()));
-        systemTeam.getMembers().add(this.userService.findByEmail("andrea.silvi@mail.com").get());
+        systemTeam.getMembers().add(this.userService.findByEmail("andrea.silvi94@gmail.com").get());
         if (!this.teamService.existsByName(systemTeam.getName())) this.teamService.save(systemTeam);
     }
 
@@ -243,8 +245,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 "This is an auto generated ticket description",
                 targetService.findByName("System").get(),
                 ticketPriorityService.findByName("HIGH").get(),
-                visibilityService.findByName("PRIVATE").get(),
-                false
+                visibilityService.findByName("PRIVATE").get()
         ));
     }
 

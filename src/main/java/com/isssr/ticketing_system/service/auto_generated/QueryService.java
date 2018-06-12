@@ -93,7 +93,7 @@ public class QueryService {
 
             } else {
 
-                query.markMeAsDeleted();
+                query.delete();
 
                 this.queryRepository.save(query);
             }
@@ -108,7 +108,7 @@ public class QueryService {
 
             DataBaseTimeQuery query = this.queryRepository.getOne(id);
 
-            query.restoreMe();
+            query.restore();
 
             return this.queryRepository.save(query);
 

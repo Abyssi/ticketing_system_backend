@@ -7,7 +7,6 @@ import com.isssr.ticketing_system.service.*;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import javax.mail.*;
@@ -300,7 +299,6 @@ public class MailReceiverController extends MailController {
             ticket.setSource(ticketSource);
             ticket.setVisibility(visibility);
             ticket.setCreationTimestamp(Instant.now());
-            ticket.setDeleted(false);
             ticket.setAssignee(assignee);
 
             this.ticketService.save(ticket);
