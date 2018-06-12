@@ -85,7 +85,7 @@ public class MailReceiverController extends MailController {
     //Waiting for e-mails
     @Scheduled(fixedDelay = 10000)
     public void receiveMail() {
-        System.out.println("Reading emails...");
+        //System.out.println("Reading emails...");
         Properties properties = getServerProperties(receiverHost, port);
         Session session = Session.getDefaultInstance(properties);
 
