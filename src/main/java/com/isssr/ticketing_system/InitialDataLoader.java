@@ -148,7 +148,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         if (!this.mailService.existsByType("FORMAT"))
             this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
         if (!this.mailService.existsByType("TICKET_OPENED"))
-            this.mailService.save(new Mail("Apertura ticket", "Ticket creato con successo.", "TICKET_OPENED"));
+            this.mailService.save(new Mail("Ticket opened", "Ticket successfully created", "TICKET_OPENED"));
     }
 
     private void configureRoles() {
@@ -210,8 +210,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureProducts() {
-        this.targetService.save(new Target("system", "1.0", false));
-        this.targetService.save(new Target("test", "2.3", false));
+        this.targetService.save(new Target("System", "1.0"));
     }
 
     private void configureTeams() {

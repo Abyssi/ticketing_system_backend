@@ -274,7 +274,6 @@ public class MailReceiverController extends MailController {
 
             //Get right formatted text
             String productID = lines[1].substring(lines[1].indexOf(": ") + 1).toLowerCase();
-            productID = productID.substring(0, 1).toUpperCase() + productID.substring(1).trim();
             String category0 = lines[2].substring(lines[2].indexOf(": ") + 1).toLowerCase();
             String priority = lines[3].substring(lines[3].indexOf(": ") + 1).toLowerCase();
             String description = lines[4].substring(lines[4].indexOf(": ") + 1).toLowerCase();
@@ -302,8 +301,9 @@ public class MailReceiverController extends MailController {
             ticket.setSource(ticketSource);
             ticket.setVisibility(visibility);
             ticket.setCreationTimestamp(Instant.now());
-            ticket.setDeleted(false);
             if (assignee != null) ticket.setCustomer(assignee);
+            ticket.setAssignee(assignee);
+
             this.ticketService.save(ticket);
 
             TicketAttachment ticketAttachment = new TicketAttachment();
