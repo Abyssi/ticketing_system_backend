@@ -56,8 +56,8 @@
       <file leaf-file-name="InitialDataLoader.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/InitialDataLoader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="170" column="35" selection-start-line="170" selection-start-column="35" selection-end-line="170" selection-end-column="35" />
+            <state relative-caret-position="164">
+              <caret line="218" column="84" selection-start-line="218" selection-start-column="84" selection-end-line="218" selection-end-column="84" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -79,6 +79,7 @@
       <find>ADMIN</find>
       <find>markMeAsDeleted</find>
       <find>WHERE deleted = FALSE</find>
+      <find>andrea.si</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system</dir>
@@ -494,7 +495,7 @@
       <workItem from="1528711723625" duration="12567000" />
       <workItem from="1528741266659" duration="3614000" />
       <workItem from="1528746732461" duration="190000" />
-      <workItem from="1528807446643" duration="4065000" />
+      <workItem from="1528807446643" duration="4147000" />
     </task>
     <task id="LOCAL-00001" summary="table and column data base metadata driven improved">
       <created>1528366938242</created>
@@ -507,7 +508,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27152000" />
+    <option name="totallyTimeSpent" value="27234000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -953,8 +954,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/InitialDataLoader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="170" column="35" selection-start-line="170" selection-start-column="35" selection-end-line="170" selection-end-column="35" />
+        <state relative-caret-position="164">
+          <caret line="218" column="84" selection-start-line="218" selection-start-column="84" selection-end-line="218" selection-end-column="84" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
