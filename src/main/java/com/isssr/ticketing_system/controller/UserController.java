@@ -63,7 +63,6 @@ public class UserController {
 
     @JsonView(JsonViews.DetailedUser.class)
     @RequestMapping(method = RequestMethod.PUT)
-    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity create(@Valid @RequestBody User user) {
         if (userService.existsByEmail(user.getEmail()))
             return CommonResponseEntity.UnprocessableEntityResponseEntity("EMAIL_ALREADY_REGISTERED");
