@@ -83,7 +83,7 @@ public class MailReceiverController extends MailController {
     }
 
     //Waiting for e-mails
-    //@Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 10000)
     public void receiveMail() {
         System.out.println("Reading emails...");
         Properties properties = getServerProperties(receiverHost, port);
@@ -103,7 +103,7 @@ public class MailReceiverController extends MailController {
             TicketSource ticketSource = null;
             TicketStatus ticketStatus = null;
             Visibility visibility = null;
-            Optional<User> assignee = Optional.empty();
+            User customer;
             if (messages.length != 0) {
                 ticketSource = ticketSourceService.findByName("MAIL").get();
                 ticketStatus = ticketStatusService.findByName("PENDING").get();
@@ -120,13 +120,12 @@ public class MailReceiverController extends MailController {
 
                 //Checking sender address, looking for match in db
                 if (!checkAddress(from)) {
-                    System.out.println("dmn");
                     if (!checkDomain(from)) {
-                        System.out.println("dmn");
                         msg.setFlag(Flags.Flag.SEEN, true);
                         throw new MailRejectedException("***** E-mail rejected ******");
                     }
-                } else assignee = userService.findByEmail(from.toLowerCase().trim());
+                    else customer = null;
+                } else customer = userService.findByEmail(from.toLowerCase().trim()).get();
 
 
                 /*
@@ -158,11 +157,12 @@ public class MailReceiverController extends MailController {
                 System.out.println("\t Message: " + messageContent);
 
                 if (isFormatted(messageContent)) {
-                    if (parseFormattedEmail(subject, messageContent, ticketSource, ticketStatus, visibility, assignee.get()) == null) {
+
+                    if (parseFormattedEmail(subject, messageContent, ticketSource, ticketStatus, visibility, customer) == null) {
                         this.mailSenderController.sendMail(from, "FORMAT");
                         throw new MailRejectedException("***** Sintax Error *****");
                     }
-                    //else ticketService.save(ticket);
+                    else this.mailSenderController.sendMail(from, "TICKET_OPENED");
                 } else {
                     //Send email response
                     this.mailSenderController.sendMail(from, "FORMAT");
@@ -246,7 +246,7 @@ public class MailReceiverController extends MailController {
 
     //Switch between formatted and unformatted email
     private boolean isFormatted(String content) {
-        String[] ticketAttribute = new String[]{"descrizione", "categoria", "prodotto", "priorita"};
+        String[] ticketAttribute = new String[]{"descrizione", "categoria", "target", "priorita"};
 
         //Avoid case sensitive match error
         content = content.toLowerCase();
@@ -261,7 +261,7 @@ public class MailReceiverController extends MailController {
 
     //Check email sender
     private boolean checkAddress(String sender) {
-        return userService.findByEmail(sender) != null;
+        return userService.existsByEmail(sender);
     }
 
     //Parser for a formatted e-mail
@@ -303,8 +303,7 @@ public class MailReceiverController extends MailController {
             ticket.setVisibility(visibility);
             ticket.setCreationTimestamp(Instant.now());
             ticket.setDeleted(false);
-            ticket.setAssignee(assignee);
-
+            if (assignee != null) ticket.setCustomer(assignee);
             this.ticketService.save(ticket);
 
             TicketAttachment ticketAttachment = new TicketAttachment();
