@@ -147,6 +147,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private void configureEmail() {
         if (!this.mailService.existsByType("FORMAT"))
             this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
+        if (!this.mailService.existsByType("TICKET_OPENED"))
+            this.mailService.save(new Mail("Apertura ticket", "Ticket creato con successo", "TICKET_OPENED"));
     }
 
     private void configureRoles() {
