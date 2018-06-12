@@ -3,10 +3,10 @@ package com.isssr.ticketing_system.model.auto_generated.enumeration;
 
 public enum ComparisonOperatorsEnum {
 
-    GRATHER,
+    GREATER,
     LESS,
     EQUALS,
-    GRATHER_EQUALS,
+    GREATER_EQUALS,
     LESS_EQUALS
 
 }

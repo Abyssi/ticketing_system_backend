@@ -3,13 +3,13 @@ package com.isssr.ticketing_system.service;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.model.SoftDelete.SoftDelete;
+import com.isssr.ticketing_system.model.SoftDelete.SoftDeleteKind;
 import com.isssr.ticketing_system.model.Team;
 import com.isssr.ticketing_system.repository.TeamRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
+@SoftDelete(SoftDeleteKind.NOT_DELETED)
 public class TeamService {
     @Autowired
     private TeamRepository teamRepository;
@@ -81,7 +82,7 @@ public class TeamService {
 
             } else {
 
-                team.markMeAsDeleted();
+                team.delete();
 
                 this.teamRepository.save(team);
             }
@@ -96,7 +97,7 @@ public class TeamService {
 
             Team team = this.teamRepository.getOne(id);
 
-            team.restoreMe();
+            team.restore();
 
             return this.teamRepository.save(team);
 
@@ -122,13 +123,9 @@ public class TeamService {
     }
 
     @Transactional
-    public Page<Team> findAll(Pageable pageable) {
-        return this.teamRepository.findAll(pageable);
-    }
-
-    @Transactional
+    @SoftDelete(SoftDeleteKind.ALL)
     public Page<Team> findAll(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
-        Page<Team> retrievedPage = this.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
+        Page<Team> retrievedPage = this.teamRepository.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
         if (page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
@@ -137,8 +134,9 @@ public class TeamService {
     }
 
     @Transactional
+    @SoftDelete(SoftDeleteKind.NOT_DELETED)
     public Page<Team> findAllNotDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
-        Page<Team> retrievedPage = this.findAllNotDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
+        Page<Team> retrievedPage = this.teamRepository.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
         if (page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
@@ -147,22 +145,13 @@ public class TeamService {
     }
 
     @Transactional
-    public Page<Team> findAllNotDeleted(PageRequest pageRequest) {
-        return this.teamRepository.findAllNotDeleted(pageRequest);
-    }
-
-    @Transactional
+    @SoftDelete(SoftDeleteKind.DELETED)
     public Page<Team> findAllDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
-        Page<Team> retrievedPage = this.findAllDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
+        Page<Team> retrievedPage = this.teamRepository.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
         if (page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
 
         return retrievedPage;
-    }
-
-    @Transactional
-    public Page<Team> findAllDeleted(PageRequest pageRequest) {
-        return this.teamRepository.findAllDeleted(pageRequest);
     }
 }

@@ -2,6 +2,7 @@ package com.isssr.ticketing_system.model.auto_generated.temporary;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.model.SoftDelete.SoftDeletable;
 import com.isssr.ticketing_system.model.TicketPriority;
 import com.isssr.ticketing_system.model.auto_generated.enumeration.ComparisonOperatorsEnum;
 import com.isssr.ticketing_system.response_entity.JsonViews;
@@ -11,12 +12,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.*;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Observable;
@@ -32,7 +34,9 @@ import java.util.Observable;
 
 @PersistJobDataAfterExecution //persist data after execution of a job
 @DisallowConcurrentExecution //avoid race condition on persisted data
-public class DataBaseTimeQuery extends Observable implements Job, Serializable {
+@FilterDef(name = "deleted_filter", parameters = {@ParamDef(name = "value", type = "boolean")})
+@Filter(name = "deleted_filter", condition = "deleted = :value")
+public class DataBaseTimeQuery extends Observable implements Job, Serializable, SoftDeletable {
 
     @Transient
     public static final String MAP_ME = "ME";
@@ -64,9 +68,7 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable {
     @NonNull
     private boolean active = true;
 
-    @NonNull
-    @Column(name = "deleted")
-    private boolean deleted = false;
+    private boolean deleted;
 
     @JsonView(JsonViews.Detailed.class)
     @NonNull
@@ -212,14 +214,14 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable {
 
                 return comparison == 0;
 
-            case GRATHER:
+            case GREATER:
 
                 return comparison > 0;
             case LESS_EQUALS:
 
                 return comparison <= 0;
 
-            case GRATHER_EQUALS:
+            case GREATER_EQUALS:
 
                 return comparison >= 0;
 
@@ -235,22 +237,19 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable {
 
     }
 
-    public void markMeAsDeleted() {
-
+    @Override
+    public void delete() {
         this.deleted = true;
-
     }
 
-    public void restoreMe() {
-
+    @Override
+    public void restore() {
         this.deleted = false;
-
     }
 
+    @Override
     public boolean isDeleted() {
-
         return this.deleted;
-
     }
 
     public void markMeAsNotActive() {

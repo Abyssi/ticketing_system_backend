@@ -1,6 +1,7 @@
 package com.isssr.ticketing_system.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.isssr.ticketing_system.controller.mailController.MailSenderController;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
@@ -54,6 +55,9 @@ public class TicketController {
     @Autowired
     private TicketPriorityService priorityService;
 
+    @Autowired
+    private MailSenderController mailSenderController;
+
     private TicketValidator ticketValidator;
 
     @Autowired
@@ -90,11 +94,13 @@ public class TicketController {
     @JsonView(JsonViews.DetailedTicket.class)
     @RequestMapping(method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
-    public ResponseEntity create(@Valid @RequestBody Ticket ticket) {
+    public ResponseEntity create(@Valid @RequestBody Ticket ticket, @AuthenticationPrincipal Principal principal) {
         ticket.setCreationTimestamp(Instant.now());
         ticket.setSource(ticketSourceService.findByName("CLIENT").get());
         ticket.setStatus(ticketStatusService.findByName("INITIALIZED").get());
         ticketService.save(ticket);
+
+        new Thread(() -> mailSenderController.sendMail(principal.getName(), "TICKET_OPENED")).start();
 
         return CommonResponseEntity.OkResponseEntity("CREATED");
     }

@@ -170,7 +170,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private void configureUsers() {
         this.userService.save(new User("Admin", "Admin", "admin@admin.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
-        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi@mail.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi94@gmail.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
     }
 
     private void configurePriorities() {
@@ -216,7 +216,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private void configureTeams() {
         Team systemTeam = this.teamService.save(new Team("System team", userService.findByEmail("admin@admin.com").get()));
-        systemTeam.getMembers().add(this.userService.findByEmail("andrea.silvi@mail.com").get());
+        systemTeam.getMembers().add(this.userService.findByEmail("andrea.silvi94@gmail.com").get());
         if (!this.teamService.existsByName(systemTeam.getName())) this.teamService.save(systemTeam);
     }
 
@@ -246,8 +246,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 "This is an auto generated ticket description",
                 targetService.findByName("System").get(),
                 ticketPriorityService.findByName("HIGH").get(),
-                visibilityService.findByName("PRIVATE").get(),
-                false
+                visibilityService.findByName("PRIVATE").get()
         ));
     }
 
@@ -260,7 +259,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 "*/5 * * * * ?",
                 true,
                 false,
-                ComparisonOperatorsEnum.GRATHER,
+                ComparisonOperatorsEnum.GREATER,
                 BigInteger.valueOf(1),
                 null,
                 QueryType.DATA_BASE_INSTANT_CHECK
@@ -290,7 +289,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 "0 */1 * * * ?",
                 true,
                 false,
-                ComparisonOperatorsEnum.GRATHER_EQUALS,
+                ComparisonOperatorsEnum.GREATER_EQUALS,
                 BigInteger.valueOf(1),
                 null,
                 QueryType.DATA_BASE_TABLE_MONITOR
