@@ -148,7 +148,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         if (!this.mailService.existsByType("FORMAT"))
             this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
         if (!this.mailService.existsByType("TICKET_OPENED"))
-            this.mailService.save(new Mail("Apertura ticket", "Ticket creato con successo", "TICKET_OPENED"));
+            this.mailService.save(new Mail("Ticket opened", "Ticket successfully created", "TICKET_OPENED"));
     }
 
     private void configureRoles() {
@@ -170,7 +170,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private void configureUsers() {
         this.userService.save(new User("Admin", "Admin", "admin@admin.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
-        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi@mail.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi94@gmail.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
     }
 
     private void configurePriorities() {
