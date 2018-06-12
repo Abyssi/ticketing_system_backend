@@ -7,6 +7,7 @@ import com.isssr.ticketing_system.service.*;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import javax.mail.*;
@@ -82,7 +83,7 @@ public class MailReceiverController extends MailController {
     }
 
     //Waiting for e-mails
-    //@Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 10000)
     public void receiveMail() {
         System.out.println("Reading emails...");
         Properties properties = getServerProperties(receiverHost, port);
@@ -243,7 +244,7 @@ public class MailReceiverController extends MailController {
 
     //Switch between formatted and unformatted email
     private boolean isFormatted(String content) {
-        String[] ticketAttribute = new String[]{"descrizione", "categoria", "prodotto", "priorita"};
+        String[] ticketAttribute = new String[]{"descrizione", "categoria", "target", "priorita"};
 
         //Avoid case sensitive match error
         content = content.toLowerCase();
@@ -271,7 +272,6 @@ public class MailReceiverController extends MailController {
 
             //Get right formatted text
             String productID = lines[1].substring(lines[1].indexOf(": ") + 1).toLowerCase();
-            productID = productID.substring(0, 2).toUpperCase() + productID.substring(1).trim();
             String category0 = lines[2].substring(lines[2].indexOf(": ") + 1).toLowerCase();
             String priority = lines[3].substring(lines[3].indexOf(": ") + 1).toLowerCase();
             String description = lines[4].substring(lines[4].indexOf(": ") + 1).toLowerCase();
