@@ -16,7 +16,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_visibility")
+@Table(name = "visibility")
 @DynamicInsert
 @DynamicUpdate
 public class Visibility {

@@ -28,7 +28,7 @@ import java.util.Observable;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_data_base_time_query")
+@Table(name = "data_base_time_query")
 @DynamicInsert
 @DynamicUpdate
 

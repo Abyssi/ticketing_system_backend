@@ -22,7 +22,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_ticket")
+@Table(name = "ticket")
 @DynamicInsert
 @DynamicUpdate
 public class Ticket extends SoftDeletableEntity {

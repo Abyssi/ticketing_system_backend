@@ -16,7 +16,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_privilege")
+@Table(name = "privilege")
 @DynamicInsert
 @DynamicUpdate
 public class Privilege {

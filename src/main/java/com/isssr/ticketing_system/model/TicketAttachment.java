@@ -17,7 +17,7 @@ import java.time.Instant;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_ticket_attachment")
+@Table(name = "ticket_attachment")
 @DynamicInsert
 @DynamicUpdate
 public class TicketAttachment {
