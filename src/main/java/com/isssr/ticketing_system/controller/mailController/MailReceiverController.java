@@ -7,6 +7,7 @@ import com.isssr.ticketing_system.service.*;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import javax.mail.*;
@@ -82,9 +83,9 @@ public class MailReceiverController extends MailController {
     }
 
     //Waiting for e-mails
-    //@Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 10000)
     public void receiveMail() {
-        System.out.println("Reading emails...");
+        //System.out.println("Reading emails...");
         Properties properties = getServerProperties(receiverHost, port);
         Session session = Session.getDefaultInstance(properties);
 
@@ -102,7 +103,7 @@ public class MailReceiverController extends MailController {
             TicketSource ticketSource = null;
             TicketStatus ticketStatus = null;
             Visibility visibility = null;
-            Optional<User> assignee = Optional.empty();
+            User customer;
             if (messages.length != 0) {
                 ticketSource = ticketSourceService.findByName("MAIL").get();
                 ticketStatus = ticketStatusService.findByName("PENDING").get();
@@ -123,7 +124,8 @@ public class MailReceiverController extends MailController {
                         msg.setFlag(Flags.Flag.SEEN, true);
                         throw new MailRejectedException("***** E-mail rejected ******");
                     }
-                } else assignee = userService.findByEmail(from.toLowerCase().trim());
+                    else customer = null;
+                } else customer = userService.findByEmail(from.toLowerCase().trim()).get();
 
 
                 /*
@@ -155,11 +157,12 @@ public class MailReceiverController extends MailController {
                 System.out.println("\t Message: " + messageContent);
 
                 if (isFormatted(messageContent)) {
-                    if (parseFormattedEmail(subject, messageContent, ticketSource, ticketStatus, visibility, assignee.get()) == null) {
+
+                    if (parseFormattedEmail(subject, messageContent, ticketSource, ticketStatus, visibility, customer) == null) {
                         this.mailSenderController.sendMail(from, "FORMAT");
                         throw new MailRejectedException("***** Sintax Error *****");
                     }
-                    //else ticketService.save(ticket);
+                    else this.mailSenderController.sendMail(from, "TICKET_OPENED");
                 } else {
                     //Send email response
                     this.mailSenderController.sendMail(from, "FORMAT");
@@ -243,7 +246,7 @@ public class MailReceiverController extends MailController {
 
     //Switch between formatted and unformatted email
     private boolean isFormatted(String content) {
-        String[] ticketAttribute = new String[]{"descrizione", "categoria", "prodotto", "priorita"};
+        String[] ticketAttribute = new String[]{"descrizione", "categoria", "target", "priorita"};
 
         //Avoid case sensitive match error
         content = content.toLowerCase();
@@ -258,7 +261,7 @@ public class MailReceiverController extends MailController {
 
     //Check email sender
     private boolean checkAddress(String sender) {
-        return userService.findByEmail(sender) != null;
+        return userService.existsByEmail(sender);
     }
 
     //Parser for a formatted e-mail
@@ -271,7 +274,6 @@ public class MailReceiverController extends MailController {
 
             //Get right formatted text
             String productID = lines[1].substring(lines[1].indexOf(": ") + 1).toLowerCase();
-            productID = productID.substring(0, 2).toUpperCase() + productID.substring(1).trim();
             String category0 = lines[2].substring(lines[2].indexOf(": ") + 1).toLowerCase();
             String priority = lines[3].substring(lines[3].indexOf(": ") + 1).toLowerCase();
             String description = lines[4].substring(lines[4].indexOf(": ") + 1).toLowerCase();
@@ -299,6 +301,7 @@ public class MailReceiverController extends MailController {
             ticket.setSource(ticketSource);
             ticket.setVisibility(visibility);
             ticket.setCreationTimestamp(Instant.now());
+            if (assignee != null) ticket.setCustomer(assignee);
             ticket.setAssignee(assignee);
 
             this.ticketService.save(ticket);

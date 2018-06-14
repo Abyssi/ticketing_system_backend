@@ -121,7 +121,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
         if (this.firstSchedulingAlreadyDone) return;
 
-        //this.startScheduling();
+        this.startScheduling();
 
         this.firstSchedulingAlreadyDone = true;
 
@@ -147,6 +147,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private void configureEmail() {
         if (!this.mailService.existsByType("FORMAT"))
             this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
+        if (!this.mailService.existsByType("TICKET_OPENED"))
+            this.mailService.save(new Mail("Ticket opened", "Ticket successfully created", "TICKET_OPENED"));
     }
 
     private void configureRoles() {
@@ -168,7 +170,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private void configureUsers() {
         this.userService.save(new User("Admin", "Admin", "admin@admin.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
-        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi@mail.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi94@gmail.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
     }
 
     private void configurePriorities() {
@@ -213,7 +215,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private void configureTeams() {
         Team systemTeam = this.teamService.save(new Team("System team", userService.findByEmail("admin@admin.com").get()));
-        systemTeam.getMembers().add(this.userService.findByEmail("andrea.silvi@mail.com").get());
+        systemTeam.getMembers().add(this.userService.findByEmail("andrea.silvi94@gmail.com").get());
         if (!this.teamService.existsByName(systemTeam.getName())) this.teamService.save(systemTeam);
     }
 
