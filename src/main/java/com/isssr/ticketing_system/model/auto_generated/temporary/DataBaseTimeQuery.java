@@ -64,7 +64,7 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
     @NonNull
     private String cron;
 
-    @JsonView(JsonViews.Detailed.class)
+    @JsonView(JsonViews.Basic.class)
     @NonNull
     private boolean active = true;
 
@@ -74,6 +74,7 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
     @NonNull
     private ComparisonOperatorsEnum comparisonOperator;
 
+    @JsonView(JsonViews.Detailed.class)
     private BigInteger referenceValue;
 
     private BigInteger lastValue;
