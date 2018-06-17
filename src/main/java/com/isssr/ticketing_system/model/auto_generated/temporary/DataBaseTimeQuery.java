@@ -78,6 +78,7 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
 
     private BigInteger lastValue;
 
+    @JsonView(JsonViews.Detailed.class)
     @NonNull
     private QueryType queryType;
 
@@ -95,7 +96,9 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
 
     @Transient
     public static final String MAP_CRON = "cron";*/
-    @Transient
+
+    //private String jobKeyName;
+
     private JobKey jobKey; //key in scheduler at runtime execution
 
     @Transient
@@ -124,7 +127,7 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
 
     public void wakeUp() {
 
-        System.out.println("Observers on query " + this.countObservers());
+        //System.out.println("Observers on query " + this.countObservers());
         //notify observers
         /*setChanged();
         notifyObservers();*/
@@ -323,6 +326,8 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
 
         this.queryType = dataBaseTimeQuery.queryType;
 
+        //this.jobKeyName = dataBaseTimeQuery.jobKeyName;
+
         //keep track of job key
         this.jobKey = dataBaseTimeQuery.jobKey;
 
@@ -343,4 +348,20 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
         //activate query
         this.wakeUp();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof DataBaseTimeQuery)) {
+            return false;
+        }
+
+        DataBaseTimeQuery other = (DataBaseTimeQuery) o;
+
+        return this.id.equals(other.id);
+    }
+
+    /*@Override
+    public int hashCode() {
+        return this.id.hashCode();
+    }*/
 }
