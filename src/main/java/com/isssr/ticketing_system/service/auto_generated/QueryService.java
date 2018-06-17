@@ -44,14 +44,33 @@ public class QueryService {
     }
 
     @Transactional
-    public @NotNull DataBaseTimeQuery updateOne(@NotNull Long id, @NotNull DataBaseTimeQuery updatedData) throws UpdateException, EntityNotFoundException {
+    public @NotNull DataBaseTimeQuery updateOne(@NotNull Long id, @NotNull DataBaseTimeQuery updatedData) throws UpdateException, EntityNotFoundException, SchedulerException, ParseException {
 
         if (!this.existsById(id))
             throw new EntityNotFoundException("Query to update not found in DB, maybe you have to create a new one");
 
         DataBaseTimeQuery updatingDataBaseTimeQuery = queryRepository.getOne(id);
 
+        //check if query is active
+        boolean isActive = updatingDataBaseTimeQuery.isActive();
+
+        //if it is active
+        if (isActive) {
+
+            //disable query
+            this.disableQuery(updatingDataBaseTimeQuery);
+
+        }
+
+        //update query
         updatingDataBaseTimeQuery.updateMe(updatedData);
+
+        if (isActive) {
+
+            //activate query again
+            this.activateQuery(updatingDataBaseTimeQuery);
+
+        }
 
         return queryRepository.save(updatingDataBaseTimeQuery);
     }

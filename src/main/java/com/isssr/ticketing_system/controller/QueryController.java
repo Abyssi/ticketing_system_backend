@@ -60,6 +60,7 @@ public class QueryController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity create(@RequestBody DataBaseTimeQuery dataBaseTimeQuery) {
 
         //try to store new query
@@ -94,7 +95,34 @@ public class QueryController {
         return CommonResponseEntity.OkResponseEntity("CREATED");
     }
 
+    @RequestMapping(value = "{id}", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
+    public ResponseEntity update(@PathVariable Long id, @RequestBody DataBaseTimeQuery dataBaseTimeQuery) {
+
+        try {
+
+            this.queryService.updateOne(id, dataBaseTimeQuery);
+
+        } catch (UpdateException e) {
+
+            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+
+        } catch (EntityNotFoundException e) {
+
+            return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
+
+        } catch (ParseException | SchedulerException e) {
+
+            return CommonResponseEntity.BaseResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+
+        }
+
+        return CommonResponseEntity.OkResponseEntity("UPDATED");
+
+    }
+
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity delete(@PathVariable Long id) {
 
         try {
@@ -162,6 +190,7 @@ public class QueryController {
     }
 
     @RequestMapping(value = "tables", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getTablesMetadata() {
 
         try {
@@ -178,6 +207,7 @@ public class QueryController {
     }
 
     @RequestMapping(value = "tables/{tableName}/columns", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getTableColumnsMetadata(@PathVariable String tableName) {
 
         try {
@@ -194,6 +224,7 @@ public class QueryController {
     }
 
     @RequestMapping(value = "disable/{id}", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity disableQuery(@PathVariable() Long id) {
 
         try {
@@ -224,6 +255,7 @@ public class QueryController {
     }
 
     @RequestMapping(value = "activate/{id}", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity activateQuery(@PathVariable() Long id) {
 
         try {
