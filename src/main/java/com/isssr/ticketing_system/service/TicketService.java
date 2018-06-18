@@ -118,7 +118,7 @@ public class TicketService {
     public Page<Ticket> findAll(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
         Page<Ticket> retrievedPage = this.ticketRepository.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
-        if (page > retrievedPage.getTotalPages() - 1)
+        if (page != 0 && page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
 
         return retrievedPage;
@@ -129,7 +129,7 @@ public class TicketService {
     public Page<Ticket> findAllNotDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
         Page<Ticket> retrievedPage = this.ticketRepository.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
-        if (page > retrievedPage.getTotalPages() - 1)
+        if (page != 0 && page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
 
         return retrievedPage;
@@ -140,7 +140,7 @@ public class TicketService {
     public Page<Ticket> findAllDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
         Page<Ticket> retrievedPage = this.ticketRepository.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
-        if (page > retrievedPage.getTotalPages() - 1)
+        if (page != 0 && page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
 
         return retrievedPage;
@@ -155,7 +155,7 @@ public class TicketService {
     public Page<Ticket> findByTitleContaining(@NotNull String title, @NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException, javax.persistence.EntityNotFoundException {
         Page<Ticket> retrievedPage = this.findByTitleContaining(title, pageableUtils.instantiatePageableObject(page, pageSize, null));
 
-        if (page > retrievedPage.getTotalPages() - 1)
+        if (page != 0 && page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
 
         return retrievedPage;

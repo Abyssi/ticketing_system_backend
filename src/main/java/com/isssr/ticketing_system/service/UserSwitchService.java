@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -73,11 +74,14 @@ public class UserSwitchService {
     }
 
     //Get Connection with a 'read only' user to db
-    private DataSource getDataSource(String mode) {
+    private DataSource getDataSource(@Nullable String dbURL, String mode) {
+
+        if (dbURL == null)
+            dbURL = this.url;
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driver);
-        dataSource.setUrl(url);
+        dataSource.setUrl(dbURL);
 
         //Connect read-only privilege
         if (mode.equals(USER_MODE)) {

@@ -167,7 +167,7 @@ public class QueryService {
     public Page<DataBaseTimeQuery> findAllNotDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
         Page<DataBaseTimeQuery> retrievedPage = this.findAllNotDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
-        if (page > retrievedPage.getTotalPages() - 1)
+        if (page != 0 && page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
 
         return retrievedPage;
@@ -182,7 +182,7 @@ public class QueryService {
     public Page<DataBaseTimeQuery> findAllDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
         Page<DataBaseTimeQuery> retrievedPage = this.findAllDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
 
-        if (page > retrievedPage.getTotalPages() - 1)
+        if (page != 0 && page > retrievedPage.getTotalPages() - 1)
             throw new PageableQueryException("Page number higher than the maximum");
 
         return retrievedPage;
