@@ -76,6 +76,17 @@ public class QueryService {
     }
 
     @Transactional
+    public void simpleUpdateOne(Long id, DataBaseTimeQuery dataBaseTimeQuery) throws EntityNotFoundException {
+
+        if (!this.existsById(id))
+            throw new EntityNotFoundException("Query to update not found in DB, maybe you have to create a new one");
+
+
+        queryRepository.save(dataBaseTimeQuery);
+
+    }
+
+    @Transactional
     public DataBaseTimeQuery findById(Long id) throws EntityNotFoundException {
 
         if (!this.existsById(id))
@@ -253,5 +264,4 @@ public class QueryService {
         }
         return entity;
     }
-
 }
