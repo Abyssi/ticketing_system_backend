@@ -3,13 +3,18 @@ package com.isssr.ticketing_system.model.db_connection;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
+@Data
+@NoArgsConstructor
+@RequiredArgsConstructor
+
 @Entity
 @Table(name = "db_connection_info")
-@Data
 public class DBConnectionInfo {
 
     @NonNull
@@ -19,15 +24,19 @@ public class DBConnectionInfo {
     private Long id;
 
     @JsonView(JsonViews.Detailed.class)
-    @NonNull
+
     private String url;
 
     @JsonView(JsonViews.Detailed.class)
-    @NonNull
+
     private String username;
 
-    @NonNull
+
     private String password;
 
-
+    public DBConnectionInfo(String url, String username, String password) {
+        this.url = url;
+        this.username = username;
+        this.password = password;
+    }
 }
