@@ -30,7 +30,7 @@ public class DBConnectionInfoService {
         //check if is already in db
         if (dbConnectionInfo == null) {
 
-            dbConnectionInfo = new DBConnectionInfo(null, null, null);
+            dbConnectionInfo = new DBConnectionInfo( url, username, password);
 
             //create new connection info
             dbConnectionInfo = this.dbConnectionInfoRepository.save(dbConnectionInfo);

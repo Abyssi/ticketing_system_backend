@@ -1,14 +1,13 @@
 package com.isssr.ticketing_system.repository;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.math.BigInteger;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +20,10 @@ public class CustomRepositoryImp implements CustomRepository {
     private EntityManager entityManager;
 
     @Override
-    public List customQuery(String query) {
-        javax.persistence.Query customQuery = entityManager.createNativeQuery(query);
-        return customQuery.getResultList();
+    public <T> T customQuery(String query, JdbcTemplate jdbcTemplate, Class<T> returnType){
+
+        return jdbcTemplate.queryForObject(query, returnType);
+
     }
 
     @Override

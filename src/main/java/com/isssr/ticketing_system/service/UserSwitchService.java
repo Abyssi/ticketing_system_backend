@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import javax.validation.constraints.Null;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -47,26 +48,26 @@ public class UserSwitchService {
     private CustomRepository customRepository;
 
 
-    public List doQueryReadOnlyMode(String query) {
+    public <T> T doQueryReadOnlyMode(String query, Class<T> returnType) {
 
-        return this.doQueryReadOnlyMode(query, null, null, null);
+        return this.doQueryReadOnlyMode(query, returnType, null, null, null);
 
     }
 
     //Use a read only user to do job
-    public List doQueryReadOnlyMode(String query, @Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword) {
+    public <T> T doQueryReadOnlyMode(String query, Class<T> returnType, @Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword) {
         //Go with the connection of a new user
         this.jdbcTemplate.setDataSource(getDataSource(dbURL, dbUsername, dbPassword, DBConnectionModeEnum.READ_ONLY_MODE));
         Connection connection;
-        List list = null;
+        T result = null;
         try {
             connection = this.jdbcTemplate.getDataSource().getConnection();
-            list = this.customRepository.customQuery(query);
+            result = this.customRepository.customQuery(query, jdbcTemplate, returnType);
             connection.close();
         } catch (SQLException e) {
             System.out.println("SQL connection error: " + e.getMessage());
         }
-        return list;
+        return result;
     }
 
     public Connection getReadOnlyConnection(@Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword) throws SQLException {
