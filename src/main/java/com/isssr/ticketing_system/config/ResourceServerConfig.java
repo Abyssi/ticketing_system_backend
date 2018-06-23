@@ -26,7 +26,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests().antMatchers("/api/v1/users/register").permitAll()
+                .authorizeRequests().antMatchers("/api/v1/users/").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().usernameParameter("email").permitAll()
                 .and().csrf().disable();

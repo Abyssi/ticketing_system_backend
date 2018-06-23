@@ -17,7 +17,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_role")
+@Table(name = "role")
 @DynamicInsert
 @DynamicUpdate
 public class Role {
@@ -33,6 +33,6 @@ public class Role {
     @JsonView(JsonViews.DetailedRole.class)
     @NonNull
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "ts_role_privilege")
+    @JoinTable(name = "role_privilege")
     private Collection<Privilege> privileges;
 }

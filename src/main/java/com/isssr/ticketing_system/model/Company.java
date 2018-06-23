@@ -22,7 +22,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_company")
+@Table(name = "company")
 @DynamicInsert
 @DynamicUpdate
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")

@@ -1,15 +1,17 @@
 package com.isssr.ticketing_system.repository;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 @Repository
 public interface CustomRepository {
 
-    List customQuery(String query);
+    <T> T customQuery(String query, JdbcTemplate jdbcTemplate, Class<T> returnType);
 
     List<String> getTablesMetadata(Connection connection) throws SQLException;
 

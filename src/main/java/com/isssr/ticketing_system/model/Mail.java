@@ -18,7 +18,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_email")
+@Table(name = "email")
 @DynamicInsert
 @DynamicUpdate
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")

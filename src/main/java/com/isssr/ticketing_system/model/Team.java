@@ -21,7 +21,7 @@ import java.util.Collection;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "ts_team")
+@Table(name = "team")
 @DynamicInsert
 @DynamicUpdate
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")

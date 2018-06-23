@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_target")
+@Table(name = "target")
 @DynamicInsert
 @DynamicUpdate
 public class Target extends SoftDeletableEntity {

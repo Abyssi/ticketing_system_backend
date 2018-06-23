@@ -2,10 +2,7 @@ package com.isssr.ticketing_system.model.auto_generated.scheduler;
 
 import com.isssr.ticketing_system.model.auto_generated.temporary.DataBaseTimeQuery;
 import lombok.RequiredArgsConstructor;
-import org.quartz.CronTrigger;
-import org.quartz.JobDataMap;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
+import org.quartz.*;
 import org.quartz.impl.JobDetailImpl;
 import org.quartz.impl.triggers.CronTriggerImpl;
 import org.springframework.stereotype.Component;
@@ -66,7 +63,7 @@ public class TaskScheduler {
 
     private final Scheduler scheduler;
 
-    private Long jobCounter = 1L; //use this counter to keep track of jobs
+    //private Long jobCounter = 1L; //use this counter to keep track of jobs
 
     private String DATA_BASE_QUERY_GROUP_NAME = "Data base query group";
 
@@ -75,7 +72,7 @@ public class TaskScheduler {
     public void addJob(DataBaseTimeQuery query) throws ParseException, SchedulerException {
 
         //set cron trigger
-        CronTrigger cronTrigger = createCronTrigger(query.getCron());
+        CronTrigger cronTrigger = createCronTrigger(query.getCron(), query.getId().toString());
 
         //set job details
         JobDetailImpl jobDetail = new JobDetailImpl();
@@ -83,7 +80,7 @@ public class TaskScheduler {
         jobDetail.setJobClass(DataBaseTimeQuery.class);
 
         //set name and group to generate a key
-        jobDetail.setName(jobCounter.toString());
+        jobDetail.setName(query.getId().toString());
 
         jobDetail.setGroup(DATA_BASE_QUERY_GROUP_NAME);
 
@@ -100,20 +97,20 @@ public class TaskScheduler {
         scheduler.scheduleJob(jobDetail, cronTrigger);
 
         //increment job counter
-        jobCounter++;
+        //jobCounter++;
     }
 
     public void removeJob(DataBaseTimeQuery query) throws SchedulerException {
 
-        scheduler.deleteJob(query.getJobKey());
+        scheduler.deleteJob(JobKey.jobKey(query.getJobKey().getName(), query.getJobKey().getGroup()));
 
     }
 
-    public CronTrigger createCronTrigger(String cron) throws ParseException {
+    public CronTrigger createCronTrigger(String cron, String queryId) throws ParseException {
 
         CronTriggerImpl cronTrigger = new CronTriggerImpl();
 
-        cronTrigger.setName(jobCounter.toString());
+        cronTrigger.setName(queryId);
 
         cronTrigger.setGroup(CRON_GROUP_NAME);
 

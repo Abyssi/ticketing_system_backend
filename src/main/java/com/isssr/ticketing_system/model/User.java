@@ -21,7 +21,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_user") //user is a reserved word in postgres
+@Table(name = "user") //user is a reserved word in postgres
 @DynamicInsert
 @DynamicUpdate
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -55,7 +55,7 @@ public class User {
     @JsonView(JsonViews.DetailedUser.class)
     @NonNull
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "ts_user_role")
+    @JoinTable(name = "user_role")
     private Collection<Role> roles;
 
     @JsonView(JsonViews.DetailedUser.class)

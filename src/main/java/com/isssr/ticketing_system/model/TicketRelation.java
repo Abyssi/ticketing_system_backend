@@ -16,7 +16,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ts_ticket_relation")
+@Table(name = "ticket_relation")
 @DynamicInsert
 @DynamicUpdate
 public class TicketRelation {
