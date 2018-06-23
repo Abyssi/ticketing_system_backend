@@ -1,4 +1,4 @@
-package it.uniroma2.ticketingsystem.logger.entity;
+package com.isssr.ticketing_system.logger.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;

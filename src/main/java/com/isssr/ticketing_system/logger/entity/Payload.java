@@ -1,4 +1,4 @@
-package it.uniroma2.ticketingsystem.logger.entity;
+package com.isssr.ticketing_system.logger.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

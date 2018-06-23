@@ -1,4 +1,4 @@
-package it.uniroma2.ticketingsystem.logger.exception;
+package com.isssr.ticketing_system.logger.exception;
 
 public class AttrNotFoundException extends Exception {
 

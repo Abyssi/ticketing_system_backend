@@ -2,6 +2,7 @@ package com.isssr.ticketing_system.service;
 
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.User;
 import com.isssr.ticketing_system.repository.UserRepository;
 import com.isssr.ticketing_system.utils.PageableUtils;
@@ -30,6 +31,7 @@ public class UserService {
     }
 
     @Transactional
+    @LogOperation(tag = "USER_CREATE", inputArgs = {"user"})
     public User save(User user) {
         if (user.getId() == null && this.userRepository.existsByEmail(user.getEmail()))
             user.setId(this.findByEmail(user.getEmail()).get().getId());

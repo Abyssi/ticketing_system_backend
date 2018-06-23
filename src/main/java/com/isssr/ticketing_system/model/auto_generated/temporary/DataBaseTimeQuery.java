@@ -3,6 +3,7 @@ package com.isssr.ticketing_system.model.auto_generated.temporary;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.logger.aspect.LogClass;
 import com.isssr.ticketing_system.model.db_connection.DBConnectionInfo;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeletable;
 import com.isssr.ticketing_system.model.TicketPriority;
@@ -43,6 +44,7 @@ import java.util.Observable;
 @FilterDef(name = "deleted_filter", parameters = {@ParamDef(name = "value", type = "boolean")})
 @Filter(name = "deleted_filter", condition = "deleted = :value")
 @Component
+@LogClass(idAttrs = {"id"})
 public class DataBaseTimeQuery extends Observable implements Job, Serializable, SoftDeletable {
 
     @Transient

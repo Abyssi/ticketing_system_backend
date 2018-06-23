@@ -1,4 +1,4 @@
-package it.uniroma2.ticketingsystem.logger.utils;
+package com.isssr.ticketing_system.logger.utils;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
-import static it.uniroma2.ticketingsystem.logger.utils.PersistenceUtils.initializeAndUnproxy;
+import static com.isssr.ticketing_system.logger.utils.PersistenceUtils.initializeAndUnproxy;
 import static org.hibernate.proxy.HibernateProxyHelper.getClassWithoutInitializingProxy;
 
 public abstract class ObjSer {

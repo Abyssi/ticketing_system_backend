@@ -1,7 +1,7 @@
-package it.uniroma2.ticketingsystem.logger.utils;
+package com.isssr.ticketing_system.logger.utils;
 
-import it.uniroma2.ticketingsystem.logger.aspect.LogClass;
-import it.uniroma2.ticketingsystem.logger.exception.ObjNotFoundException;
+import com.isssr.ticketing_system.logger.aspect.LogClass;
+import com.isssr.ticketing_system.logger.exception.ObjNotFoundException;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.reflect.MethodSignature;
 

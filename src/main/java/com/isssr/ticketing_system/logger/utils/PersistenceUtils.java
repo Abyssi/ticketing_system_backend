@@ -1,4 +1,4 @@
-package it.uniroma2.ticketingsystem.logger.utils;
+package com.isssr.ticketing_system.logger.utils;
 
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;

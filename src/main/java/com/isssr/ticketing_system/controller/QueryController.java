@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.TicketPriority;
 import com.isssr.ticketing_system.model.auto_generated.db_metadata.Column;
 import com.isssr.ticketing_system.model.auto_generated.db_metadata.Table;
@@ -70,6 +71,7 @@ public class QueryController {
 
     @RequestMapping(method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
+    @LogOperation(tag = "QUERY_CREATE", inputArgs = {"dataBaseTimeQuery"})
     public ResponseEntity create(@RequestBody DataBaseTimeQuery dataBaseTimeQuery) {
 
         //try to store new query

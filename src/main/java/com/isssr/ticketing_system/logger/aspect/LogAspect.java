@@ -1,18 +1,21 @@
-package it.uniroma2.ticketingsystem.logger.aspect;
+package com.isssr.ticketing_system.logger.aspect;
 
-import it.uniroma2.ticketingsystem.logger.entity.Payload;
-import it.uniroma2.ticketingsystem.logger.exception.ObjNotFoundException;
-import it.uniroma2.ticketingsystem.logger.utils.AspectUtils;
-import it.uniroma2.ticketingsystem.logger.utils.ObjSer;
-import it.uniroma2.ticketingsystem.logger.entity.Record;
-import it.uniroma2.ticketingsystem.logger.RecordController;
-import it.uniroma2.ticketingsystem.logger.utils.ReflectUtils;
+
+import com.isssr.ticketing_system.logger.entity.Payload;
+import com.isssr.ticketing_system.logger.exception.ObjNotFoundException;
+import com.isssr.ticketing_system.logger.utils.AspectUtils;
+import com.isssr.ticketing_system.logger.utils.ObjSer;
+import com.isssr.ticketing_system.logger.entity.Record;
+import com.isssr.ticketing_system.logger.RecordService;
+import com.isssr.ticketing_system.logger.utils.ReflectUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -24,7 +27,7 @@ import java.util.HashSet;
 public class LogAspect {
 
     @Autowired
-    private RecordController recordController;
+    private RecordService recordService;
 
     /**
      *
@@ -56,8 +59,12 @@ public class LogAspect {
         if (AspectUtils.defaultOption(LogOperation.class, "opName", opName))
             opName = signature.getName();
 
+        //Add author
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String author = auth.getName();
+
         //create record object
-        record = new Record(opName,null, tag);
+        record = new Record(opName,author, tag);
 
         if (returnObjectName) {
             try {
@@ -75,7 +82,7 @@ public class LogAspect {
         //voglio serializzare i parametri in input
         //if (!AspectUtils.defaultOption(LogOperation.class, "inputArgs", inputArgsNames)) {
         String[] test = (String[]) LogOperation.class.getDeclaredMethod("inputArgs").getDefaultValue();
-        if (!test[0].equals("") ) {
+        if (!inputArgsNames[0].equals("") ) {
 
             Object[] inputArgs = new Object[inputArgsNames.length];
             String[] serializedObject = new String[inputArgsNames.length];
@@ -100,7 +107,7 @@ public class LogAspect {
 
         record.setPayloads(new HashSet<>(Arrays.asList(payloads)));
 
-        recordController.createRecord(record);
+        recordService.createRecord(record);
         return returnObject;
 
     }

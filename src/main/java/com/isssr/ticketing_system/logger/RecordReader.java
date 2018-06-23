@@ -1,6 +1,6 @@
-package it.uniroma2.ticketingsystem.logger;
+package com.isssr.ticketing_system.logger;
 
-import it.uniroma2.ticketingsystem.logger.entity.Record;
+import com.isssr.ticketing_system.logger.entity.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -10,22 +10,22 @@ import javax.validation.constraints.NotNull;
 public class RecordReader {
 
     @Autowired
-    private RecordController recordController;
+    private RecordService recordService;
 
     public void deleteRecord(@NotNull Integer id){
-        recordController.deleteRecord(id);
+        recordService.deleteRecord(id);
     }
 
     public List<Record> getAllRecords(){
-        return  recordController.getAllRecords();
+        return  recordService.getAllRecords();
     }
 
-    public List<Record> getRecordsByTag(@NotNull String tag) {return recordController.getRecordsByTag(tag);}
-    public List<Record> getRecordsByAuthor(@NotNull String author) {return recordController.getRecordsByAuthor(author);}
-    public List<Record> getRecordsByOperation(@NotNull String opName) {return recordController.getRecordsByOperation(opName);}
+    public List<Record> getRecordsByTag(@NotNull String tag) {return recordService.getRecordsByTag(tag);}
+    public List<Record> getRecordsByAuthor(@NotNull String author) {return recordService.getRecordsByAuthor(author);}
+    public List<Record> getRecordsByOperation(@NotNull String opName) {return recordService.getRecordsByOperation(opName);}
 
     public List<Record> getRecordsByObjectId(@NotNull Object object) {
-        return recordController.getRecordsByObjectId(object);
+        return recordService.getRecordsByObjectId(object);
     }
 
     //TODO: query combinazione delle precedenti

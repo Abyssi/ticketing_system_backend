@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.logger.aspect.LogClass;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeletableEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
@@ -25,6 +26,7 @@ import java.util.Collection;
 @DynamicInsert
 @DynamicUpdate
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@LogClass(idAttrs = {"id"})
 public class Team extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id

@@ -1,6 +1,6 @@
-package it.uniroma2.ticketingsystem.logger;
+package com.isssr.ticketing_system.logger;
 
-import it.uniroma2.ticketingsystem.logger.entity.Record;
+import com.isssr.ticketing_system.logger.entity.Record;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.jpa.repository.Query;

@@ -2,6 +2,7 @@ package com.isssr.ticketing_system.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.logger.aspect.LogClass;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeletableEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
@@ -25,6 +26,7 @@ import java.util.Collection;
 @Table(name = "ticket")
 @DynamicInsert
 @DynamicUpdate
+@LogClass(idAttrs = {"id"})
 public class Ticket extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id

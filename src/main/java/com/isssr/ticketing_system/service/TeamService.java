@@ -3,6 +3,7 @@ package com.isssr.ticketing_system.service;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDelete;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeleteKind;
 import com.isssr.ticketing_system.model.Team;
@@ -27,6 +28,7 @@ public class TeamService {
     private PageableUtils pageableUtils;
 
     @Transactional
+    @LogOperation(tag = "TEAM_CREATE", inputArgs = {"team"})
     public Team save(Team team) {
         return this.teamRepository.save(team);
     }

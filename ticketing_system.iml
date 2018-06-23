@@ -126,5 +126,6 @@
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.20" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:5.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.11.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.0" level="project" />
   </component>
 </module>

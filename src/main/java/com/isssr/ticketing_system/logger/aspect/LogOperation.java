@@ -1,4 +1,4 @@
-package it.uniroma2.ticketingsystem.logger.aspect;
+package com.isssr.ticketing_system.logger.aspect;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
