@@ -1,5 +1,6 @@
 package com.isssr.ticketing_system.controller.mailController;
 
+import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.Mail;
 import com.isssr.ticketing_system.service.MailService;
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -15,6 +16,7 @@ public class MailSenderController extends MailController {
     private MailService mailService;
 
     @Override
+    @LogOperation(tag = "MAIL_SEND")
     public void sendMail(String address, String mailType) {
         try {
             //Query to db for retrieve subject and content email, by type

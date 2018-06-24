@@ -3,6 +3,7 @@ package com.isssr.ticketing_system.service;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDelete;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeleteKind;
 import com.isssr.ticketing_system.model.Ticket;
@@ -28,6 +29,7 @@ public class TicketService {
     private PageableUtils pageableUtils;
 
     @Transactional
+    @LogOperation(tag = "TICKET_CREATE", inputArgs = {"ticket"})
     public Ticket save(Ticket ticket) {
         return this.ticketRepository.save(ticket);
     }
@@ -70,6 +72,7 @@ public class TicketService {
     }
 
     @Transactional
+    @LogOperation(tag = "TICKET_DELETE")
     public boolean deleteById(Long id) {
         boolean exists = this.ticketRepository.existsById(id);
 
