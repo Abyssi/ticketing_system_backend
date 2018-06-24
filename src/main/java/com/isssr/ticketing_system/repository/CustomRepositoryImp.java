@@ -27,11 +27,20 @@ public class CustomRepositoryImp implements CustomRepository {
     }
 
     @Override
-    public List<String> getTablesMetadata(Connection connection) throws SQLException {
+    public List<String> getTablesMetadata(Connection connection, boolean isDefault) throws SQLException {
 
         DatabaseMetaData md = connection.getMetaData();
 
-        ResultSet rs = md.getTables(null, null, "ts_%", new String[]{"TABLE"});
+        ResultSet rs;
+        if (isDefault) {
+
+            rs = md.getTables(null, null, "ts_%", new String[]{"TABLE"});
+
+        }else {
+
+            rs = md.getTables(null, null, null, new String[]{"TABLE"});
+
+        }
 
         List<String> tableNames = new ArrayList<>();
 

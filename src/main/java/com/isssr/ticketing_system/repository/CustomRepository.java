@@ -13,7 +13,7 @@ public interface CustomRepository {
 
     <T> T customQuery(String query, JdbcTemplate jdbcTemplate, Class<T> returnType);
 
-    List<String> getTablesMetadata(Connection connection) throws SQLException;
+    List<String> getTablesMetadata(Connection connection, boolean isDefault) throws SQLException;
 
     List<String> getTableColumnsMetadata(Connection connection, String tableName) throws SQLException;
 

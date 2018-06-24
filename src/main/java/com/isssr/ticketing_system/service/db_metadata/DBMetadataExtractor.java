@@ -38,9 +38,12 @@ public class DBMetadataExtractor {
 
     public List<Table> getTableMetadata(@Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword) throws SQLException {
 
+        //if dbUrl is null, this is a default request
+        boolean isDefault = dbURL == null;
+
         Connection connection = this.userSwitchService.getReadOnlyConnection(dbURL, dbUsername, dbPassword);
 
-        List<String> tableNames = this.customRepositoryImp.getTablesMetadata(connection);
+        List<String> tableNames = this.customRepositoryImp.getTablesMetadata(connection, isDefault);
 
         connection.close();
 
