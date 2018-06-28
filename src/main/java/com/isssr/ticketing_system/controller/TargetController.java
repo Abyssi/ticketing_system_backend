@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
+
 import com.isssr.ticketing_system.model.Target;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
@@ -27,6 +28,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/targets/")
 public class TargetController {
+
     @Autowired
     private TargetService targetService;
 
@@ -47,7 +49,6 @@ public class TargetController {
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity create(@Valid @RequestBody Target target) {
         targetService.save(target);
-
         return CommonResponseEntity.OkResponseEntity("CREATED");
     }
 

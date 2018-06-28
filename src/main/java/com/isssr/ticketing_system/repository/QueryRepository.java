@@ -21,4 +21,5 @@ public interface QueryRepository extends JpaRepository<DataBaseTimeQuery, Long> 
     Page<DataBaseTimeQuery> findAllDeleted(Pageable pageable);
 
     List<DataBaseTimeQuery> findAllByActive(boolean isActive);
+
 }

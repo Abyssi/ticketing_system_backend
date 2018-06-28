@@ -3,7 +3,7 @@ package com.isssr.ticketing_system.model.auto_generated.temporary;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.UpdateException;
-import com.isssr.ticketing_system.logger.aspect.LogClass;
+import com.isssr.ticketing_system.logEnabler.LogEnabler;
 import com.isssr.ticketing_system.model.db_connection.DBConnectionInfo;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeletable;
 import com.isssr.ticketing_system.model.TicketPriority;
@@ -26,7 +26,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Observable;
 
@@ -44,7 +43,7 @@ import java.util.Observable;
 @FilterDef(name = "deleted_filter", parameters = {@ParamDef(name = "value", type = "boolean")})
 @Filter(name = "deleted_filter", condition = "deleted = :value")
 @Component
-@LogClass(idAttrs = {"id"})
+//@LogClass(idAttrs = {"id"})
 public class DataBaseTimeQuery extends Observable implements Job, Serializable, SoftDeletable {
 
     @Transient
@@ -96,6 +95,10 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
     @NonNull
     private QueryType queryType;
 
+    @JsonView(JsonViews.Basic.class)
+    @NonNull
+    private boolean isEnable;
+
     /*@Transient
     public static final String MAP_ID = "id";
 
@@ -127,10 +130,13 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
     @Autowired
     private QueryService queryService;
 
+    @Transient
+    @Autowired
+    private LogEnabler logEnabler;
 
     public DataBaseTimeQuery(String description, String queryText, TicketPriority queryPriority, String cron,
                              boolean active, boolean deleted, ComparisonOperatorsEnum comparisonOperator,
-                             BigInteger referenceValue, BigInteger lastValue, QueryType queryType) {
+                             BigInteger referenceValue, BigInteger lastValue, QueryType queryType, boolean isEnable) {
         this.description = description;
         this.queryText = queryText;
         this.queryPriority = queryPriority;
@@ -141,6 +147,7 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
         this.referenceValue = referenceValue;
         this.lastValue = lastValue;
         this.queryType = queryType;
+        this.isEnable = isEnable;
     }
 
     public void wakeUp() {
@@ -192,11 +199,13 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
         if (this.dbConnectionInfo == null) {
 
 
-            count = (BigInteger) userSwitchService.doQueryReadOnlyMode(this.queryText, BigInteger.class);
+            count = (BigInteger) userSwitchService.doNotLog(this.queryText, BigInteger.class, null, null, null, this.isEnable);
 
         } else {
 
-            count = (BigInteger) userSwitchService
+            if (!this.isEnable) count =  (BigInteger) userSwitchService.doNotLog(this.queryText , BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.isEnable);
+
+            else count = (BigInteger) userSwitchService
                     .doQueryReadOnlyMode(
                             this.queryText,
                             BigInteger.class,
@@ -253,11 +262,13 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
 
         if (this.dbConnectionInfo == null) {
 
-            count =  (BigInteger) userSwitchService.doQueryReadOnlyMode(this.queryText , BigInteger.class);
+            count =  (BigInteger) userSwitchService.doNotLog(this.queryText , BigInteger.class, null, null, null, this.isEnable);
 
         } else {
 
-            count = (BigInteger) userSwitchService
+            if (!this.isEnable) count =  (BigInteger) userSwitchService.doNotLog(this.queryText , BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.isEnable);
+
+            else count = (BigInteger) userSwitchService
                     .doQueryReadOnlyMode(
                             this.queryText,
                             BigInteger.class,
@@ -396,6 +407,8 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
         this.queryType = dataBaseTimeQuery.queryType;
 
         this.dbConnectionInfo = dataBaseTimeQuery.dbConnectionInfo;
+
+        this.isEnable = dataBaseTimeQuery.isEnable;
 
         //this.jobKeyName = dataBaseTimeQuery.jobKeyName;
 

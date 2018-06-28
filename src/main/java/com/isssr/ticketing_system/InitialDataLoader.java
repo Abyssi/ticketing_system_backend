@@ -263,7 +263,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 ComparisonOperatorsEnum.GREATER,
                 BigInteger.valueOf(1),
                 null,
-                QueryType.DATA_BASE_INSTANT_CHECK
+                QueryType.DATA_BASE_INSTANT_CHECK,
+                true
         );
 
         this.queryService.create(query);
@@ -278,7 +279,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 ComparisonOperatorsEnum.LESS,
                 BigInteger.valueOf(1000),
                 null,
-                QueryType.DATA_BASE_INSTANT_CHECK
+                QueryType.DATA_BASE_INSTANT_CHECK,
+                true
         );
 
         this.queryService.create(query);
@@ -293,7 +295,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 ComparisonOperatorsEnum.GREATER_EQUALS,
                 BigInteger.valueOf(1),
                 null,
-                QueryType.DATA_BASE_TABLE_MONITOR
+                QueryType.DATA_BASE_TABLE_MONITOR,
+                true
         );
 
         this.queryService.create(query);

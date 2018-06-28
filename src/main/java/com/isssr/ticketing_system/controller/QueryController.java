@@ -55,8 +55,8 @@ public class QueryController {
 
     @JsonView(JsonViews.Basic.class)
     @RequestMapping(path = "metadata", method = RequestMethod.GET)
-    //@PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity metadata(@AuthenticationPrincipal Principal principal) {
 
         Iterable<TicketPriority> priorities = this.ticketPriorityService.findAll();
@@ -76,7 +76,6 @@ public class QueryController {
 
         //try to store new query
         //DataBaseTimeQuery query = queryService.create(dataBaseTimeQuery);
-
         dataBaseTimeQuery.setQueryPriority(this.ticketPriorityService.findById(dataBaseTimeQuery.getQueryPriority().getId()).get());
 
         //save query
@@ -169,8 +168,8 @@ public class QueryController {
 
     @JsonView(JsonViews.Basic.class)
     @RequestMapping(method = RequestMethod.GET)
-    //@PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity getAllNotDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
 
         Page<DataBaseTimeQuery> dataBaseTimeQueryPage;

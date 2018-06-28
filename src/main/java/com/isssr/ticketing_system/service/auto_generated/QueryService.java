@@ -3,11 +3,13 @@ package com.isssr.ticketing_system.service.auto_generated;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.auto_generated.temporary.DataBaseTimeQuery;
 import com.isssr.ticketing_system.model.db_connection.DBConnectionInfo;
 import com.isssr.ticketing_system.repository.QueryRepository;
 import com.isssr.ticketing_system.service.DBConnectionInfoService;
 import com.isssr.ticketing_system.utils.PageableUtils;
+import org.aspectj.lang.annotation.After;
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
 import org.quartz.SchedulerException;
@@ -40,10 +42,8 @@ public class QueryService {
     @Autowired
     private DBConnectionInfoService dbConnectionInfoService;
 
-    @Autowired
-    private EntityManager entityManager;
-
     @Transactional
+    @LogOperation(tag = "QUERY_CREATED", inputArgs = {"dataBaseTimeQuery"})
     public DataBaseTimeQuery create(DataBaseTimeQuery dataBaseTimeQuery) {
 
         //save or retrieve db connection info

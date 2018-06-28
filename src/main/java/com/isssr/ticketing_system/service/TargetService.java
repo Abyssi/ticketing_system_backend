@@ -3,6 +3,7 @@ package com.isssr.ticketing_system.service;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDelete;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeleteKind;
 import com.isssr.ticketing_system.model.Target;
@@ -26,7 +27,10 @@ public class TargetService {
     @Autowired
     private PageableUtils pageableUtils;
 
+
+
     @Transactional
+    @LogOperation(tag = "TARGET_CREATE", inputArgs = {"target"})
     public Target save(Target target) {
         if (target.getId() == null && this.targetRepository.existsByName(target.getName()))
             target.setId(this.findByName(target.getName()).get().getId());

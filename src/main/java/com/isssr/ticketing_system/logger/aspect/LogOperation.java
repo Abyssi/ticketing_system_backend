@@ -12,4 +12,5 @@ public @interface LogOperation {
     boolean returnObject() default false;      // default: no return object will be serialized
     String opName() default "";                 // default: method name as operation name
     String tag() default "";                    // default: no tag
+    boolean isEnabled() default true;
 }
