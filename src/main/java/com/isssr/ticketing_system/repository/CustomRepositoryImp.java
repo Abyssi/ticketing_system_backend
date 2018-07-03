@@ -1,6 +1,8 @@
 package com.isssr.ticketing_system.repository;
 
 import com.isssr.ticketing_system.logger.aspect.LogOperation;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +20,7 @@ import java.util.List;
 public class CustomRepositoryImp implements CustomRepository {
 
     @Override
-    public <T> T customQuery(String query, JdbcTemplate jdbcTemplate, Class<T> returnType){
-
-        System.out.println("prova");
+    public <T> T customQuery(String query, JdbcTemplate jdbcTemplate, Class<T> returnType) throws DataAccessException {
 
         return jdbcTemplate.queryForObject(query, returnType);
 

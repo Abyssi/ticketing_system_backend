@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.lang.Nullable;
@@ -54,7 +55,7 @@ public class UserSwitchService {
     @Autowired
     private LogEnabler logEnabler;
 
-    public <T> T doNotLog(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword, boolean enabled){
+    public <T> T doNotLog(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword, boolean enabled) throws SQLException, DataAccessException {
 
         setLogOption(enabled);
 
@@ -78,18 +79,16 @@ public class UserSwitchService {
 
     //Use a read only user to do job
     @LogOperation(tag = "QUERY_CREATED", inputArgs = {"query"})
-    public <T> T doQueryReadOnlyMode(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword) {
+    public <T> T doQueryReadOnlyMode(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword) throws SQLException, DataAccessException {
         //Go with the connection of a new user
         this.jdbcTemplate.setDataSource(getDataSource(dbURL, dbUsername, dbPassword, DBConnectionModeEnum.READ_ONLY_MODE));
         Connection connection;
         T result = null;
-        try {
-            connection = this.jdbcTemplate.getDataSource().getConnection();
-            result = this.customRepository.customQuery(query, jdbcTemplate, returnType);
-            connection.close();
-        } catch (SQLException e) {
-            System.out.println("SQL connection error: " + e.getMessage());
-        }
+
+        connection = this.jdbcTemplate.getDataSource().getConnection();
+        result = this.customRepository.customQuery(query, jdbcTemplate, returnType);
+        connection.close();
+
         return result;
     }
 
