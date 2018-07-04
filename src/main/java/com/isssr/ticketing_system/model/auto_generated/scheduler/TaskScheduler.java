@@ -1,6 +1,6 @@
 package com.isssr.ticketing_system.model.auto_generated.scheduler;
 
-import com.isssr.ticketing_system.model.auto_generated.temporary.DataBaseTimeQuery;
+import com.isssr.ticketing_system.model.auto_generated.query.*;
 import lombok.RequiredArgsConstructor;
 import org.quartz.*;
 import org.quartz.impl.JobDetailImpl;
@@ -14,56 +14,7 @@ import java.text.ParseException;
 public class TaskScheduler {
 
 
-
-    /*@Autowired
-    private ThreadPoolTaskScheduler scheduler;
-
-
-    private Basic<ScheduledFuture> scheduledFutures = new ArrayList<>();
-
-    public boolean addJob(Query query) {
-
-        if (query.getCron() != null) {
-
-            scheduler.schedule(query, new CronTrigger(query.getCron()));
-
-            return true;
-
-        }
-
-        return false;
-
-    }
-
-    public ScheduledFuture addJob(DataBaseTimeQuery query) {
-
-        if (query.getCron() != null) {
-
-            ScheduledFuture scheduledFuture = scheduler.schedule(query, new CronTrigger(query.getCron()));
-
-            this.scheduledFutures.add(scheduledFuture);
-
-            return scheduledFuture;
-
-        }
-
-        return null;
-
-    }
-
-
-    public void removeJob(ScheduledFuture scheduledFuture) throws ExecutionException, InterruptedException {
-
-        int index = this.scheduledFutures.indexOf(scheduledFuture);
-
-        DataBaseTimeQuery q = (DataBaseTimeQuery) this.scheduledFutures.get(index).get();
-
-    }*/
-
-
     private final Scheduler scheduler;
-
-    //private Long jobCounter = 1L; //use this counter to keep track of jobs
 
     private String DATA_BASE_QUERY_GROUP_NAME = "Data base query group";
 
@@ -95,12 +46,43 @@ public class TaskScheduler {
 
         //schedule job
         scheduler.scheduleJob(jobDetail, cronTrigger);
+    }
 
-        //increment job counter
-        //jobCounter++;
+    public void addJob(ScheduledQuery query) throws ParseException, SchedulerException {
+
+        //set cron trigger
+        CronTrigger cronTrigger = createCronTrigger(query.getCron(), query.getId().toString());
+
+        //set job details
+        JobDetailImpl jobDetail = new JobDetailImpl();
+
+        jobDetail.setJobClass(query.getClass());
+
+        //set name and group to generate a key
+        jobDetail.setName(query.getId().toString());
+
+        jobDetail.setGroup(DATA_BASE_QUERY_GROUP_NAME);
+
+        query.setJobKey(jobDetail.getKey());
+
+        //map job
+        JobDataMap jobDataMap = new JobDataMap();
+
+        jobDataMap.put(ScheduledQuery.MAP_ME, query);
+
+        jobDetail.setJobDataMap(jobDataMap);
+
+        //schedule job
+        scheduler.scheduleJob(jobDetail, cronTrigger);
     }
 
     public void removeJob(DataBaseTimeQuery query) throws SchedulerException {
+
+        scheduler.deleteJob(JobKey.jobKey(query.getJobKey().getName(), query.getJobKey().getGroup()));
+
+    }
+
+    public void removeJob(ScheduledQuery query) throws SchedulerException {
 
         scheduler.deleteJob(JobKey.jobKey(query.getJobKey().getName(), query.getJobKey().getGroup()));
 
