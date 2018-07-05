@@ -1,12 +1,11 @@
 package com.isssr.ticketing_system.logger.aspect;
 
-
+import com.isssr.ticketing_system.logger.RecordService;
 import com.isssr.ticketing_system.logger.entity.Payload;
+import com.isssr.ticketing_system.logger.entity.Record;
 import com.isssr.ticketing_system.logger.exception.ObjNotFoundException;
 import com.isssr.ticketing_system.logger.utils.AspectUtils;
 import com.isssr.ticketing_system.logger.utils.ObjSer;
-import com.isssr.ticketing_system.logger.entity.Record;
-import com.isssr.ticketing_system.logger.RecordService;
 import com.isssr.ticketing_system.logger.utils.ReflectUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -29,11 +28,6 @@ public class LogAspect {
     @Autowired
     private RecordService recordService;
 
-    /**
-     *
-     * @param jp
-     * @throws Throwable
-     */
     @Around("@annotation(LogOperation)")
     public Object logOperationAdvice(ProceedingJoinPoint jp) throws Throwable {
 
@@ -49,19 +43,21 @@ public class LogAspect {
         boolean returnObjectName = annotation.returnObject();
         String opName = annotation.opName();
         String tag = annotation.tag();
+        String author = null;
+        //Get author name
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth != null)
+            author = auth.getName();
 
         Record record;
 
-        Payload[] payloads = new Payload[inputArgsNames.length+1];//dim = argumens +1 (including return object)
+        Payload[] payloads = new Payload[inputArgsNames.length + 1];//dim = argumens +1 (including return object)
         String serializedReturnObject = "";
 
         // check options and do related stuff
         if (AspectUtils.defaultOption(LogOperation.class, "opName", opName))
             opName = signature.getName();
-
-        //Add author
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String author = auth.getName();
 
         //create record object
         record = new Record(opName,author, tag);
@@ -81,7 +77,6 @@ public class LogAspect {
 
         //voglio serializzare i parametri in input
         //if (!AspectUtils.defaultOption(LogOperation.class, "inputArgs", inputArgsNames)) {
-        String[] test = (String[]) LogOperation.class.getDeclaredMethod("inputArgs").getDefaultValue();
         if (!inputArgsNames[0].equals("") ) {
 
             Object[] inputArgs = new Object[inputArgsNames.length];
@@ -117,30 +112,30 @@ public class LogAspect {
 
 
     private static String serializeObject(Object object) throws Throwable {
-        String[] params= null;
-        String[] idParams=null;
+        String[] params = null;
+        String[] idParams = null;
 
         params = ReflectUtils.getParameters(object);
         idParams = ReflectUtils.getIDParameters(object);
 
 
-        String objectId ="";
+        //String objectId ="";
 
         String serializedObject;
 
         if(params == null){
             // serializza tutti i parametri dell oggetto
             if(idParams==null){
-                objectId = "no id";
+                //objectId = "no id";
                 serializedObject = ObjSer.objToJson(object);
             }else{
-                objectId = ObjSer.buildIDJson(object, idParams);
+                //objectId = ObjSer.buildIDJson(object, idParams);
                 serializedObject = ObjSer.objToJson(object);
             }
 
         }else{
             // serializza solo alcuni attributi dell'oggetto
-            objectId = ObjSer.buildIDJson(object, idParams);
+            //objectId = ObjSer.buildIDJson(object, idParams);
             serializedObject = ObjSer.buildJson(object, params);
         }
 

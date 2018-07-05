@@ -89,17 +89,26 @@ public abstract class ObjSer {
         Object obj = initializeAndUnproxy(object);
 
         while (i < l - 1) {
-            Field field = FieldUtils.getField(objectClass, attributes[i], true);
-            System.err.println("field: " + field.toString());
-            // TODO: check su tipo dell'oggetto
-            t = "\"" + attributes[i] + "\": \"" + field.get(obj) + "\",\n ";
-            st = st.concat(t);
+            try {
+                Field field = FieldUtils.getField(objectClass, attributes[i], true);
+                System.err.println("field: " + field.toString());
+                // TODO: check su tipo dell'oggetto
+                t = "\"" + attributes[i] + "\": \"" + field.get(obj) + "\",\n ";
+                st = st.concat(t);
+            }
+            catch (NullPointerException e){
+                System.err.println("Attenzione: Attributo \"" + attributes[i] + "\" non trovato nella classe \"" + objectClass.getClass().getName() + "\"");
+            }
             i++;
         }
-        Field field_attr = FieldUtils.getField(objectClass, attributes[i], true);
-        t = "\"" + attributes[i] + "\": \"" + field_attr.get(obj) + "\"";
+        try {
+            Field field_attr = FieldUtils.getField(objectClass, attributes[i], true);
+            t = "\"" + attributes[i] + "\": \"" + field_attr.get(obj) + "\"";
 
-        st = st.concat(t);
+            st = st.concat(t);
+        }catch (NullPointerException e){
+            System.err.println("Attenzione: Attributo \"" + attributes[i] + "\" non trovato nella classe \"" + objectClass.getClass().getName() + "\"");
+        }
 
         return st;
     }

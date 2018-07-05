@@ -1,6 +1,7 @@
 package com.isssr.ticketing_system.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.isssr.ticketing_system.exception.UpdateException;
@@ -46,6 +47,7 @@ public class User {
     private String email;
 
     @NonNull
+    @JsonIgnore
     private String password;
 
     @JsonView(JsonViews.DetailedUser.class)

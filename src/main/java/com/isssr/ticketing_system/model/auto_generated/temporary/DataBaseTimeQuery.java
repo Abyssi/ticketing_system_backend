@@ -44,7 +44,6 @@ import java.util.Observable;
 @FilterDef(name = "deleted_filter", parameters = {@ParamDef(name = "value", type = "boolean")})
 @Filter(name = "deleted_filter", condition = "deleted = :value")
 @Component
-@LogClass(idAttrs = {"id"})
 public class DataBaseTimeQuery extends Observable implements Job, Serializable, SoftDeletable {
 
     @Transient

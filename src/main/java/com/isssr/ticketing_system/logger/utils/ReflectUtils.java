@@ -21,8 +21,11 @@ public abstract class ReflectUtils {
         try {
             Field field = FieldUtils.getField(instance.getClass(), fieldName, true);
             result = (String) field.get(instance);
-        } catch (IllegalAccessException | NullPointerException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
+        }
+        catch (NullPointerException e){
+            System.err.println("Attenzione: Attributo \"" + fieldName + "\" non trovato nella classe \"" + instance.getClass().getName() + "\"");
         }
 
         if (result == null)

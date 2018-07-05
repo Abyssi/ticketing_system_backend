@@ -1,6 +1,8 @@
 package com.isssr.ticketing_system.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.User;
@@ -119,12 +121,17 @@ public class UserController {
         return CommonResponseEntity.OkResponseEntity("DELETED");
     }
 
-    @JsonView(JsonViews.Basic.class)
+    @JsonView(JsonViews.DetailedUser.class)
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         try {
             Page<User> userPage = userService.findAll(page, pageSize);
+            try {
+                System.out.println(new ObjectMapper().writerWithView(JsonViews.DetailedUser.class).writeValueAsString(userPage.getContent()));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
             return new PageResponseEntityBuilder(userPage).setStatus(HttpStatus.OK).build();
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());

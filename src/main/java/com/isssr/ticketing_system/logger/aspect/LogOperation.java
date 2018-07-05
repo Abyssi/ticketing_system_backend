@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LogOperation {
     String[] inputArgs() default "";            // default: no input args will be serialized
-    boolean returnObject() default false;      // default: no return object will be serialized
+    boolean returnObject() default false;       // default: no return object will be serialized
     String opName() default "";                 // default: method name as operation name
     String tag() default "";                    // default: no tag
 }
