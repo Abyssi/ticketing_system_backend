@@ -33,21 +33,22 @@ public abstract class ScheduledQuery extends Query implements Job {
 
     protected JobKey jobKey; //key in scheduler at runtime execution
 
-    public ScheduledQuery(String description, TicketPriority queryPriority, boolean isEnable, String cron, JobKey jobKey) {
+    public ScheduledQuery(String description,
+                          TicketPriority queryPriority,
+                          boolean isEnable,
+                          String cron) {
         super(description, queryPriority, isEnable);
         this.cron = cron;
-        this.jobKey = jobKey;
     }
 
-    public ScheduledQuery(String cron, JobKey jobKey) {
-        this.cron = cron;
-        this.jobKey = jobKey;
-    }
-
-    public ScheduledQuery(String description, TicketPriority queryPriority, boolean active, boolean deleted, boolean isEnable, String cron, JobKey jobKey) {
+    public ScheduledQuery(String description,
+                          TicketPriority queryPriority,
+                          boolean active,
+                          boolean deleted,
+                          boolean isEnable,
+                          String cron) {
         super(description, queryPriority, active, deleted, isEnable);
         this.cron = cron;
-        this.jobKey = jobKey;
     }
 
     @Override

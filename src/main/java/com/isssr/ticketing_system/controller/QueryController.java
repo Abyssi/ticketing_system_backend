@@ -71,7 +71,7 @@ public class QueryController {
                 .build();
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    /*@RequestMapping(method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @LogOperation(tag = "QUERY_CREATE", inputArgs = {"dataBaseTimeQuery"})
     public ResponseEntity create(@RequestBody DataBaseTimeQuery dataBaseTimeQuery) {
@@ -106,9 +106,9 @@ public class QueryController {
 
 
         return CommonResponseEntity.OkResponseEntity("CREATED");
-    }
+    }*/
 
-    /*@RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @LogOperation(tag = "QUERY_CREATE", inputArgs = {"dataBaseTimeQuery"})
     public ResponseEntity create(@RequestBody ScheduledQuery scheduledQuery) {
@@ -150,9 +150,9 @@ public class QueryController {
 
 
         return CommonResponseEntity.OkResponseEntity("CREATED");
-    }*/
+    }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.POST)
+    /*@RequestMapping(value = "{id}", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity update(@PathVariable Long id, @RequestBody DataBaseTimeQuery dataBaseTimeQuery) {
 
@@ -176,9 +176,9 @@ public class QueryController {
 
         return CommonResponseEntity.OkResponseEntity("UPDATED");
 
-    }
+    }*/
 
-    /*@RequestMapping(value = "{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "{id}", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity update(@PathVariable Long id, @RequestBody Query query) {
 
@@ -202,9 +202,9 @@ public class QueryController {
 
         return CommonResponseEntity.OkResponseEntity("UPDATED");
 
-    }*/
+    }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    /*@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity delete(@PathVariable Long id) {
 
@@ -236,9 +236,9 @@ public class QueryController {
             return CommonResponseEntity.BaseResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
 
         }
-    }
+    }*/
 
-    /*@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity delete(@PathVariable Long id) {
 
@@ -270,9 +270,9 @@ public class QueryController {
             return CommonResponseEntity.BaseResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
 
         }
-    }*/
+    }
 
-    @JsonView(JsonViews.Basic.class)
+    /*@JsonView(JsonViews.Basic.class)
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -287,9 +287,9 @@ public class QueryController {
         return new PageResponseEntityBuilder(dataBaseTimeQueryPage)
                 .setStatus(HttpStatus.OK)
                 .build();
-    }
+    }*/
 
-    /*@JsonView(JsonViews.Basic.class)
+    @JsonView(JsonViews.Basic.class)
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -304,9 +304,9 @@ public class QueryController {
         return new PageResponseEntityBuilder(queryPage)
                 .setStatus(HttpStatus.OK)
                 .build();
-    }*/
+    }
 
-    @JsonView(JsonViews.Detailed.class)
+    /*@JsonView(JsonViews.Detailed.class)
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getOne(@PathVariable Long id) {
@@ -322,9 +322,9 @@ public class QueryController {
             return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
 
         }
-    }
+    }*/
 
-    /*@JsonView(JsonViews.Detailed.class)
+    @JsonView(JsonViews.Detailed.class)
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getOne(@PathVariable Long id) {
@@ -340,7 +340,7 @@ public class QueryController {
             return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
 
         }
-    }*/
+    }
 
     @RequestMapping(value = "tables", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
@@ -385,7 +385,7 @@ public class QueryController {
         }
     }
 
-    @RequestMapping(value = "disable/{id}", method = RequestMethod.POST)
+    /*@RequestMapping(value = "disable/{id}", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity disableQuery(@PathVariable() Long id) {
 
@@ -414,9 +414,9 @@ public class QueryController {
             return CommonResponseEntity.BaseResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
 
-    }
+    }*/
 
-    /*@RequestMapping(value = "disable/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "disable/{id}", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity disableQuery(@PathVariable() Long id) {
 
@@ -445,9 +445,9 @@ public class QueryController {
             return CommonResponseEntity.BaseResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
 
-    } */
+    }
 
-    @RequestMapping(value = "activate/{id}", method = RequestMethod.POST)
+    /*@RequestMapping(value = "activate/{id}", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity activateQuery(@PathVariable() Long id) {
 
@@ -477,9 +477,9 @@ public class QueryController {
 
         }
 
-    }
+    }*/
 
-    /*@RequestMapping(value = "activate/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "activate/{id}", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity activateQuery(@PathVariable() Long id) {
 
@@ -509,5 +509,5 @@ public class QueryController {
 
         }
 
-    }*/
+    }
 }

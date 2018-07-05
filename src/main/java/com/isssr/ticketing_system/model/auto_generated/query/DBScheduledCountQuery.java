@@ -4,6 +4,7 @@ import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.TicketPriority;
 import com.isssr.ticketing_system.model.auto_generated.enumeration.ComparisonOperatorsEnum;
+import com.isssr.ticketing_system.model.db_connection.DBConnectionInfo;
 import com.isssr.ticketing_system.service.UserSwitchService;
 import com.isssr.ticketing_system.service.auto_generated.QueryService;
 import lombok.Data;
@@ -39,6 +40,31 @@ import java.sql.SQLException;
 //@LogClass(idAttrs = {"id"})
 public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, ComparisonOperatorsEnum> {
 
+    public DBScheduledCountQuery(String description,
+                                 TicketPriority queryPriority,
+                                 boolean isEnable,
+                                 String cron,
+                                 String queryText,
+                                 DBConnectionInfo dbConnectionInfo,
+                                 QueryType queryType,
+                                 ComparisonOperatorsEnum comparisonOperator,
+                                 BigInteger referenceValue) {
+        super(description, queryPriority, isEnable, cron, queryText, dbConnectionInfo, queryType, comparisonOperator, referenceValue);
+    }
+
+    public DBScheduledCountQuery(String description,
+                                 TicketPriority queryPriority,
+                                 boolean active,
+                                 boolean deleted,
+                                 boolean isEnable,
+                                 String cron,
+                                 String queryText,
+                                 DBConnectionInfo dbConnectionInfo,
+                                 QueryType queryType,
+                                 ComparisonOperatorsEnum comparisonOperator,
+                                 BigInteger referenceValue) {
+        super(description, queryPriority, active, deleted, isEnable, cron, queryText, dbConnectionInfo, queryType, comparisonOperator, referenceValue);
+    }
 
     public void wakeUp() {
 

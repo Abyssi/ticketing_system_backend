@@ -16,7 +16,7 @@ public class TaskScheduler {
 
     private final Scheduler scheduler;
 
-    private String DATA_BASE_QUERY_GROUP_NAME = "Data base query group";
+    private String DATA_BASE_QUERY_GROUP_NAME = "Data_base_query_group";
 
     private String CRON_GROUP_NAME;
 

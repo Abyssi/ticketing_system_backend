@@ -20,7 +20,6 @@ import java.util.Observable;
 
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -45,13 +44,25 @@ public abstract class Query extends Observable implements Serializable, SoftDele
     @NonNull
     protected boolean active = true;
 
-    protected boolean deleted;
+    protected boolean deleted = false;
 
     @JsonView(JsonViews.Basic.class)
     @NonNull
     protected boolean isEnable;
 
-    public Query(String description, TicketPriority queryPriority, boolean active, boolean deleted, boolean isEnable) {
+    public Query(String description,
+                 TicketPriority queryPriority,
+                 boolean isEnable) {
+        this.description = description;
+        this.queryPriority = queryPriority;
+        this.isEnable = isEnable;
+    }
+
+    public Query(String description,
+                 TicketPriority queryPriority,
+                 boolean active,
+                 boolean deleted,
+                 boolean isEnable) {
         this.description = description;
         this.queryPriority = queryPriority;
         this.active = active;

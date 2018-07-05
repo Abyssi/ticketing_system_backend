@@ -54,58 +54,42 @@ public abstract class DBScheduledQuery<T, S> extends ScheduledQuery {
     @Type(type = "java.lang.Number")
     protected T lastValue;
 
-
-    public DBScheduledQuery(String cron, String queryText, DBConnectionInfo dbConnectionInfo,
-                            QueryType queryType, S comparisonOperator, T referenceValue, T lastValue) {
-        super(cron);
+    public DBScheduledQuery(String description,
+                            TicketPriority queryPriority,
+                            boolean isEnable,
+                            String cron,
+                            String queryText,
+                            DBConnectionInfo dbConnectionInfo,
+                            QueryType queryType,
+                            S comparisonOperator,
+                            T referenceValue) {
+        super(description, queryPriority, isEnable, cron);
         this.queryText = queryText;
         this.dbConnectionInfo = dbConnectionInfo;
         this.queryType = queryType;
         this.comparisonOperator = comparisonOperator;
         this.referenceValue = referenceValue;
-        this.lastValue = lastValue;
     }
 
-    public DBScheduledQuery(String queryText, DBConnectionInfo dbConnectionInfo, QueryType queryType,
-                            S comparisonOperator, T referenceValue, T lastValue) {
+    public DBScheduledQuery(
+            String description,
+            TicketPriority queryPriority,
+            boolean active,
+            boolean deleted,
+            boolean isEnable,
+            String cron,
+            String queryText,
+            DBConnectionInfo dbConnectionInfo,
+            QueryType queryType,
+            S comparisonOperator,
+            T referenceValue
+    ) {
+        super(description, queryPriority, active, deleted, isEnable, cron);
         this.queryText = queryText;
         this.dbConnectionInfo = dbConnectionInfo;
         this.queryType = queryType;
         this.comparisonOperator = comparisonOperator;
         this.referenceValue = referenceValue;
-        this.lastValue = lastValue;
-    }
-
-    public DBScheduledQuery(String description, TicketPriority queryPriority, boolean isEnable,
-                            String cron, JobKey jobKey, String queryText, DBConnectionInfo dbConnectionInfo,
-                            QueryType queryType, S comparisonOperator, T referenceValue, T lastValue) {
-        super(description, queryPriority, isEnable, cron, jobKey);
-        this.queryText = queryText;
-        this.dbConnectionInfo = dbConnectionInfo;
-        this.queryType = queryType;
-        this.comparisonOperator = comparisonOperator;
-        this.referenceValue = referenceValue;
-        this.lastValue = lastValue;
-    }
-
-    public DBScheduledQuery(String cron, JobKey jobKey, String queryText, DBConnectionInfo dbConnectionInfo, QueryType queryType, S comparisonOperator, T referenceValue, T lastValue) {
-        super(cron, jobKey);
-        this.queryText = queryText;
-        this.dbConnectionInfo = dbConnectionInfo;
-        this.queryType = queryType;
-        this.comparisonOperator = comparisonOperator;
-        this.referenceValue = referenceValue;
-        this.lastValue = lastValue;
-    }
-
-    public DBScheduledQuery(String description, TicketPriority queryPriority, boolean active, boolean deleted, boolean isEnable, String cron, JobKey jobKey, String queryText, DBConnectionInfo dbConnectionInfo, QueryType queryType, S comparisonOperator, T referenceValue, T lastValue) {
-        super(description, queryPriority, active, deleted, isEnable, cron, jobKey);
-        this.queryText = queryText;
-        this.dbConnectionInfo = dbConnectionInfo;
-        this.queryType = queryType;
-        this.comparisonOperator = comparisonOperator;
-        this.referenceValue = referenceValue;
-        this.lastValue = lastValue;
     }
 
     public String printQuery() { return this.queryText; }
