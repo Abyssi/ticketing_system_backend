@@ -39,6 +39,31 @@ public class MailSenderController extends MailController {
         }
     }
 
+
+    @LogOperation(tag = "MAIL_SEND")
+    public void sendMail(String address, String mailType, String mailText) {
+
+        try {
+            //Query to db for retrieve subject and content email, by type
+            Mail mail = this.mailService.findByType(mailType).get();
+
+            //Build email
+            Email email = new SimpleEmail();
+            email.setSmtpPort(587);
+            email.setAuthenticator(new DefaultAuthenticator(userName, password));
+            email.setHostName("smtp.gmail.com");
+            email.setFrom(userName);
+            email.setSubject(mail.getSubject());
+            email.setMsg(mail.getDescription() + "\n\n" + mailText);
+            email.addTo(address);
+            email.setTLS(true);
+            email.send();
+            System.out.println("Response e-mail sent!");
+        } catch (Exception e) {
+            System.out.println("Exception :: " + e);
+        }
+    }
+
     @Override
     public void receiveMail() {
     }

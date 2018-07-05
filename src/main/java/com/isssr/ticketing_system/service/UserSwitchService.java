@@ -1,10 +1,17 @@
 package com.isssr.ticketing_system.service;
 
+import com.isssr.ticketing_system.logEnabler.LogEnabler;
+import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.db_connection.DBConnectionModeEnum;
 import com.isssr.ticketing_system.repository.CustomRepository;
+import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.lang.Nullable;
@@ -12,11 +19,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import javax.validation.constraints.Null;
+import java.lang.reflect.Method;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 @Configuration
 @Component
@@ -47,26 +52,43 @@ public class UserSwitchService {
     @Autowired
     private CustomRepository customRepository;
 
+    @Autowired
+    private LogEnabler logEnabler;
 
-    public <T> T doQueryReadOnlyMode(String query, Class<T> returnType) {
+    public <T> T doNotLog(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword, boolean enabled) throws SQLException, DataAccessException {
 
-        return this.doQueryReadOnlyMode(query, returnType, null, null, null);
+        setLogOption(enabled);
+
+        return doQueryReadOnlyMode(query, returnType, dbURL, dbUsername, dbPassword);
 
     }
 
+    //Setting log option by changing param - Enable/Disable
+    public void setLogOption(boolean flag){
+        Method method;
+        try {
+            method = UserSwitchService.class.getMethod("doQueryReadOnlyMode", String.class, Class.class, String.class, String.class, String.class);
+            LogOperation methodAnnotation = method.getAnnotation(LogOperation.class);
+            logEnabler.changeAnnotationValue(methodAnnotation, "isEnabled", flag);
+            System.out.println(methodAnnotation.isEnabled());
+            System.out.println(flag);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
     //Use a read only user to do job
-    public <T> T doQueryReadOnlyMode(String query, Class<T> returnType, @Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword) {
+    @LogOperation(tag = "QUERY_CREATED", inputArgs = {"query"})
+    public <T> T doQueryReadOnlyMode(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword) throws SQLException, DataAccessException {
         //Go with the connection of a new user
         this.jdbcTemplate.setDataSource(getDataSource(dbURL, dbUsername, dbPassword, DBConnectionModeEnum.READ_ONLY_MODE));
         Connection connection;
         T result = null;
-        try {
-            connection = this.jdbcTemplate.getDataSource().getConnection();
-            result = this.customRepository.customQuery(query, jdbcTemplate, returnType);
-            connection.close();
-        } catch (SQLException e) {
-            System.out.println("SQL connection error: " + e.getMessage());
-        }
+
+        connection = this.jdbcTemplate.getDataSource().getConnection();
+        result = this.customRepository.customQuery(query, jdbcTemplate, returnType);
+        connection.close();
+
         return result;
     }
 

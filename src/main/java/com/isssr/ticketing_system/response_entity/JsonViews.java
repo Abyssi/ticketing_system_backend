@@ -63,4 +63,6 @@ public class JsonViews {
 
     public static class DetailedVisibility extends Detailed {
     }
+
+    public static class DetailedRecord extends Detailed{}
 }

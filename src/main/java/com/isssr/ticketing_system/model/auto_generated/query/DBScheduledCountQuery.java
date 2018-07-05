@@ -1,0 +1,256 @@
+package com.isssr.ticketing_system.model.auto_generated.query;
+
+import com.isssr.ticketing_system.exception.EntityNotFoundException;
+import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.model.TicketPriority;
+import com.isssr.ticketing_system.model.auto_generated.enumeration.ComparisonOperatorsEnum;
+import com.isssr.ticketing_system.model.db_connection.DBConnectionInfo;
+import com.isssr.ticketing_system.service.UserSwitchService;
+import com.isssr.ticketing_system.service.auto_generated.QueryService;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.*;
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.PersistJobDataAfterExecution;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Component;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.math.BigInteger;
+import java.sql.SQLException;
+
+
+@Data
+@NoArgsConstructor
+
+@Entity
+@Table(name = "db_scheduled_count_query")
+@DynamicInsert
+@DynamicUpdate
+
+@PersistJobDataAfterExecution //persist data after execution of a job
+@DisallowConcurrentExecution //avoid race condition on persisted data
+@FilterDef(name = "deleted_filter", parameters = {@ParamDef(name = "value", type = "boolean")})
+@Filter(name = "deleted_filter", condition = "deleted = :value")
+@Component
+//@LogClass(idAttrs = {"id"})
+public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, ComparisonOperatorsEnum> {
+
+    public DBScheduledCountQuery(String description,
+                                 TicketPriority queryPriority,
+                                 boolean isEnable,
+                                 String cron,
+                                 String queryText,
+                                 DBConnectionInfo dbConnectionInfo,
+                                 QueryType queryType,
+                                 ComparisonOperatorsEnum comparisonOperator,
+                                 BigInteger referenceValue) {
+        super(description, queryPriority, isEnable, cron, queryText, dbConnectionInfo, queryType, comparisonOperator, referenceValue);
+    }
+
+    public DBScheduledCountQuery(String description,
+                                 TicketPriority queryPriority,
+                                 boolean active,
+                                 boolean deleted,
+                                 boolean isEnable,
+                                 String cron,
+                                 String queryText,
+                                 DBConnectionInfo dbConnectionInfo,
+                                 QueryType queryType,
+                                 ComparisonOperatorsEnum comparisonOperator,
+                                 BigInteger referenceValue) {
+        super(description, queryPriority, active, deleted, isEnable, cron, queryText, dbConnectionInfo, queryType, comparisonOperator, referenceValue);
+    }
+
+    public void wakeUp() {
+
+        System.out.println("Observers on query " + this.countObservers());
+        //notify observers
+        setChanged();
+        notifyObservers();
+
+    }
+
+    public Boolean executeQuery(UserSwitchService userSwitchService, QueryService queryService) throws SQLException, DataAccessException {
+
+        switch (this.queryType) {
+
+            case DATA_BASE_INSTANT_CHECK:
+
+                return this.executeInstantCheck(userSwitchService);
+
+            case DATA_BASE_TABLE_MONITOR:
+
+                return this.executeMonitorCheck(userSwitchService, queryService);
+
+        }
+
+        return false;
+
+    }
+
+    private Boolean executeMonitorCheck(UserSwitchService userSwitchService, QueryService queryService) throws SQLException, DataAccessException {
+
+        BigInteger count = this.executeSQL(userSwitchService);
+
+        if (this.lastValue == null) {
+
+            //update last value
+            this.lastValue = count;
+
+            //update query
+            try {
+
+                queryService.simpleUpdateOne(this.id, this);
+
+            } catch (EntityNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            // It's first time running this query.
+            // It is equivalent to run an instant check.
+            // So return simply false, because is not a monitor action
+            return false;
+
+        } else {
+
+            BigInteger difference = count.andNot(this.lastValue);
+
+            //update last value
+            this.lastValue = count;
+
+            try {
+
+                queryService.simpleUpdateOne(this.id, this);
+
+            } catch (EntityNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            return this.compare(difference);
+
+        }
+
+    }
+
+    private Boolean executeInstantCheck(UserSwitchService userSwitchService) throws SQLException, DataAccessException {
+
+        BigInteger count = this.executeSQL(userSwitchService);
+
+        return this.compare(count);
+
+    }
+
+    private BigInteger executeSQL(UserSwitchService userSwitchService) throws SQLException, DataAccessException {
+
+        if (this.dbConnectionInfo == null) {
+
+            return userSwitchService.doNotLog(this.queryText , BigInteger.class, null, null, null, this.isEnable);
+
+        } else {
+
+            return userSwitchService.doNotLog(this.queryText , BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.isEnable);
+
+        }
+
+    }
+
+    private boolean compare(BigInteger value) {
+
+        int comparison = value.compareTo(this.referenceValue);
+
+        switch (this.comparisonOperator) {
+
+            case LESS:
+
+                return comparison < 0;
+
+            case EQUALS:
+
+                return comparison == 0;
+
+            case GREATER:
+
+                return comparison > 0;
+
+            case LESS_EQUALS:
+
+                return comparison <= 0;
+
+            case GREATER_EQUALS:
+
+                return comparison >= 0;
+
+        }
+
+        return false;
+
+    }
+
+    @Override
+    public void execute(JobExecutionContext jobExecutionContext) {
+
+        //get data map
+        JobDataMap jobDataMap = jobExecutionContext.getJobDetail().getJobDataMap();
+
+        //extract job from data map
+        DBScheduledCountQuery dbSchedulableTimeQuery = (DBScheduledCountQuery) jobDataMap.get(this.MAP_ME);
+
+        //activate query
+        dbSchedulableTimeQuery.wakeUp();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof DBScheduledCountQuery)) {
+            return false;
+        }
+
+        DBScheduledCountQuery other = (DBScheduledCountQuery) o;
+
+        return this.id.equals(other.id);
+    }
+
+    /**
+     * check @otherQuery has DBScheduledCountQuery class
+     * **/
+    @Override
+    public boolean equalsByClass(Query otherQuery) {
+
+        if (otherQuery instanceof DBScheduledCountQuery)
+            return true;
+
+        return false;
+    }
+
+    @Override
+    public void updateMe(Query updatedData) throws UpdateException {
+
+        if (! (updatedData instanceof DBScheduledCountQuery))
+            throw new UpdateException("Query class doesn't match");
+
+        DBScheduledCountQuery upData = (DBScheduledCountQuery) updatedData;
+
+        super.updateMe(upData);
+
+    }
+
+    @Override
+    public String toMailPrettyString() {
+
+        String dbUrl = dbConnectionInfo.getUrl() != null ? dbConnectionInfo.getUrl() : this.defaultDBUrl;
+
+        return String.format(
+                "Query information: \nID: %d%n\nDESCRIPTION: %s\nSQL: %s\nDB URL: %s\nTYPE: %s",
+                this.id,
+                this.description,
+                this.queryText,
+                dbUrl,
+                this.queryType.toString());
+
+    }
+}

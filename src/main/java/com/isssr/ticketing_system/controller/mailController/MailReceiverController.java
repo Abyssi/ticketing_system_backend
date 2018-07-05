@@ -2,10 +2,14 @@ package com.isssr.ticketing_system.controller.mailController;
 
 import com.isssr.ticketing_system.exception.FormatNotRespectedException;
 import com.isssr.ticketing_system.exception.MailRejectedException;
+import com.isssr.ticketing_system.exception.PageableQueryException;
+import com.isssr.ticketing_system.logger.RecordService;
 import com.isssr.ticketing_system.model.*;
 import com.isssr.ticketing_system.service.*;
 import lombok.NoArgsConstructor;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -62,6 +66,9 @@ public class MailReceiverController extends MailController {
 
     @Autowired
     private MailSenderController mailSenderController;
+
+    @Autowired
+    private RecordService recordService;
 
     //Returns a Properties object which is configured for a IMAP server
     private Properties getServerProperties(String host, String port) {
@@ -236,7 +243,7 @@ public class MailReceiverController extends MailController {
                 break; // without break same text appears twice
             } else if (bodyPart.isMimeType("text/html")) {
                 String html = (String) bodyPart.getContent();
-                result = result + "\n" + org.jsoup.Jsoup.parse(html).text();
+                result = result + "\n" + Jsoup.parse(html).text();
             } else if (bodyPart.getContent() instanceof MimeMultipart) {
                 result = result + getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent());
             }

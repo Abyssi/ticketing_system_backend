@@ -1,6 +1,9 @@
 package com.isssr.ticketing_system.logger;
 
 import com.isssr.ticketing_system.logger.entity.Record;
+import com.isssr.ticketing_system.model.Ticket;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +26,6 @@ public interface RecordDao extends JpaRepository<Record,Integer> {
     List<Record> getRecordsByObjectId(@NotNull String objectId);
 
     List<Record> getRecordsByOperationName(@NotNull String opName);
+
+    Page<Record> findAll(Pageable pageable);
 }
