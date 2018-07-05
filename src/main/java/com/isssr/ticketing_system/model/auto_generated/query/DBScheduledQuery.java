@@ -54,16 +54,8 @@ public abstract class DBScheduledQuery<T, S> extends ScheduledQuery {
     @Type(type = "java.lang.Number")
     protected T lastValue;
 
-    public DBScheduledQuery(String description,
-                            TicketPriority queryPriority,
-                            boolean isEnable,
-                            String cron,
-                            String queryText,
-                            DBConnectionInfo dbConnectionInfo,
-                            QueryType queryType,
-                            S comparisonOperator,
-                            T referenceValue) {
-        super(description, queryPriority, isEnable, cron);
+    public DBScheduledQuery(String description, TicketPriority queryPriority, boolean isEnable, String author, String cron, String queryText, DBConnectionInfo dbConnectionInfo, QueryType queryType, S comparisonOperator, T referenceValue) {
+        super(description, queryPriority, isEnable, author, cron);
         this.queryText = queryText;
         this.dbConnectionInfo = dbConnectionInfo;
         this.queryType = queryType;
@@ -71,20 +63,8 @@ public abstract class DBScheduledQuery<T, S> extends ScheduledQuery {
         this.referenceValue = referenceValue;
     }
 
-    public DBScheduledQuery(
-            String description,
-            TicketPriority queryPriority,
-            boolean active,
-            boolean deleted,
-            boolean isEnable,
-            String cron,
-            String queryText,
-            DBConnectionInfo dbConnectionInfo,
-            QueryType queryType,
-            S comparisonOperator,
-            T referenceValue
-    ) {
-        super(description, queryPriority, active, deleted, isEnable, cron);
+    public DBScheduledQuery(String description, TicketPriority queryPriority, boolean active, boolean deleted, boolean isEnable, String author, String cron, String queryText, DBConnectionInfo dbConnectionInfo, QueryType queryType, S comparisonOperator, T referenceValue) {
+        super(description, queryPriority, active, deleted, isEnable, author, cron);
         this.queryText = queryText;
         this.dbConnectionInfo = dbConnectionInfo;
         this.queryType = queryType;

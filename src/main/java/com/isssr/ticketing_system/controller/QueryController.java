@@ -111,11 +111,14 @@ public class QueryController {
     @RequestMapping(method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @LogOperation(tag = "QUERY_CREATE", inputArgs = {"dataBaseTimeQuery"})
-    public ResponseEntity create(@RequestBody ScheduledQuery scheduledQuery) {
+    public ResponseEntity create(@RequestBody ScheduledQuery scheduledQuery, @AuthenticationPrincipal Principal principal) {
 
         //try to store new query
         //DataBaseTimeQuery query = queryService.create(dataBaseTimeQuery);
         scheduledQuery.setQueryPriority(this.ticketPriorityService.findById(scheduledQuery.getQueryPriority().getId()).get());
+
+        //set query author
+        scheduledQuery.setAuthor(principal.getName());
 
         //save query
         Query query = this.queryService.create(scheduledQuery);

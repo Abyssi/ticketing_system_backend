@@ -40,30 +40,19 @@ import java.sql.SQLException;
 //@LogClass(idAttrs = {"id"})
 public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, ComparisonOperatorsEnum> {
 
-    public DBScheduledCountQuery(String description,
-                                 TicketPriority queryPriority,
-                                 boolean isEnable,
-                                 String cron,
-                                 String queryText,
-                                 DBConnectionInfo dbConnectionInfo,
-                                 QueryType queryType,
-                                 ComparisonOperatorsEnum comparisonOperator,
-                                 BigInteger referenceValue) {
-        super(description, queryPriority, isEnable, cron, queryText, dbConnectionInfo, queryType, comparisonOperator, referenceValue);
+    public DBScheduledCountQuery(String description, TicketPriority queryPriority, boolean isEnable, String author,
+                                 String cron, String queryText, DBConnectionInfo dbConnectionInfo, QueryType queryType,
+                                 ComparisonOperatorsEnum comparisonOperator, BigInteger referenceValue) {
+        super(description, queryPriority, isEnable, author, cron, queryText, dbConnectionInfo, queryType,
+                comparisonOperator, referenceValue);
     }
 
-    public DBScheduledCountQuery(String description,
-                                 TicketPriority queryPriority,
-                                 boolean active,
-                                 boolean deleted,
-                                 boolean isEnable,
-                                 String cron,
-                                 String queryText,
-                                 DBConnectionInfo dbConnectionInfo,
-                                 QueryType queryType,
-                                 ComparisonOperatorsEnum comparisonOperator,
-                                 BigInteger referenceValue) {
-        super(description, queryPriority, active, deleted, isEnable, cron, queryText, dbConnectionInfo, queryType, comparisonOperator, referenceValue);
+    public DBScheduledCountQuery(String description, TicketPriority queryPriority, boolean active, boolean deleted,
+                                 boolean isEnable, String author, String cron, String queryText,
+                                 DBConnectionInfo dbConnectionInfo, QueryType queryType,
+                                 ComparisonOperatorsEnum comparisonOperator, BigInteger referenceValue) {
+        super(description, queryPriority, active, deleted, isEnable, author, cron, queryText,
+                dbConnectionInfo, queryType, comparisonOperator, referenceValue);
     }
 
     public void wakeUp() {
