@@ -50,24 +50,23 @@ public abstract class Query extends Observable implements Serializable, SoftDele
     @NonNull
     protected boolean isEnable;
 
-    public Query(String description,
-                 TicketPriority queryPriority,
-                 boolean isEnable) {
+    @NonNull
+    protected String author;
+
+    public Query(String description, TicketPriority queryPriority, boolean isEnable, String author) {
         this.description = description;
         this.queryPriority = queryPriority;
         this.isEnable = isEnable;
+        this.author = author;
     }
 
-    public Query(String description,
-                 TicketPriority queryPriority,
-                 boolean active,
-                 boolean deleted,
-                 boolean isEnable) {
+    public Query(String description, TicketPriority queryPriority, boolean active, boolean deleted, boolean isEnable, String author) {
         this.description = description;
         this.queryPriority = queryPriority;
         this.active = active;
         this.deleted = deleted;
         this.isEnable = isEnable;
+        this.author = author;
     }
 
     public abstract boolean equalsByClass(Query otherQuery);

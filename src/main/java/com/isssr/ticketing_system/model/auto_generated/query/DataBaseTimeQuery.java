@@ -391,32 +391,19 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
 //@LogClass(idAttrs = {"id"})
 public class DataBaseTimeQuery extends DBScheduledQuery<BigInteger, ComparisonOperatorsEnum> {
 
-    public DataBaseTimeQuery(String description,
-                             TicketPriority queryPriority,
-                             boolean isEnable,
-                             String cron,
-                             String queryText,
-                             DBConnectionInfo dbConnectionInfo,
-                             QueryType queryType,
-                             ComparisonOperatorsEnum comparisonOperator,
-                             BigInteger referenceValue) {
-        super(description, queryPriority, isEnable, cron, queryText, dbConnectionInfo, queryType, comparisonOperator, referenceValue);
+    public DataBaseTimeQuery(String description, TicketPriority queryPriority, boolean isEnable,
+                             String author, String cron, String queryText, DBConnectionInfo dbConnectionInfo,
+                             QueryType queryType, ComparisonOperatorsEnum comparisonOperator, BigInteger referenceValue) {
+        super(description, queryPriority, isEnable, author, cron, queryText, dbConnectionInfo,
+                queryType, comparisonOperator, referenceValue);
     }
 
-    public DataBaseTimeQuery(
-             String description,
-             TicketPriority queryPriority,
-             boolean active,
-             boolean deleted,
-             boolean isEnable,
-             String cron,
-             String queryText,
-             DBConnectionInfo dbConnectionInfo,
-             QueryType queryType,
-             ComparisonOperatorsEnum comparisonOperator,
-             BigInteger referenceValue
-    ) {
-        super(description, queryPriority, active, deleted, isEnable, cron, queryText, dbConnectionInfo, queryType, comparisonOperator, referenceValue);
+    public DataBaseTimeQuery(String description, TicketPriority queryPriority, boolean active, boolean deleted,
+                             boolean isEnable, String author, String cron, String queryText,
+                             DBConnectionInfo dbConnectionInfo, QueryType queryType,
+                             ComparisonOperatorsEnum comparisonOperator, BigInteger referenceValue) {
+        super(description, queryPriority, active, deleted, isEnable, author, cron, queryText,
+                dbConnectionInfo, queryType, comparisonOperator, referenceValue);
     }
 
     public void wakeUp() {
