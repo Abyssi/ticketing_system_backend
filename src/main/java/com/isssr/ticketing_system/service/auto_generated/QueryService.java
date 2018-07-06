@@ -5,11 +5,9 @@ import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.auto_generated.query.DBScheduledQuery;
-import com.isssr.ticketing_system.model.auto_generated.query.DataBaseTimeQuery;
 import com.isssr.ticketing_system.model.auto_generated.query.Query;
 import com.isssr.ticketing_system.model.auto_generated.query.ScheduledQuery;
 import com.isssr.ticketing_system.model.db_connection.DBConnectionInfo;
-import com.isssr.ticketing_system.repository.DataBaseTimeQueryRepository;
 import com.isssr.ticketing_system.repository.QueryRepository;
 import com.isssr.ticketing_system.service.DBConnectionInfoService;
 import com.isssr.ticketing_system.utils.PageableUtils;
@@ -31,10 +29,6 @@ import java.util.List;
 @Service
 public class QueryService {
 
-
-    @Autowired
-    private DataBaseTimeQueryRepository dataBaseTimeQueryRepository;
-
     @Autowired
     private QueryRepository queryRepository;
 
@@ -46,23 +40,6 @@ public class QueryService {
 
     @Autowired
     private DBConnectionInfoService dbConnectionInfoService;
-
-    @Transactional
-    @LogOperation(tag = "QUERY_CREATED", inputArgs = {"dataBaseTimeQuery"})
-    public DataBaseTimeQuery create(DataBaseTimeQuery dataBaseTimeQuery) {
-
-        //save or retrieve db connection info
-        DBConnectionInfo dbConnectionInfo = this.dbConnectionInfoService.findByUrlAndUsernameAndPassword(
-                dataBaseTimeQuery.getDbConnectionInfo().getUrl(),
-                dataBaseTimeQuery.getDbConnectionInfo().getUsername(),
-                dataBaseTimeQuery.getDbConnectionInfo().getPassword()
-        );
-
-        //update query connection info with id value
-        dataBaseTimeQuery.setDbConnectionInfo(dbConnectionInfo);
-
-        return this.dataBaseTimeQueryRepository.save(dataBaseTimeQuery);
-    }
 
     /**
      * general create query
@@ -83,6 +60,8 @@ public class QueryService {
     /**
      * create DB SCHEDULED QUERY
      **/
+    @Transactional
+    @LogOperation(tag = "QUERY_CREATED", inputArgs = {"query"})
     private DBScheduledQuery createDBScheduledQuery(DBScheduledQuery query) {
 
         //save or retrieve db connection info
@@ -97,48 +76,6 @@ public class QueryService {
 
         return this.queryRepository.save(query);
 
-    }
-
-    @Transactional
-    public @NotNull DataBaseTimeQuery updateOne(@NotNull Long id, @NotNull DataBaseTimeQuery updatedData) throws UpdateException, EntityNotFoundException, SchedulerException, ParseException {
-
-        if (!this.existsById(id))
-            throw new EntityNotFoundException("Query to update not found in DB, maybe you have to create a new one");
-
-        DataBaseTimeQuery updatingDataBaseTimeQuery = dataBaseTimeQueryRepository.getOne(id);
-
-        //check if query is active
-        boolean isActive = updatingDataBaseTimeQuery.isActive();
-
-        //if it is active
-        if (isActive) {
-
-            //disable query
-            this.disableQuery(updatingDataBaseTimeQuery);
-
-        }
-
-        //update query
-        updatingDataBaseTimeQuery.updateMe(updatedData);
-
-        //save or retrieve db connection info
-        DBConnectionInfo dbConnectionInfo = this.dbConnectionInfoService.findByUrlAndUsernameAndPassword(
-                updatingDataBaseTimeQuery.getDbConnectionInfo().getUrl(),
-                updatingDataBaseTimeQuery.getDbConnectionInfo().getUsername(),
-                updatingDataBaseTimeQuery.getDbConnectionInfo().getPassword()
-        );
-
-        //update query connection info with id value
-        updatingDataBaseTimeQuery.setDbConnectionInfo(dbConnectionInfo);
-
-        if (isActive) {
-
-            //activate query again
-            this.activateQuery(updatingDataBaseTimeQuery);
-
-        }
-
-        return dataBaseTimeQueryRepository.save(updatingDataBaseTimeQuery);
     }
 
     @Transactional
@@ -193,17 +130,6 @@ public class QueryService {
     }
 
     @Transactional
-    public void simpleUpdateOne(Long id, DataBaseTimeQuery dataBaseTimeQuery) throws EntityNotFoundException {
-
-        if (!this.existsById(id))
-            throw new EntityNotFoundException("Query to update not found in DB, maybe you have to create a new one");
-
-
-        dataBaseTimeQueryRepository.save(dataBaseTimeQuery);
-
-    }
-
-    @Transactional
     public void simpleUpdateOne(Long id, Query query) throws EntityNotFoundException {
 
         if (!this.existsById(id))
@@ -213,124 +139,6 @@ public class QueryService {
         queryRepository.save(query);
 
     }
-
-    /*@Transactional
-    public DataBaseTimeQuery findById(Long id) throws EntityNotFoundException {
-
-        if (!this.existsById(id))
-            throw new EntityNotFoundException("No query with this ID in db");
-
-        return this.dataBaseTimeQueryRepository.getOne(id);
-    }
-
-    @Transactional
-    public boolean existsById(Long id) {
-        return this.dataBaseTimeQueryRepository.existsById(id);
-    }
-
-    @Transactional
-    public Iterable<DataBaseTimeQuery> findAll() {
-        return this.dataBaseTimeQueryRepository.findAll();
-    }
-
-    @Transactional
-    public Iterable<DataBaseTimeQuery> findAllById(Iterable<Long> ids) {
-        return this.dataBaseTimeQueryRepository.findAllById(ids);
-    }
-
-    @Transactional
-    public long count() {
-        return this.dataBaseTimeQueryRepository.count();
-    }
-
-    @Transactional
-    public boolean deleteById(Long id) {
-        boolean exists = this.existsById(id);
-
-        if (exists) {
-
-            DataBaseTimeQuery query = this.dataBaseTimeQueryRepository.getOne(id);
-
-            if (query.isDeleted()) {
-
-                this.dataBaseTimeQueryRepository.deleteById(id);
-
-            } else {
-
-                query.delete();
-
-                this.dataBaseTimeQueryRepository.save(query);
-            }
-        }
-        return exists;
-    }
-
-    @Transactional
-    public DataBaseTimeQuery restoreById(Long id) throws EntityNotFoundException {
-
-        if (this.existsById(id)) {
-
-            DataBaseTimeQuery query = this.dataBaseTimeQueryRepository.getOne(id);
-
-            query.restore();
-
-            return this.dataBaseTimeQueryRepository.save(query);
-
-        } else {
-            throw new EntityNotFoundException("Trying to restore Target not present in db");
-        }
-
-    }
-
-    @Transactional
-    public void deleteAll() {
-        this.dataBaseTimeQueryRepository.deleteAll();
-    }
-
-    @Transactional
-    public Page<DataBaseTimeQuery> findAll(Pageable pageable) {
-        return this.dataBaseTimeQueryRepository.findAll(pageable);
-    }
-
-    @Transactional
-    public Page<DataBaseTimeQuery> findAll(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
-        Page<DataBaseTimeQuery> retrievedPage = this.findAll(pageableUtils.instantiatePageableObject(page, pageSize, null));
-
-        if (page > retrievedPage.getTotalPages() - 1)
-            throw new PageableQueryException("Page number higher than the maximum");
-
-        return retrievedPage;
-    }
-
-    @Transactional
-    public Page<DataBaseTimeQuery> findAllNotDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
-        Page<DataBaseTimeQuery> retrievedPage = this.findAllNotDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
-
-        if (page != 0 && page > retrievedPage.getTotalPages() - 1)
-            throw new PageableQueryException("Page number higher than the maximum");
-
-        return retrievedPage;
-    }
-
-    @Transactional
-    public Page<DataBaseTimeQuery> findAllNotDeleted(PageRequest pageRequest) {
-        return this.dataBaseTimeQueryRepository.findAllNotDeleted(pageRequest);
-    }
-
-    @Transactional
-    public Page<DataBaseTimeQuery> findAllDeleted(@NotNull Integer page, @Nullable Integer pageSize) throws PageableQueryException {
-        Page<DataBaseTimeQuery> retrievedPage = this.findAllDeleted(pageableUtils.instantiatePageableObject(page, pageSize, null));
-
-        if (page != 0 && page > retrievedPage.getTotalPages() - 1)
-            throw new PageableQueryException("Page number higher than the maximum");
-
-        return retrievedPage;
-    }
-
-    @Transactional
-    public Page<DataBaseTimeQuery> findAllDeleted(PageRequest pageRequest) {
-        return this.dataBaseTimeQueryRepository.findAllDeleted(pageRequest);
-    }*/
 
     @Transactional
     public Query findById(Long id) throws EntityNotFoundException {
@@ -451,27 +259,6 @@ public class QueryService {
     }
 
     @Transactional
-    public boolean activateQuery(DataBaseTimeQuery query) throws ParseException, SchedulerException {
-
-        //Be sure query is initialized, sometimes when obj is retrieved from db its initialization is postponed
-        query = this.initializeAndUnproxyQuery(query);
-
-        boolean activated = autoGeneratedTicketService.activateQuery(query);
-
-        if (activated) {
-
-            query.activeMe();
-
-            this.dataBaseTimeQueryRepository.save(query);
-
-        }
-
-        return activated;
-
-
-    }
-
-    @Transactional
     public boolean activateQuery(Query query) throws ParseException, SchedulerException {
 
         //Be sure query is initialized, sometimes when obj is retrieved from db its initialization is postponed
@@ -501,28 +288,6 @@ public class QueryService {
         }
 
     }
-
-    @Transactional
-    public boolean disableQuery(DataBaseTimeQuery query) throws SchedulerException {
-
-        //Be sure query is initialized, sometimes when obj is retrieved from db its initialization is postponed
-        query = this.initializeAndUnproxyQuery(query);
-
-
-        boolean disabled = autoGeneratedTicketService.disableQuery(query);
-
-        if (disabled) {
-
-            query.disableMe();
-
-            this.dataBaseTimeQueryRepository.save(query);
-
-        }
-
-        return disabled;
-
-    }
-
 
     @Transactional
     public boolean disableQuery(Query query) throws SchedulerException {
@@ -557,37 +322,11 @@ public class QueryService {
 
     }
 
-    /*@Transactional
-    public List<DataBaseTimeQuery> findAllActiveQueries() {
-
-        return this.dataBaseTimeQueryRepository.findAllByActive(true);
-
-    }*/
-
     @Transactional
     public List<Query> findAllActiveQueries() {
 
         return this.queryRepository.findAllByActive(true);
 
-    }
-
-    private DataBaseTimeQuery initializeAndUnproxyQuery(DataBaseTimeQuery entity) {
-
-        if (entity == null) {
-            throw new
-                    NullPointerException("Entity passed for initialization is null");
-        }
-
-        Hibernate.initialize(entity);
-
-        if (entity instanceof HibernateProxy) {
-
-            entity = (DataBaseTimeQuery) ((HibernateProxy) entity).getHibernateLazyInitializer()
-                    .getImplementation();
-
-        }
-
-        return entity;
     }
 
     private Query initializeAndUnproxyQuery(Query entity) {

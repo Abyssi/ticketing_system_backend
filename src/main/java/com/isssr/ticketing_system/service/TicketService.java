@@ -34,6 +34,7 @@ public class TicketService {
     }
 
     @Transactional
+    @LogOperation(tag = "TICKET_UPDATE", inputArgs = {"ticket"})
     public Ticket updateById(@NotNull Long id, @NotNull Ticket ticket) throws EntityNotFoundException {
         if (!ticketRepository.existsById(id))
             throw new EntityNotFoundException("Ticket to update not found in DB, maybe you have to create a new one");

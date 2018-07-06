@@ -33,6 +33,7 @@ public class TeamService {
     }
 
     @Transactional
+    @LogOperation(tag = "TEAM_UPDATED", inputArgs = {"team"})
     public Team updateById(@NotNull Long id, @NotNull Team team) throws EntityNotFoundException {
         if (!teamRepository.existsById(id))
             throw new EntityNotFoundException("Team to update not found in DB, maybe you have to create a new one");

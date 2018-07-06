@@ -51,9 +51,9 @@ public class UserSwitchService {
     @Autowired
     private LogEnabler logEnabler;
 
-    public <T> T doNotLog(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword, boolean enabled) throws SQLException, DataAccessException {
+    public <T> T doNotLog(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword) throws SQLException, DataAccessException {
 
-        setLogOption(enabled);
+        setLogOption(false);
 
         return doQueryReadOnlyMode(query, returnType, dbURL, dbUsername, dbPassword);
 
@@ -74,7 +74,7 @@ public class UserSwitchService {
     }
 
     //Use a read only user to do job
-    @LogOperation(tag = "QUERY_CREATED", inputArgs = {"query"})
+    @LogOperation(tag = "QUERY_EXECUTE", inputArgs = {"query"})
     public <T> T doQueryReadOnlyMode(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword) throws SQLException, DataAccessException {
         //Go with the connection of a new user
         this.jdbcTemplate.setDataSource(getDataSource(dbURL, dbUsername, dbPassword, DBConnectionModeEnum.READ_ONLY_MODE));

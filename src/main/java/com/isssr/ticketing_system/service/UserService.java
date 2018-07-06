@@ -71,6 +71,7 @@ public class UserService {
     }
 
     @Transactional
+    @LogOperation(tag = "USER_UPDATE", inputArgs = {"user"})
     public User updateById(@NotNull Long id, @NotNull User user) throws EntityNotFoundException {
         if (!userRepository.existsById(id))
             throw new EntityNotFoundException("User to update not found in DB, maybe you have to create a new one");
@@ -95,6 +96,7 @@ public class UserService {
     }
 
     @Transactional
+    @LogOperation(tag = "USER_UPDATE", inputArgs = {"user"})
     public User updateByEmail(@NotNull String email, @NotNull User user) throws EntityNotFoundException {
         if (!userRepository.existsByEmail(email))
             throw new EntityNotFoundException("User to update not found in DB, maybe you have to create a new one");
@@ -143,6 +145,7 @@ public class UserService {
         }
         return Optional.empty();
     }
+
 
     public User updateUser(String term, String type, User user) throws UpdateException, EntityNotFoundException {
         switch (type) {
