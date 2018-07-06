@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.logger.RecordService;
 import com.isssr.ticketing_system.logger.entity.Record;
-import com.isssr.ticketing_system.model.Ticket;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import com.isssr.ticketing_system.response_entity.PageResponseEntityBuilder;
 import com.isssr.ticketing_system.response_entity.ResponseEntityBuilder;
 import com.isssr.ticketing_system.validator.RecordValidator;
-import com.isssr.ticketing_system.validator.TicketValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -33,14 +31,15 @@ public class RecordController {
     private RecordValidator recordValidator;
 
     @Autowired
-    public RecordController(RecordValidator recordValidator) { this.recordValidator = recordValidator; }
+    public RecordController(RecordValidator recordValidator) {
+        this.recordValidator = recordValidator;
+    }
 
     @InitBinder
     public void setupBinder(WebDataBinder binder) {
         binder.addValidators(recordValidator);
     }
 
-    @JsonView(JsonViews.DetailedRecord.class)
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity get(@PathVariable Integer id) {
@@ -52,7 +51,6 @@ public class RecordController {
         return new ResponseEntityBuilder<>(record.get()).setStatus(HttpStatus.OK).build();
     }
 
-    @JsonView(JsonViews.Basic.class)
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {

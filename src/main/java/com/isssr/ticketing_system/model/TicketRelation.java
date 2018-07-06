@@ -16,9 +16,9 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ticket_relation")
 @DynamicInsert
 @DynamicUpdate
+@Table(name = "ticket_relation")
 public class TicketRelation {
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id

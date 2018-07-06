@@ -1,6 +1,7 @@
 package com.isssr.ticketing_system.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.isssr.ticketing_system.model.SoftDelete.SoftDeletableEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,10 @@ import java.util.Collection;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "role")
 @DynamicInsert
 @DynamicUpdate
-public class Role {
+@Table(name = "role")
+public class Role extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -11,7 +11,6 @@ import com.isssr.ticketing_system.service.UserSwitchService;
 import com.isssr.ticketing_system.service.auto_generated.QueryService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.*;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobDataMap;
@@ -139,11 +138,11 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
 
         if (this.dbConnectionInfo == null) {
 
-            return userSwitchService.doNotLog(this.queryText , BigInteger.class, null, null, null, this.isEnable);
+            return userSwitchService.doNotLog(this.queryText, BigInteger.class, null, null, null, this.isEnable);
 
         } else {
 
-            return userSwitchService.doNotLog(this.queryText , BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.isEnable);
+            return userSwitchService.doNotLog(this.queryText, BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.isEnable);
 
         }
 
@@ -207,7 +206,7 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
 
     /**
      * check @otherQuery has DBScheduledCountQuery class
-     * **/
+     **/
     @Override
     public boolean equalsByClass(Query otherQuery) {
 
@@ -220,7 +219,7 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
     @Override
     public void updateMe(Query updatedData) throws UpdateException {
 
-        if (! (updatedData instanceof DBScheduledCountQuery))
+        if (!(updatedData instanceof DBScheduledCountQuery))
             throw new UpdateException("Query class doesn't match");
 
         DBScheduledCountQuery upData = (DBScheduledCountQuery) updatedData;

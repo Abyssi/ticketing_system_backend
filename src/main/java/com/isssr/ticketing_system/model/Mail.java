@@ -1,8 +1,7 @@
 package com.isssr.ticketing_system.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.isssr.ticketing_system.model.SoftDelete.SoftDeletableEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,11 +17,10 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "email")
 @DynamicInsert
 @DynamicUpdate
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Mail {
+@Table(name = "email")
+public class Mail extends SoftDeletableEntity {
 
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id

@@ -2,16 +2,13 @@ package com.isssr.ticketing_system.controller.mailController;
 
 import com.isssr.ticketing_system.exception.FormatNotRespectedException;
 import com.isssr.ticketing_system.exception.MailRejectedException;
-import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.logger.RecordService;
 import com.isssr.ticketing_system.model.*;
 import com.isssr.ticketing_system.service.*;
 import lombok.NoArgsConstructor;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import javax.mail.*;
@@ -130,8 +127,7 @@ public class MailReceiverController extends MailController {
                     if (!checkDomain(from)) {
                         msg.setFlag(Flags.Flag.SEEN, true);
                         throw new MailRejectedException("***** E-mail rejected ******");
-                    }
-                    else customer = null;
+                    } else customer = null;
                 } else customer = userService.findByEmail(from.toLowerCase().trim()).get();
 
 
@@ -168,8 +164,7 @@ public class MailReceiverController extends MailController {
                     if (parseFormattedEmail(subject, messageContent, ticketSource, ticketStatus, visibility, customer) == null) {
                         this.mailSenderController.sendMail(from, "FORMAT");
                         throw new MailRejectedException("***** Sintax Error *****");
-                    }
-                    else this.mailSenderController.sendMail(from, "TICKET_OPENED");
+                    } else this.mailSenderController.sendMail(from, "TICKET_OPENED");
                 } else {
                     //Send email response
                     this.mailSenderController.sendMail(from, "FORMAT");

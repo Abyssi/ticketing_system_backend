@@ -1,16 +1,14 @@
 package com.isssr.ticketing_system.repository;
 
-import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.math.BigInteger;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +34,7 @@ public class CustomRepositoryImp implements CustomRepository {
 
             rs = md.getTables(null, null, "ts_%", new String[]{"TABLE"});
 
-        }else {
+        } else {
 
             rs = md.getTables(null, null, null, new String[]{"TABLE"});
 

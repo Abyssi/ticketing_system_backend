@@ -3,7 +3,6 @@ package com.isssr.ticketing_system.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
-import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.Team;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
@@ -68,9 +67,7 @@ public class TeamController {
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity update(@PathVariable Long id, @Valid @RequestBody Team team) {
         try {
-            teamService.updateOne(id, team);
-        } catch (UpdateException e) {
-            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+            teamService.updateById(id, team);
         } catch (EntityNotFoundException e) {
             return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
         }

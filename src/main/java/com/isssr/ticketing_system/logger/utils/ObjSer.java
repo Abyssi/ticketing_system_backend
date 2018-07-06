@@ -1,12 +1,12 @@
 package com.isssr.ticketing_system.logger.utils;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.text.SimpleDateFormat;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.commons.lang3.reflect.FieldUtils;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 
 import static com.isssr.ticketing_system.logger.utils.PersistenceUtils.initializeAndUnproxy;
 import static org.hibernate.proxy.HibernateProxyHelper.getClassWithoutInitializingProxy;
@@ -14,9 +14,9 @@ import static org.hibernate.proxy.HibernateProxyHelper.getClassWithoutInitializi
 public abstract class ObjSer {
 
 
-    public static String objToJson(Object object){
+    public static String objToJson(Object object) {
 
-        String jsonString=null;
+        String jsonString = null;
         ObjectMapper objectMapper = new ObjectMapper();
         try {
 
@@ -48,7 +48,7 @@ public abstract class ObjSer {
 
         String t, st = "{ " + id + " ,\n ";
 
-        int i , l = attributes.length;
+        int i, l = attributes.length;
 
         for (i = 0; i < l - 1; i++) {
             t = "\"" + attributes[i] + "\": \"" + ReflectUtils.fieldToString(object, attributes[i]) + "\",\n ";
@@ -62,11 +62,11 @@ public abstract class ObjSer {
     }
 
 
-    public static String buildIDJson(Object object, String[] attributes) throws Throwable{
+    public static String buildIDJson(Object object, String[] attributes) throws Throwable {
 
-        String st="{ ";
+        String st = "{ ";
 
-        String s = getIDJsonString(object,attributes);
+        String s = getIDJsonString(object, attributes);
 
         st = st.concat(s);
         st = st.concat(" }");
@@ -79,7 +79,7 @@ public abstract class ObjSer {
 
         String t, st = "";
 
-        if(attributes == null)
+        if (attributes == null)
             return "NA";
 
         int l = attributes.length;
@@ -89,39 +89,47 @@ public abstract class ObjSer {
         Object obj = initializeAndUnproxy(object);
 
         while (i < l - 1) {
-            Field field = FieldUtils.getField(objectClass, attributes[i], true);
-            System.err.println("field: " + field.toString());
-            // TODO: check su tipo dell'oggetto
-            t = "\"" + attributes[i] + "\": \"" + field.get(obj) + "\",\n ";
-            st = st.concat(t);
+            try {
+                Field field = FieldUtils.getField(objectClass, attributes[i], true);
+                System.err.println("field: " + field.toString());
+                // TODO: check su tipo dell'oggetto
+                t = "\"" + attributes[i] + "\": \"" + field.get(obj) + "\",\n ";
+                st = st.concat(t);
+            }
+            catch (NullPointerException e){
+                System.err.println("Attenzione: Attributo \"" + attributes[i] + "\" non trovato nella classe \"" + objectClass.getClass().getName() + "\"");
+            }
             i++;
         }
-        Field field_attr = FieldUtils.getField(objectClass, attributes[i], true);
-        t = "\"" + attributes[i] + "\": \"" + field_attr.get(obj) + "\"";
+        try {
+            Field field_attr = FieldUtils.getField(objectClass, attributes[i], true);
+            t = "\"" + attributes[i] + "\": \"" + field_attr.get(obj) + "\"";
 
-        st = st.concat(t);
+            st = st.concat(t);
+        }catch (NullPointerException e){
+            System.err.println("Attenzione: Attributo \"" + attributes[i] + "\" non trovato nella classe \"" + objectClass.getClass().getName() + "\"");
+        }
 
         return st;
     }
 
-    public static String objectsToJson(String[] objs, String[] inputArgs){
-        String mergedJson="";
-        for (int i=0; i<inputArgs.length;++i){
-            if (i==0){
-                mergedJson+= "{";
+    public static String objectsToJson(String[] objs, String[] inputArgs) {
+        String mergedJson = "";
+        for (int i = 0; i < inputArgs.length; ++i) {
+            if (i == 0) {
+                mergedJson += "{";
             }
             String json_i = objs[i];
-            mergedJson += "\n \t '"+inputArgs[i]+"' : "+ json_i ;
-            if (i<inputArgs.length-1){
-                mergedJson+=",";
-            }else {
+            mergedJson += "\n \t '" + inputArgs[i] + "' : " + json_i;
+            if (i < inputArgs.length - 1) {
+                mergedJson += ",";
+            } else {
                 mergedJson += "\n }";
             }
 
         }
         return mergedJson;
     }
-
 
 
 }

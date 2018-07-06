@@ -21,8 +21,11 @@ public abstract class ReflectUtils {
         try {
             Field field = FieldUtils.getField(instance.getClass(), fieldName, true);
             result = (String) field.get(instance);
-        } catch (IllegalAccessException | NullPointerException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
+        }
+        catch (NullPointerException e){
+            System.err.println("Attenzione: Attributo \"" + fieldName + "\" non trovato nella classe \"" + instance.getClass().getName() + "\"");
         }
 
         if (result == null)
@@ -56,13 +59,13 @@ public abstract class ReflectUtils {
 
 
     // TODO: Non è una classe utils, perché si riferisce ad un'annotazione specifica -> renderla generica
-    public static String[] getIDParameters(Object target){
+    public static String[] getIDParameters(Object target) {
 
         Class objectClass = getClassWithoutInitializingProxy(target);
         String[] params = null;
 
-        for(Annotation annotation : objectClass.getAnnotations()){
-            if(annotation.annotationType().equals(LogClass.class)){
+        for (Annotation annotation : objectClass.getAnnotations()) {
+            if (annotation.annotationType().equals(LogClass.class)) {
                 LogClass myAnn = (LogClass) annotation;
                 params = ((LogClass) annotation).idAttrs();
 
@@ -76,12 +79,12 @@ public abstract class ReflectUtils {
     //controllare se la classe dell'oggetto è annotata
     //se si, controllare se ha inserito dei parametri rilevanti
     //restituire i parametri rilevanti
-    public static String[] getParameters(Object targetObject){
+    public static String[] getParameters(Object targetObject) {
         Class objectClass = getClassWithoutInitializingProxy(targetObject);
-        String[]params = null;
+        String[] params = null;
 
         //analizzo tutte le annotazioni della classe dell'oggetto
-        for (Annotation annotation : objectClass.getAnnotations()){
+        for (Annotation annotation : objectClass.getAnnotations()) {
 
             if (annotation.annotationType().equals(LogClass.class)) {
                 LogClass myAnnotation = (LogClass) annotation;

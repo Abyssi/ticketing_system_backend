@@ -1,7 +1,6 @@
 package com.isssr.ticketing_system.logger.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.Getter;
@@ -34,8 +33,7 @@ public class Record {
     private Set<Payload> payloads;
 
 
-
-    public Record(@NotNull String operationName, String author,  String tag){
+    public Record(@NotNull String operationName, String author, String tag) {
 
         this.operationName = operationName;
         this.author = author;

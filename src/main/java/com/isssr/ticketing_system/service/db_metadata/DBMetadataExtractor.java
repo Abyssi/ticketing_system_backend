@@ -31,7 +31,7 @@ public class DBMetadataExtractor {
 
     public List<Column> getTableColumns(String tableName) throws SQLException {
 
-       return this.getTableColumns(tableName, null, null, null);
+        return this.getTableColumns(tableName, null, null, null);
 
     }
 
