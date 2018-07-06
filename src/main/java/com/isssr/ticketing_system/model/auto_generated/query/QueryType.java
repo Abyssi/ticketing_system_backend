@@ -1,4 +1,4 @@
-package com.isssr.ticketing_system.model.auto_generated.temporary;
+package com.isssr.ticketing_system.model.auto_generated.query;
 
 public enum QueryType {
 
