@@ -117,7 +117,7 @@ public class UserController {
         return CommonResponseEntity.OkResponseEntity("DELETED");
     }
 
-    @JsonView(JsonViews.Basic.class)
+    @JsonView(JsonViews.DetailedUser.class)
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
