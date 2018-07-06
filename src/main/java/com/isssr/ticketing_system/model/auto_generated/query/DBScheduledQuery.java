@@ -14,12 +14,11 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 
+@MappedSuperclass
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class DBScheduledQuery<T, S> extends ScheduledQuery {
 
     @Transient
@@ -40,14 +39,11 @@ public abstract class DBScheduledQuery<T, S> extends ScheduledQuery {
 
     @JsonView(JsonViews.Detailed.class)
     @NonNull
-    @Type(type = "java.lang.Enum")
     protected S comparisonOperator;
 
     @JsonView(JsonViews.Detailed.class)
-    @Type(type = "java.lang.Number")
     protected T referenceValue;
 
-    @Type(type = "java.lang.Number")
     protected T lastValue;
 
     public DBScheduledQuery(String description, TicketPriority queryPriority, boolean isEnable, String author, String cron, String queryText, DBConnectionInfo dbConnectionInfo, QueryType queryType, S comparisonOperator, T referenceValue) {

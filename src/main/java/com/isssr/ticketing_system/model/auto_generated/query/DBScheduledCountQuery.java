@@ -1,5 +1,7 @@
 package com.isssr.ticketing_system.model.auto_generated.query;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.TicketPriority;
@@ -35,7 +37,6 @@ import java.sql.SQLException;
 @DisallowConcurrentExecution //avoid race condition on persisted data
 @FilterDef(name = "deleted_filter", parameters = {@ParamDef(name = "value", type = "boolean")})
 @Filter(name = "deleted_filter", condition = "deleted = :value")
-@Component
 //@LogClass(idAttrs = {"id"})
 public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, ComparisonOperatorsEnum> {
 
@@ -137,11 +138,15 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
 
         if (this.dbConnectionInfo == null) {
 
-            return userSwitchService.doNotLog(this.queryText, BigInteger.class, null, null, null, this.isEnable);
+            if (this.isEnable) return userSwitchService.doQueryReadOnlyMode(this.queryText, BigInteger.class, null, null, null);
+
+            return userSwitchService.doNotLog(this.queryText, BigInteger.class, null, null, null);
 
         } else {
 
-            return userSwitchService.doNotLog(this.queryText, BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.isEnable);
+            if (this.isEnable) return userSwitchService.doQueryReadOnlyMode(this.queryText, BigInteger.class, null, null, null);
+
+            return userSwitchService.doNotLog(this.queryText, BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword());
 
         }
 

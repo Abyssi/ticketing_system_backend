@@ -35,6 +35,7 @@ public class TargetService {
     }
 
     @Transactional
+    @LogOperation(tag = "TARGET_UPDATE", inputArgs = {"target"})
     public Target updateById(@NotNull Long id, @NotNull Target target) throws EntityNotFoundException {
         if (!targetRepository.existsById(id))
             throw new EntityNotFoundException("Target to update not found in DB, maybe you have to create a new one");

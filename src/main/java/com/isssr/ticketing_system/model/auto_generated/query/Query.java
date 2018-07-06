@@ -15,15 +15,14 @@ import java.util.Observable;
 
 @Data
 @NoArgsConstructor
-
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+
 public abstract class Query extends Observable implements Serializable, SoftDeletable {
 
     @JsonView(JsonViews.Basic.class)
-    @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "query_id", updatable = false, nullable = false)
+    @Id
     protected Long id;
 
     @JsonView(JsonViews.Basic.class)
