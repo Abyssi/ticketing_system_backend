@@ -9,7 +9,7 @@ public abstract class AspectUtils {
      *
      * @param annotation the class of the annotation
      * @param optionName the name of the option
-     * @param option the annotated object
+     * @param option     the annotated object
      * @return true if the option has the default value, false otherwise
      */
     public static boolean defaultOption(Class<?> annotation, String optionName, Object option) {
@@ -30,7 +30,7 @@ public abstract class AspectUtils {
     /**
      * Check if the object has the annotation
      *
-     * @param object the object to be checked
+     * @param object     the object to be checked
      * @param annotation the annotation class
      * @return the annotation instance, null if there is not such annotation
      */

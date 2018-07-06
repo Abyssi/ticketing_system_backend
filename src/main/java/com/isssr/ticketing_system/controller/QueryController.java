@@ -8,7 +8,6 @@ import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.TicketPriority;
 import com.isssr.ticketing_system.model.auto_generated.db_metadata.Column;
 import com.isssr.ticketing_system.model.auto_generated.db_metadata.Table;
-import com.isssr.ticketing_system.model.auto_generated.query.DataBaseTimeQuery;
 import com.isssr.ticketing_system.model.auto_generated.query.Query;
 import com.isssr.ticketing_system.model.auto_generated.query.ScheduledQuery;
 import com.isssr.ticketing_system.model.db_connection.DBConnectionInfo;
@@ -266,7 +265,7 @@ public class QueryController {
 
         } catch (EntityNotFoundException e) {
 
-            return CommonResponseEntity.NotFoundResponseEntity( e.getMessage());
+            return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
 
         } catch (SchedulerException e) {
 
@@ -441,7 +440,7 @@ public class QueryController {
 
         } catch (EntityNotFoundException e) {
 
-            return CommonResponseEntity.NotFoundResponseEntity( e.getMessage());
+            return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
 
         } catch (SchedulerException e) {
 
@@ -504,7 +503,7 @@ public class QueryController {
 
         } catch (EntityNotFoundException e) {
 
-            return CommonResponseEntity.NotFoundResponseEntity( e.getMessage());
+            return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
 
         } catch (SchedulerException | ParseException e) {
 

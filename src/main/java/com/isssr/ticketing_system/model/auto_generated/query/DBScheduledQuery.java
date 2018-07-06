@@ -9,14 +9,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.*;
-import org.quartz.*;
+import org.hibernate.annotations.Type;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Data
 @NoArgsConstructor
@@ -72,12 +68,14 @@ public abstract class DBScheduledQuery<T, S> extends ScheduledQuery {
         this.referenceValue = referenceValue;
     }
 
-    public String printQuery() { return this.queryText; }
+    public String printQuery() {
+        return this.queryText;
+    }
 
     @Override
     public void updateMe(Query updatedData) throws UpdateException {
 
-        if (! (updatedData instanceof DBScheduledQuery))
+        if (!(updatedData instanceof DBScheduledQuery))
             throw new UpdateException("Query class doesn't match");
 
         DBScheduledQuery upData = (DBScheduledQuery) updatedData;

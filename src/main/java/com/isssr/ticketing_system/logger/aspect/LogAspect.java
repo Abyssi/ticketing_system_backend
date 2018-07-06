@@ -1,26 +1,21 @@
 package com.isssr.ticketing_system.logger.aspect;
 
 
+import com.isssr.ticketing_system.logger.RecordService;
 import com.isssr.ticketing_system.logger.entity.Payload;
+import com.isssr.ticketing_system.logger.entity.Record;
 import com.isssr.ticketing_system.logger.exception.ObjNotFoundException;
 import com.isssr.ticketing_system.logger.utils.AspectUtils;
 import com.isssr.ticketing_system.logger.utils.ObjSer;
-import com.isssr.ticketing_system.logger.entity.Record;
-import com.isssr.ticketing_system.logger.RecordService;
 import com.isssr.ticketing_system.logger.utils.ReflectUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import sun.rmi.runtime.Log;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -33,8 +28,38 @@ public class LogAspect {
     @Autowired
     private RecordService recordService;
 
+    private static String serializeObject(Object object) throws Throwable {
+        String[] params = null;
+        String[] idParams = null;
+
+        params = ReflectUtils.getParameters(object);
+        idParams = ReflectUtils.getIDParameters(object);
+
+
+        String objectId = "";
+
+        String serializedObject;
+
+        if (params == null) {
+            // serializza tutti i parametri dell oggetto
+            if (idParams == null) {
+                objectId = "no id";
+                serializedObject = ObjSer.objToJson(object);
+            } else {
+                objectId = ObjSer.buildIDJson(object, idParams);
+                serializedObject = ObjSer.objToJson(object);
+            }
+
+        } else {
+            // serializza solo alcuni attributi dell'oggetto
+            objectId = ObjSer.buildIDJson(object, idParams);
+            serializedObject = ObjSer.buildJson(object, params);
+        }
+
+        return serializedObject;
+    }
+
     /**
-     *
      * @param jp
      * @throws Throwable
      */
@@ -118,37 +143,6 @@ public class LogAspect {
 
             return returnObject;
         }
-    }
-
-    private static String serializeObject(Object object) throws Throwable {
-        String[] params= null;
-        String[] idParams=null;
-
-        params = ReflectUtils.getParameters(object);
-        idParams = ReflectUtils.getIDParameters(object);
-
-
-        String objectId ="";
-
-        String serializedObject;
-
-        if(params == null){
-            // serializza tutti i parametri dell oggetto
-            if(idParams==null){
-                objectId = "no id";
-                serializedObject = ObjSer.objToJson(object);
-            }else{
-                objectId = ObjSer.buildIDJson(object, idParams);
-                serializedObject = ObjSer.objToJson(object);
-            }
-
-        }else{
-            // serializza solo alcuni attributi dell'oggetto
-            objectId = ObjSer.buildIDJson(object, idParams);
-            serializedObject = ObjSer.buildJson(object, params);
-        }
-
-        return serializedObject;
     }
 
 

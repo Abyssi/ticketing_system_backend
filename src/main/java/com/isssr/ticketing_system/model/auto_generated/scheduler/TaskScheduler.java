@@ -1,6 +1,7 @@
 package com.isssr.ticketing_system.model.auto_generated.scheduler;
 
-import com.isssr.ticketing_system.model.auto_generated.query.*;
+import com.isssr.ticketing_system.model.auto_generated.query.DataBaseTimeQuery;
+import com.isssr.ticketing_system.model.auto_generated.query.ScheduledQuery;
 import lombok.RequiredArgsConstructor;
 import org.quartz.*;
 import org.quartz.impl.JobDetailImpl;

@@ -1,11 +1,9 @@
 package com.isssr.ticketing_system.logger;
 
 import com.isssr.ticketing_system.logger.entity.Record;
-import com.isssr.ticketing_system.model.Ticket;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Repository
-public interface RecordDao extends JpaRepository<Record,Integer> {
+public interface RecordDao extends JpaRepository<Record, Integer> {
 
 
     @Query("select r from Record r where r.tag = ?1")

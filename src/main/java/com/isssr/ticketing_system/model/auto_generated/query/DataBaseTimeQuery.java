@@ -1,34 +1,26 @@
 package com.isssr.ticketing_system.model.auto_generated.query;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.UpdateException;
-import com.isssr.ticketing_system.logEnabler.LogEnabler;
-import com.isssr.ticketing_system.model.db_connection.DBConnectionInfo;
-import com.isssr.ticketing_system.model.SoftDelete.SoftDeletable;
 import com.isssr.ticketing_system.model.TicketPriority;
 import com.isssr.ticketing_system.model.auto_generated.enumeration.ComparisonOperatorsEnum;
-import com.isssr.ticketing_system.response_entity.JsonViews;
+import com.isssr.ticketing_system.model.db_connection.DBConnectionInfo;
 import com.isssr.ticketing_system.service.UserSwitchService;
 import com.isssr.ticketing_system.service.auto_generated.QueryService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.*;
-import org.quartz.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.PersistJobDataAfterExecution;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.sql.SQLException;
-import java.util.Observable;
 
 /*@Data
 @NoArgsConstructor
@@ -489,11 +481,11 @@ public class DataBaseTimeQuery extends DBScheduledQuery<BigInteger, ComparisonOp
 
         if (this.dbConnectionInfo == null) {
 
-            return userSwitchService.doNotLog(this.queryText , BigInteger.class, null, null, null, this.isEnable);
+            return userSwitchService.doNotLog(this.queryText, BigInteger.class, null, null, null, this.isEnable);
 
         } else {
 
-            return userSwitchService.doNotLog(this.queryText , BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.isEnable);
+            return userSwitchService.doNotLog(this.queryText, BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.isEnable);
 
         }
 
@@ -557,7 +549,7 @@ public class DataBaseTimeQuery extends DBScheduledQuery<BigInteger, ComparisonOp
 
     /**
      * check @otherQuery has DBScheduledCountQuery class
-     * **/
+     **/
     @Override
     public boolean equalsByClass(Query otherQuery) {
 
@@ -570,7 +562,7 @@ public class DataBaseTimeQuery extends DBScheduledQuery<BigInteger, ComparisonOp
     @Override
     public void updateMe(Query updatedData) throws UpdateException {
 
-        if (! (updatedData instanceof DataBaseTimeQuery))
+        if (!(updatedData instanceof DataBaseTimeQuery))
             throw new UpdateException("Query class doesn't match");
 
         DataBaseTimeQuery upData = (DataBaseTimeQuery) updatedData;

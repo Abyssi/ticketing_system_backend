@@ -2,43 +2,75 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f45c7867-c871-4115-86da-1ebc135ddeeb" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logEnabler/LogEnabler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DBScheduledCountQuery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DBScheduledQuery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DataBaseTimeQuery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/Query.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/ScheduledQuery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/DataBaseTimeQueryRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/validator/RecordValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/InitialDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/InitialDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/config/TablePhysicalNamingStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/config/TablePhysicalNamingStrategy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/QueryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/QueryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/RecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/RecordController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TargetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TargetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TeamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TicketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TicketController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/mailController/MailReceiverController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/mailController/MailReceiverController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/mailController/MailSenderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/mailController/MailSenderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/RecordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logEnabler/LogEnabler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logEnabler/LogEnabler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/aspect/LogAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/aspect/LogAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/aspect/LogClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/aspect/LogClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/aspect/LogOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/aspect/LogOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/entity/Payload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/entity/Payload.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/entity/Record.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/entity/Record.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/DBSetup.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/utils/AspectUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/utils/AspectUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/utils/ObjSer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/utils/ObjSer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/utils/PersistenceUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/utils/PersistenceUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/utils/ReflectUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/utils/ReflectUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Company.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Mail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Mail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Privilege.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Privilege.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Setup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Setup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/SoftDelete/SoftDeletableEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/SoftDelete/SoftDeletableEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Target.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Target.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Team.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Ticket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketAttachment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketAttachment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketDifficulty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketDifficulty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketPriority.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketPriority.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketRelation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketRelation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketRelationType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketRelationType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Visibility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Visibility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DBScheduledCountQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DBScheduledCountQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DBScheduledQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DBScheduledQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DataBaseTimeQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DataBaseTimeQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/Query.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/ScheduledQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/ScheduledQuery.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/scheduler/TaskScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/scheduler/TaskScheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/temporary/DataBaseTimeQuery.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/temporary/QueryType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/QueryType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/CustomRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/CustomRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/CustomRepositoryImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/CustomRepositoryImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/QueryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/QueryRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/response_entity/JsonViews.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/response_entity/JsonViews.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/CompanyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/DBConnectionInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/DBConnectionInfoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TargetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TargetService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TeamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TeamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TicketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TicketService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/UserSwitchService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/UserSwitchService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/auto_generated/AutoGeneratedTicketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/auto_generated/AutoGeneratedTicketService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/auto_generated/QueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/auto_generated/QueryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/db_metadata/DBMetadataExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/db_metadata/DBMetadataExtractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/validator/RecordValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/validator/RecordValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticketing_system.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ticketing_system.iml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/.idea/httpRequests/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -78,6 +110,14 @@
         <item name="ticketing_system_db@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="ticketing_system_db: database" type="6d9b600a:PostgresImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="ticketing_system_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="ticketing_system_db: database" type="6d9b600a:PostgresImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="public: schema" type="a16502c0:PostgresImplModel$Schema" />
       </path>
       <path>
@@ -85,6 +125,7 @@
         <item name="ticketing_system_db@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="ticketing_system_db: database" type="6d9b600a:PostgresImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="public: schema" type="a16502c0:PostgresImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
@@ -96,8 +137,8 @@
       <file leaf-file-name="UserController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/UserController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1340">
-              <caret line="123" column="36" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
+            <state relative-caret-position="313">
+              <caret line="95" column="29" selection-start-line="95" selection-start-column="29" selection-end-line="95" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -105,20 +146,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Company.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Company.java">
+      <file leaf-file-name="UserService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/UserService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JsonViews.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/response_entity/JsonViews.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="-206">
+              <caret line="77" column="23" lean-forward="true" selection-start-line="77" selection-start-column="23" selection-end-line="77" selection-end-column="23" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2885#2886#0" expanded="true" />
+                <element signature="e#2946#2947#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -126,17 +163,17 @@
       <file leaf-file-name="application.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="3" column="50" selection-start-line="3" selection-start-column="50" selection-end-line="3" selection-end-column="50" />
+            <state relative-caret-position="264">
+              <caret line="34" column="33" lean-forward="true" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AutoGeneratedTicketService.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/auto_generated/AutoGeneratedTicketService.java">
+      <file leaf-file-name="User.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1853">
-              <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+            <state relative-caret-position="110">
+              <caret line="46" column="12" lean-forward="true" selection-start-line="46" selection-end-line="47" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -144,11 +181,56 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QueryController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/QueryController.java">
+      <file leaf-file-name="TeamController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TeamController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-952">
-              <caret line="59" column="13" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
+            <state relative-caret-position="228">
+              <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="74" selection-end-column="64" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ts_user" pinned="false" current-in-tab="false">
+        <entry file="das://02d2c4ed-4c14-44e4-a935-119e67f0a825/database/ticketing_system_db/schema/public/table/ts_user">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ts_team" pinned="false" current-in-tab="false">
+        <entry file="das://02d2c4ed-4c14-44e4-a935-119e67f0a825/database/ticketing_system_db/schema/public/table/ts_team">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TicketStatus.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketStatus.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="148">
+              <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Team.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Team.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-92">
+              <caret line="34" column="43" selection-start-line="34" selection-start-column="43" selection-end-line="34" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ts_company" pinned="false" current-in-tab="false">
+        <entry file="das://02d2c4ed-4c14-44e4-a935-119e67f0a825/database/ticketing_system_db/schema/public/table/ts_company">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
             </state>
           </provider>
         </entry>
@@ -158,23 +240,22 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="AnnotationType" />
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ADMIN</find>
-      <find>markMeAsDeleted</find>
-      <find>WHERE deleted = FALSE</find>
-      <find>Reading</find>
-      <find>andrea.si</find>
-      <find>company</find>
+      <find>tables</find>
+      <find>getAllNo</find>
+      <find>alreadySe</find>
+      <find>user</find>
     </findStrings>
     <dirStrings>
-      <dir>$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system</dir>
+      <dir>$PROJECT_DIR$/src</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -184,57 +265,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/db_metadata/Column.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/enumeration/ComparisonOperatorsEnum.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/decorator/DataBaseQuery.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/TicketRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/SoftDelete/SoftDeletedKind.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/SoftDelete/SoftDelete.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/utils/DeletedFilter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/SoftDelete/SoftDeleteAspect.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/SoftDelete/SoftDeletable.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/SoftDelete/SoftDeletableEntity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Target.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/Query.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/TeamRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/TargetRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TargetService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TicketController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/config/ResourceServerConfig.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/mailController/MailReceiverController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/InitialDataLoader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/scheduler/TaskScheduler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/DBConnectionInfo.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/db_connection/DBConnectionModeEnum.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/db_metadata/DBMetadataExtractor.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/DBConnectionInfoRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/auto_generated/QueryService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/db_connection/DBConnectionInfo.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/DBConnectionInfoService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/auto_generated/AutoGeneratedTicketService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/CustomRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/UserSwitchService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/CustomRepositoryImp.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordReader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordDao.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Ticket.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TeamService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Team.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/UserService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/mailController/MailSenderController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TicketService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/aspect/LogClass.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/utils/ReflectUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/utils/ObjSer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/temporary/DataBaseTimeQuery.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/NewDBTimeQuery.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/SchedulableQuery.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/Comparator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/ComparableBigInteger.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/Comparable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DBSchedulableTimeQuery.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DBScheduledTimeQuery.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/repository/QueryRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/auto_generated/QueryService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/scheduler/TaskScheduler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/auto_generated/AutoGeneratedTicketService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/Query.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/ScheduledQuery.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DBScheduledQuery.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DBScheduledCountQuery.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/query/DataBaseTimeQuery.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/QueryController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/aspect/LogAspect.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/User.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/UserController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/InitialDataLoader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/CompanyService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TicketService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TeamService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TargetService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Visibility.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketStatus.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketSource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketRelationType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketRelation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketPriority.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketDifficulty.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketComment.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketCategory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketAttachment.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Ticket.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Target.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TicketController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TeamController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TargetController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Setup.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Role.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Privilege.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Mail.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Company.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/SoftDelete/SoftDeletableEntity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Team.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/UserController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/User.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/UserService.java" />
       </list>
     </option>
   </component>
@@ -251,12 +332,23 @@
       </MavenImportingSettings>
     </option>
   </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="ticketing_system" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -264,6 +356,18 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="ticketing_system" type="58d84e3e:PackageViewProjectNode" />
+              <item name="ticketing_system" type="616d4139:PackageViewModuleNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -322,6 +426,92 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+              <item name="mailController" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="exception" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="exception_handler" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="logEnabler" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="logger" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="logger" type="462c0819:PsiDirectoryNode" />
+              <item name="aspect" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="logger" type="462c0819:PsiDirectoryNode" />
+              <item name="entity" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="logger" type="462c0819:PsiDirectoryNode" />
+              <item name="exception" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="logger" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -354,7 +544,58 @@
               <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
               <item name="auto_generated" type="462c0819:PsiDirectoryNode" />
+              <item name="enumeration" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="auto_generated" type="462c0819:PsiDirectoryNode" />
               <item name="query" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="auto_generated" type="462c0819:PsiDirectoryNode" />
+              <item name="scheduler" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="db_connection" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="SoftDelete" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="repository" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
@@ -391,7 +632,26 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="db_metadata" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
               <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ticketing_system_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ticketing_system" type="462c0819:PsiDirectoryNode" />
+              <item name="validator" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ticketing_system_backend" type="b2602c69:ProjectViewProjectNode" />
@@ -404,44 +664,29 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="ticketing_system" type="58d84e3e:PackageViewProjectNode" />
-              <item name="ticketing_system" type="616d4139:PackageViewModuleNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="SearchEverywhereHistoryKey" value="query&#9;FILE&#9;file://C:/Users/lucam/Desktop/ticketing_system_backend/ticketing_system_backend/src/main/java/com/isssr/ticketing_system/service/auto_generated/QueryService.java&#10;tables&#9;null&#9;null&#10;web&#9;ACTION&#9;WebServicesPlugin.CreateRESTClient" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.database.dataSource.DataSourceTemplate" value="PostgreSQL" />
+    <property name="database.console.LAST_STATE" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="/usr/local/bin/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.isssr.ticketing_system.model.auto_generated.db_metadata" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Alessio\Desktop\ticketing_system_backend\ticketing_system_backend\src\main\java\com\isssr\ticketing_system\logger" />
       <recent name="$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service" />
     </key>
   </component>
@@ -528,167 +773,160 @@
       <workItem from="1528296947763" duration="1317000" />
       <workItem from="1528298586718" duration="539000" />
       <workItem from="1528302407089" duration="394000" />
-      <workItem from="1528383735478" duration="373000" />
-      <workItem from="1528635129061" duration="1603000" />
-      <workItem from="1528651672252" duration="309000" />
-      <workItem from="1528711723625" duration="12567000" />
-      <workItem from="1528741266659" duration="3614000" />
-      <workItem from="1528746732461" duration="190000" />
-      <workItem from="1528807446643" duration="8542000" />
-      <workItem from="1528984721784" duration="1907000" />
-      <workItem from="1529227005313" duration="6241000" />
-      <workItem from="1529244136952" duration="8027000" />
-      <workItem from="1529314824387" duration="370000" />
-      <workItem from="1529319316067" duration="4847000" />
-      <workItem from="1529483819296" duration="7592000" />
-      <workItem from="1529764172466" duration="10334000" />
-      <workItem from="1529852274050" duration="6685000" />
-      <workItem from="1530089659323" duration="2901000" />
-      <workItem from="1530110026621" duration="5705000" />
-      <workItem from="1530290954336" duration="590000" />
+      <workItem from="1528311053031" duration="7326000" />
+      <workItem from="1528451258186" duration="7000" />
+      <workItem from="1528790833627" duration="1329000" />
+      <workItem from="1528792830754" duration="2673000" />
+      <workItem from="1528808412686" duration="16000" />
+      <workItem from="1528808746321" duration="5891000" />
+      <workItem from="1528821064867" duration="239000" />
+      <workItem from="1528922159637" duration="947000" />
+      <workItem from="1528927554181" duration="445000" />
+      <workItem from="1529767656807" duration="5203000" />
+      <workItem from="1529776275544" duration="675000" />
+      <workItem from="1529832963623" duration="3201000" />
+      <workItem from="1529922732472" duration="12811000" />
+      <workItem from="1530088399884" duration="33319000" />
+      <workItem from="1530124909635" duration="1409000" />
+      <workItem from="1530175365692" duration="3287000" />
+      <workItem from="1530182382112" duration="8702000" />
+      <workItem from="1530314932314" duration="2218000" />
+      <workItem from="1530548584422" duration="1017000" />
+      <workItem from="1530692988621" duration="10904000" />
+      <workItem from="1530721037880" duration="168000" />
+      <workItem from="1530794152401" duration="6747000" />
+      <workItem from="1530877689010" duration="3098000" />
     </task>
-    <task id="LOCAL-00001" summary="table and column data base metadata driven improved">
-      <created>1528366938242</created>
+    <task id="LOCAL-00001" summary="Merge branch 'master' of https://github.com/Abyssi/ticketing_system_backend&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <created>1528305275391</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1528366938242</updated>
+      <updated>1528305275391</updated>
     </task>
-    <task id="LOCAL-00002" summary="query enable and disable">
-      <created>1529246993890</created>
+    <task id="LOCAL-00002" summary="Merge branch 'master' of https://github.com/Abyssi/ticketing_system_backend&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <created>1528305469542</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1529246993890</updated>
+      <updated>1528305469542</updated>
     </task>
-    <task id="LOCAL-00003" summary="query delete">
-      <created>1529254873885</created>
+    <task id="LOCAL-00003" summary="Merge branch 'master' of https://github.com/Abyssi/ticketing_system_backend&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <created>1528813282792</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1529254873885</updated>
+      <updated>1528813282792</updated>
     </task>
-    <task id="LOCAL-00004" summary="query update">
-      <created>1529258541526</created>
+    <task id="LOCAL-00004" summary="Merge branch 'master' of https://github.com/Abyssi/ticketing_system_backend&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <created>1528813330883</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1529258541526</updated>
+      <updated>1528813330883</updated>
     </task>
-    <task id="LOCAL-00005" summary="query on remote db started">
-      <created>1529331586189</created>
+    <task id="LOCAL-00005" summary="Merge branch 'master' of https://github.com/Abyssi/ticketing_system_backend&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <created>1528816608827</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1529331586189</updated>
+      <updated>1528816608827</updated>
     </task>
-    <task id="LOCAL-00006" summary="some little problem fixed">
-      <created>1529490422297</created>
+    <task id="LOCAL-00006" summary="DatabaseTimeQuery improved&#10;database exception handling in AutogeneratedTicketService&#10;Now:&#10;AutogeneratedTicketService sends a mail to query author in case of SQLException handling (to complete)&#10;AutogeneratedTicketService sends a mail to system admin in case of DataAccessException handling (to complete)">
+      <created>1530636906175</created>
       <option name="number" value="00006" />
       <option name="presentableId" value="LOCAL-00006" />
       <option name="project" value="LOCAL" />
-      <updated>1529490422297</updated>
+      <updated>1530636906175</updated>
     </task>
-    <task id="LOCAL-00007" summary="Merge branch 'master' of https://github.com/Abyssi/ticketing_system_backend&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
-      <created>1529771367604</created>
+    <task id="LOCAL-00007" summary="Query improved">
+      <created>1530721011698</created>
       <option name="number" value="00007" />
       <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1529771367604</updated>
+      <updated>1530721011698</updated>
     </task>
-    <task id="LOCAL-00008" summary="Merge branch 'master' of https://github.com/Abyssi/ticketing_system_backend&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
-      <created>1529771447258</created>
+    <task id="LOCAL-00008" summary="Query improved">
+      <created>1530798755007</created>
       <option name="number" value="00008" />
       <option name="presentableId" value="LOCAL-00008" />
       <option name="project" value="LOCAL" />
-      <updated>1529771447258</updated>
+      <updated>1530798755007</updated>
     </task>
-    <task id="LOCAL-00009" summary="Merge branch 'master' of https://github.com/Abyssi/ticketing_system_backend&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
-      <created>1529772885652</created>
+    <task id="LOCAL-00009" summary="Query improved">
+      <created>1530802140251</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1529772885652</updated>
+      <updated>1530802140251</updated>
     </task>
-    <task id="LOCAL-00010" summary="Merge branch 'master' of https://github.com/Abyssi/ticketing_system_backend&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
-      <created>1529772905125</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1529772905125</updated>
-    </task>
-    <option name="localTasksCounter" value="11" />
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="90767000" />
+    <option name="totallyTimeSpent" value="129540000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="14" side_tool="true" />
-      <window_info anchor="right" id="Maven Projects" order="9" />
-      <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
-      <window_info id="Capture Tool" order="7" />
-      <window_info id="Designer" order="2" />
-      <window_info anchor="right" id="Database" order="5" visible="true" weight="0.19140625" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.5013423" side_tool="true" weight="0.32994923" />
+      <window_info anchor="right" id="Maven Projects" order="6" />
+      <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
+      <window_info id="Capture Tool" order="3" />
+      <window_info id="Designer" order="7" />
+      <window_info anchor="right" id="Database" order="8" visible="true" weight="0.20274636" />
+      <window_info id="Structure" order="1" sideWeight="0.50185186" side_tool="true" weight="0.2081545" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="UI Designer" order="4" />
+      <window_info id="UI Designer" order="6" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="6" />
-      <window_info id="Image Layers" order="3" />
-      <window_info anchor="bottom" id="Java Enterprise" order="10" />
-      <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.27906978" />
-      <window_info anchor="bottom" id="Version Control" order="12" weight="0.32831737" />
-      <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26171875" />
-      <window_info anchor="right" id="Bean Validation" order="8" />
-      <window_info id="Web" order="6" side_tool="true" />
-      <window_info anchor="right" id="Theme Preview" order="7" />
-      <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.27906978" />
-      <window_info anchor="bottom" id="Event Log" order="14" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26171875" />
-      <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Java Enterprise" order="10" />
-      <window_info anchor="right" id="Theme Preview" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="6" />
-      <window_info anchor="right" id="Maven Projects" order="9" />
-      <window_info id="Web" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info id="Image Layers" order="3" />
-      <window_info anchor="right" id="Bean Validation" order="8" />
-      <window_info anchor="right" id="Database" order="5" visible="true" weight="0.19140625" />
-      <window_info id="Capture Tool" order="7" />
-      <window_info anchor="bottom" id="Version Control" order="12" weight="0.32831737" />
-      <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Database Console" order="13" weight="0.31053352" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="UI Designer" order="4" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32969698" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Messages" order="9" weight="0.3269494" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49932885" weight="0.32994923" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.32551724" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
+      <window_info id="Image Layers" order="5" />
+      <window_info anchor="bottom" id="Java Enterprise" order="8" />
+      <window_info anchor="right" id="Capture Analysis" order="9" />
+      <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.4986577" weight="0.32969698" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.4" />
+      <window_info anchor="bottom" id="Spring" order="11" weight="0.32969698" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32969698" />
+      <window_info anchor="bottom" id="Database Console" order="15" weight="0.32868022" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49814814" visible="true" weight="0.29402262" />
+      <window_info anchor="right" id="Bean Validation" order="7" />
+      <window_info id="Web" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32994923" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info id="Designer" order="2" />
+      <window_info anchor="bottom" id="REST Client" order="14" weight="0.40228426" />
+      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -720,366 +958,393 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="table and column data base metadata driven improved" />
-    <MESSAGE value="query enable and disable" />
-    <MESSAGE value="query delete" />
-    <MESSAGE value="query update" />
-    <MESSAGE value="query on remote db started" />
-    <MESSAGE value="some little problem fixed" />
+    <MESSAGE value="Ticket refactoring" />
+    <MESSAGE value="Ticket refactoring end" />
+    <MESSAGE value="Product refactoring ended&#10;Team refactoring ended" />
+    <MESSAGE value="User refactoring end" />
+    <MESSAGE value="query" />
+    <MESSAGE value="merge" />
+    <MESSAGE value="query creation little problem fixed" />
+    <MESSAGE value="Merge branch 'master' of https://github.com/Abyssi/ticketing_system_backend&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/java/com/isssr/ticketing_system/InitialDataLoader.java&#10;#&#9;src/main/java/com/isssr/ticketing_system/controller/mailController/MailReceiverController.java" />
     <MESSAGE value="Merge branch 'master' of https://github.com/Abyssi/ticketing_system_backend&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/Abyssi/ticketing_system_backend&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
+    <MESSAGE value="DatabaseTimeQuery improved&#10;database exception handling in AutogeneratedTicketService&#10;Now:&#10;AutogeneratedTicketService sends a mail to query author in case of SQLException handling (to complete)&#10;AutogeneratedTicketService sends a mail to system admin in case of DataAccessException handling (to complete)" />
+    <MESSAGE value="Query improved" />
+    <option name="LAST_COMMIT_MESSAGE" value="Query improved" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="44" />
+      <option name="time" value="11" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordReader.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TicketDifficultyService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        <state relative-caret-position="-392">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_data_base_time_query">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_data_base_time_query">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_data_base_time_query">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_data_base_time_query">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_payload">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_payload">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_payload">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_payload">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_payload">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_payload">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordController.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/entity/Payload.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TicketEventService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="-182">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/entity/Record.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TicketPriorityService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="14" column="18" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="18" />
+        <state relative-caret-position="-362">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TicketRelationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="87" column="5" selection-start-line="87" selection-start-column="5" selection-end-line="87" selection-end-column="5" />
+        <state relative-caret-position="-242">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/RecordDao.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TicketRelationTypeService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
+        <state relative-caret-position="-392">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_payload">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_payload">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_payload">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/DBConnectionInfoService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TicketSourceService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        <state relative-caret-position="-362">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_payload">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/logger/aspect/LogAspect.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TicketStatusService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="50" column="36" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
+        <state relative-caret-position="-362">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/auto_generated/QueryService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/UserDetailsService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+        <state relative-caret-position="-32">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/temporary/DataBaseTimeQuery.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/auto_generated/scheduler/TaskScheduler.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/UserSwitchService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_company">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_role">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/response_entity/PageResponseEntityBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="15" column="11" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="49" column="15" selection-start-line="49" selection-start-column="15" selection-end-line="49" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/config/AutoWiringSpringBeanJobFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_user">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/response_entity/JsonViews.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Company.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
+        <state relative-caret-position="-1322">
           <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/VisibilityService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="3" column="50" selection-start-line="3" selection-start-column="50" selection-end-line="3" selection-end-column="50" />
+        <state relative-caret-position="75">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TeamService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="77" column="30" selection-start-line="77" selection-start-column="30" selection-end-line="77" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TargetService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="79" column="32" selection-start-line="79" selection-start-column="32" selection-end-line="79" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/CompanyService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="19" column="4" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
+          <folding>
+            <element signature="e#527#528#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Visibility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketRelationType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketRelation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketPriority.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="20" column="14" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketDifficulty.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketComment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="20" column="14" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketCategory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketAttachment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="20" column="14" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TargetController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="69" column="47" selection-start-line="69" selection-start-column="47" selection-end-line="69" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/RecordController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/QueryController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-952">
-          <caret line="59" column="13" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
+        <state relative-caret-position="105">
+          <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/UserController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/AuthController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1340">
-          <caret line="123" column="36" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
+        <state relative-caret-position="90">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/TicketService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="975">
+          <caret line="93" column="9" selection-start-line="93" selection-start-column="9" selection-end-line="93" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/TicketingSystemApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+          <folding>
+            <element signature="e#428#429#0" expanded="true" />
+            <element signature="e#505#506#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/02d2c4ed-4c14-44e4-a935-119e67f0a825/console.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/response_entity/JsonViews.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-664">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TicketController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1410">
+          <caret line="122" column="57" lean-forward="true" selection-start-line="122" selection-start-column="57" selection-end-line="122" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Target.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="24" column="19" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Setup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="22" column="46" selection-start-line="22" selection-start-column="46" selection-end-line="22" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="das://e149a4d5-7917-4701-ae2f-bb493b80c67b/database/ticketing_system_db/schema/public/table/ts_record">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Role.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="23" column="45" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Privilege.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="22" column="50" selection-start-line="22" selection-start-column="50" selection-end-line="22" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Mail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="22" column="45" selection-start-line="22" selection-start-column="45" selection-end-line="22" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/InitialDataLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3924">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Ticket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="27" column="19" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/SoftDelete/SoftDeletableEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="13" column="15" selection-start-line="13" selection-start-column="15" selection-end-line="13" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="34" column="33" lean-forward="true" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Company.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="37" column="27" lean-forward="true" selection-start-line="37" selection-start-column="27" selection-end-line="37" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/TicketStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://02d2c4ed-4c14-44e4-a935-119e67f0a825/database/ticketing_system_db/schema/public/table/ts_user">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/auto_generated/AutoGeneratedTicketService.java">
+    <entry file="das://02d2c4ed-4c14-44e4-a935-119e67f0a825/database/ticketing_system_db/schema/public/table/ts_team">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/Team.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1853">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+        <state relative-caret-position="-92">
+          <caret line="34" column="43" selection-start-line="34" selection-start-column="43" selection-end-line="34" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://02d2c4ed-4c14-44e4-a935-119e67f0a825/database/ticketing_system_db/schema/public/table/ts_company">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/TeamController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="74" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/service/UserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-206">
+          <caret line="77" column="23" lean-forward="true" selection-start-line="77" selection-start-column="23" selection-end-line="77" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2885#2886#0" expanded="true" />
+            <element signature="e#2946#2947#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/controller/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="95" column="29" selection-start-line="95" selection-start-column="29" selection-end-line="95" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/isssr/ticketing_system/model/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="46" column="12" lean-forward="true" selection-start-line="46" selection-end-line="47" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

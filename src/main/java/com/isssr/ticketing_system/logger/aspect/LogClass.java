@@ -10,5 +10,6 @@ import java.lang.annotation.Target;
 //use as @LogClass(logAttrs={"attribute1", "attribute2"})
 public @interface LogClass {
     String[] logAttrs() default "";
+
     String[] idAttrs() default "";
 }

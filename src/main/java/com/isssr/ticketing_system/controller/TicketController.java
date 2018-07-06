@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.controller.mailController.MailSenderController;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
-import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.*;
 import com.isssr.ticketing_system.response_entity.*;
 import com.isssr.ticketing_system.service.*;
@@ -123,9 +122,7 @@ public class TicketController {
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity update(@PathVariable Long id, @Valid @RequestBody Ticket ticket) {
         try {
-            ticketService.updateOne(id, ticket);
-        } catch (UpdateException e) {
-            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+            ticketService.updateById(id, ticket);
         } catch (EntityNotFoundException e) {
             return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
         }

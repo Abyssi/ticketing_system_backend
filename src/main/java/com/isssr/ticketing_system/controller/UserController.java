@@ -1,8 +1,7 @@
 package com.isssr.ticketing_system.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.User;
@@ -93,15 +92,12 @@ public class UserController {
     public ResponseEntity update(@PathVariable String term,
                                  @ValidString(list = {"id", "email"}, message = "Invalid type") @RequestParam("type") String type,
                                  @Valid @RequestBody User user) {
-        Optional<User> foundUser = userService.findUser(term, type);
-
-        if (!foundUser.isPresent())
-            return CommonResponseEntity.NotFoundResponseEntity("USER_NOT_FOUND");
-
         try {
-            userService.updateUser(foundUser.get().getId(), user);
+            userService.updateUser(term, type, user);
         } catch (UpdateException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+        } catch (EntityNotFoundException e) {
+            return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
         }
 
         return CommonResponseEntity.OkResponseEntity("UPDATED");
@@ -121,18 +117,15 @@ public class UserController {
         return CommonResponseEntity.OkResponseEntity("DELETED");
     }
 
-    @JsonView(JsonViews.DetailedUser.class)
+    @JsonView(JsonViews.Basic.class)
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         try {
             Page<User> userPage = userService.findAll(page, pageSize);
-            try {
-                System.out.println(new ObjectMapper().writerWithView(JsonViews.DetailedUser.class).writeValueAsString(userPage.getContent()));
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
             return new PageResponseEntityBuilder(userPage).setStatus(HttpStatus.OK).build();
+        } catch (EntityNotFoundException e) {
+            return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
         }
@@ -145,6 +138,8 @@ public class UserController {
         try {
             Page<User> userPage = userService.findByEmailContaining(email, page, pageSize);
             return new PageResponseEntityBuilder(userPage).setStatus(HttpStatus.OK).build();
+        } catch (EntityNotFoundException e) {
+            return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
         } catch (PageableQueryException e) {
             return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
         }

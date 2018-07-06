@@ -1,10 +1,6 @@
 package com.isssr.ticketing_system.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.logger.aspect.LogClass;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
@@ -15,7 +11,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Data
@@ -23,10 +18,9 @@ import java.util.Collection;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "user") //user is a reserved word in postgres
 @DynamicInsert
 @DynamicUpdate
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Table(name = "user")
 @LogClass(idAttrs = {"id"})
 public class User {
     @JsonView(JsonViews.IdentifierOnly.class)
@@ -47,7 +41,6 @@ public class User {
     private String email;
 
     @NonNull
-    @JsonIgnore
     private String password;
 
     @JsonView(JsonViews.DetailedUser.class)
@@ -66,28 +59,5 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
-
-    public void updateMe(@NotNull User updatedData) throws UpdateException {
-
-        if (this.id.longValue() != updatedData.id.longValue())
-            throw new UpdateException("Attempt to update a User record without ID matching");
-
-        this.firstName = updatedData.firstName;
-
-        this.lastName = updatedData.lastName;
-
-        this.email = updatedData.email;
-
-        //no password update because in this method is always null
-        //this.password = updatedData.password;
-
-        this.roles = updatedData.roles;
-
-        this.team = updatedData.team;
-    }
-
-    public void updatePassword(@NotNull Long id, @NotNull String password) {
-        //TODO update only password
-    }
 }
 

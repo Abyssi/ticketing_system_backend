@@ -1,7 +1,6 @@
 package com.isssr.ticketing_system.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.logger.aspect.LogClass;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeletableEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
@@ -13,7 +12,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,9 +21,9 @@ import java.util.Collection;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ticket")
 @DynamicInsert
 @DynamicUpdate
+@Table(name = "ticket")
 @LogClass(idAttrs = {"id"})
 public class Ticket extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
@@ -126,41 +124,5 @@ public class Ticket extends SoftDeletableEntity {
 
     public Collection<TicketComment> getComments() {
         return this.comments == null ? (this.comments = new ArrayList<>()) : this.comments;
-    }
-
-    public void updateMe(@NotNull Ticket updatedData) throws UpdateException {
-
-        if (this.id.longValue() != updatedData.id.longValue())
-            throw new UpdateException("Attempt to update a ticket record without ID matching");
-
-        this.status = updatedData.status;
-
-        this.source = updatedData.source;
-
-        this.category = updatedData.category;
-
-        this.title = updatedData.title;
-
-        this.description = updatedData.description;
-
-        this.attachments = updatedData.attachments;
-
-        this.assignee = updatedData.assignee;
-
-        this.target = updatedData.target;
-
-        this.customerPriority = updatedData.customerPriority;
-
-        this.teamPriority = updatedData.teamPriority;
-
-        this.visibility = updatedData.visibility;
-
-        this.relations = updatedData.relations;
-
-        this.difficulty = updatedData.difficulty;
-
-        this.events = updatedData.events;
-
-        this.comments = updatedData.comments;
     }
 }

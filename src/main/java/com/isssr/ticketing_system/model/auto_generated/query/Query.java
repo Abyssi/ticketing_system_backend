@@ -4,18 +4,13 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeletable;
 import com.isssr.ticketing_system.model.TicketPriority;
-import com.isssr.ticketing_system.model.auto_generated.enumeration.ComparisonOperatorsEnum;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Type;
-import org.quartz.Job;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Observable;
 
 @Data
@@ -87,13 +82,21 @@ public abstract class Query extends Observable implements Serializable, SoftDele
 
     }
 
-    public void activeMe() { this.active = true; }
+    public void activeMe() {
+        this.active = true;
+    }
 
-    public boolean isActive() { return active; }
+    public boolean isActive() {
+        return active;
+    }
 
-    public void disableMe() { this.active = false; }
+    public void disableMe() {
+        this.active = false;
+    }
 
-    public TicketPriority priority() { return this.queryPriority; }
+    public TicketPriority priority() {
+        return this.queryPriority;
+    }
 
     @Override
     public void delete() {

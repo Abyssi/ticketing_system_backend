@@ -66,7 +66,7 @@ public class QueryService {
 
     /**
      * general create query
-     * **/
+     **/
     @Transactional
     public Query create(Query query) {
 
@@ -82,7 +82,7 @@ public class QueryService {
 
     /**
      * create DB SCHEDULED QUERY
-     * **/
+     **/
     private DBScheduledQuery createDBScheduledQuery(DBScheduledQuery query) {
 
         //save or retrieve db connection info
@@ -150,7 +150,7 @@ public class QueryService {
         Query updatingQuery = this.queryRepository.getOne(id);
 
 
-        if (! updatingQuery.equalsByClass(updatedData))
+        if (!updatingQuery.equalsByClass(updatedData))
             throw new UpdateException("Query class doesn't match");
 
         //check if query is active

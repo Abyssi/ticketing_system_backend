@@ -10,7 +10,7 @@ public abstract class PersistenceUtils {
      * Initialize an object instance from its Proxy
      *
      * @param entity the proxy entity
-     * @param <T> the object instance
+     * @param <T>    the object instance
      * @return the object instance of the proxy entity
      */
     public static <T> T initializeAndUnproxy(T entity) {
