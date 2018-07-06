@@ -11,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.quartz.Job;
 import org.quartz.JobKey;
 
-import javax.persistence.*;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 @MappedSuperclass
 @Data

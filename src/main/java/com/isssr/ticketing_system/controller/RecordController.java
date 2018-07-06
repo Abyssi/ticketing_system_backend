@@ -1,11 +1,9 @@
 package com.isssr.ticketing_system.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.logger.RecordService;
 import com.isssr.ticketing_system.logger.entity.Record;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
-import com.isssr.ticketing_system.response_entity.JsonViews;
 import com.isssr.ticketing_system.response_entity.PageResponseEntityBuilder;
 import com.isssr.ticketing_system.response_entity.ResponseEntityBuilder;
 import com.isssr.ticketing_system.validator.RecordValidator;

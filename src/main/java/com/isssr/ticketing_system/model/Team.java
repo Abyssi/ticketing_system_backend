@@ -38,7 +38,7 @@ public class Team extends SoftDeletableEntity {
     private User leader;
 
     @JsonView(JsonViews.DetailedTeam.class)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "team_id")
     private Collection<User> members;
 

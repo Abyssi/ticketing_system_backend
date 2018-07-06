@@ -95,8 +95,7 @@ public abstract class ObjSer {
                 // TODO: check su tipo dell'oggetto
                 t = "\"" + attributes[i] + "\": \"" + field.get(obj) + "\",\n ";
                 st = st.concat(t);
-            }
-            catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 System.err.println("Attenzione: Attributo \"" + attributes[i] + "\" non trovato nella classe \"" + objectClass.getClass().getName() + "\"");
             }
             i++;
@@ -106,7 +105,7 @@ public abstract class ObjSer {
             t = "\"" + attributes[i] + "\": \"" + field_attr.get(obj) + "\"";
 
             st = st.concat(t);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.err.println("Attenzione: Attributo \"" + attributes[i] + "\" non trovato nella classe \"" + objectClass.getClass().getName() + "\"");
         }
 

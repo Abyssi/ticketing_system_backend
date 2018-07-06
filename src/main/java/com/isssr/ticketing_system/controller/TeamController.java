@@ -97,7 +97,7 @@ public class TeamController {
         }
     }
 
-    @JsonView(JsonViews.Basic.class)
+    @JsonView(JsonViews.DetailedTeam.class)
     @RequestMapping(value = "all", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
@@ -109,7 +109,7 @@ public class TeamController {
         }
     }
 
-    @JsonView(JsonViews.Basic.class)
+    @JsonView(JsonViews.DetailedTeam.class)
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllNotDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
@@ -121,7 +121,7 @@ public class TeamController {
         }
     }
 
-    @JsonView(JsonViews.Basic.class)
+    @JsonView(JsonViews.DetailedTeam.class)
     @RequestMapping(value = "deleted", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
