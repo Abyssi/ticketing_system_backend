@@ -40,7 +40,6 @@ public class RecordController {
         binder.addValidators(recordValidator);
     }
 
-    @JsonView(JsonViews.DetailedRecord.class)
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity get(@PathVariable Integer id) {
@@ -52,7 +51,6 @@ public class RecordController {
         return new ResponseEntityBuilder<>(record.get()).setStatus(HttpStatus.OK).build();
     }
 
-    @JsonView(JsonViews.Basic.class)
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
