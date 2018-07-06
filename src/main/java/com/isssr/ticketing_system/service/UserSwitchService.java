@@ -4,12 +4,8 @@ import com.isssr.ticketing_system.logEnabler.LogEnabler;
 import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.db_connection.DBConnectionModeEnum;
 import com.isssr.ticketing_system.repository.CustomRepository;
-import jdk.nashorn.internal.ir.annotations.Ignore;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -64,7 +60,7 @@ public class UserSwitchService {
     }
 
     //Setting log option by changing param - Enable/Disable
-    public void setLogOption(boolean flag){
+    public void setLogOption(boolean flag) {
         Method method;
         try {
             method = UserSwitchService.class.getMethod("doQueryReadOnlyMode", String.class, Class.class, String.class, String.class, String.class);

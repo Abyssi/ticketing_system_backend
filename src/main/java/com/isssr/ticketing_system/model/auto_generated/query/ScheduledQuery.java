@@ -46,7 +46,7 @@ public abstract class ScheduledQuery extends Query implements Job {
     @Override
     public void updateMe(Query updatedData) throws UpdateException {
 
-        if (! (updatedData instanceof ScheduledQuery))
+        if (!(updatedData instanceof ScheduledQuery))
             throw new UpdateException("Query class doesn't match");
 
         ScheduledQuery upData = (ScheduledQuery) updatedData;

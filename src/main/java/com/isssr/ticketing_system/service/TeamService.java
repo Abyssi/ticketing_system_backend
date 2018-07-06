@@ -2,7 +2,6 @@ package com.isssr.ticketing_system.service;
 
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
-import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDelete;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeleteKind;
@@ -34,15 +33,12 @@ public class TeamService {
     }
 
     @Transactional
-    public @NotNull Team updateOne(@NotNull Long id, @NotNull Team updatedData) throws UpdateException, EntityNotFoundException {
-        Team updatingTeam = teamRepository.getOne(id);
-
-        if (updatingTeam == null)
+    public Team updateById(@NotNull Long id, @NotNull Team team) throws EntityNotFoundException {
+        if (!teamRepository.existsById(id))
             throw new EntityNotFoundException("Team to update not found in DB, maybe you have to create a new one");
 
-        updatingTeam.updateMe(updatedData);
-
-        return teamRepository.save(updatingTeam);
+        team.setId(id);
+        return teamRepository.save(team);
     }
 
     @Transactional
@@ -73,19 +69,12 @@ public class TeamService {
     @Transactional
     public boolean deleteById(Long id) {
         boolean exists = this.teamRepository.existsById(id);
-
         if (exists) {
-
             Team team = this.teamRepository.getOne(id);
-
             if (team.isDeleted()) {
-
                 this.teamRepository.deleteById(id);
-
             } else {
-
                 team.delete();
-
                 this.teamRepository.save(team);
             }
         }

@@ -1,7 +1,6 @@
 package com.isssr.ticketing_system.validator;
 
 import com.isssr.ticketing_system.logger.entity.Record;
-import com.isssr.ticketing_system.model.Team;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;

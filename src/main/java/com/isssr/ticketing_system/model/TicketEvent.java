@@ -17,9 +17,9 @@ import java.time.Instant;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "ticket_event")
 @DynamicInsert
 @DynamicUpdate
+@Table(name = "ticket_event")
 public class TicketEvent {
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id

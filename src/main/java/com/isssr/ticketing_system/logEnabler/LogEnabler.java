@@ -1,7 +1,6 @@
 package com.isssr.ticketing_system.logEnabler;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -13,7 +12,7 @@ public class LogEnabler {
 
     //Method for enable/disable log option for query
     @SuppressWarnings("unchecked")
-    public Object changeAnnotationValue(Annotation annotation, String key, Object newValue){
+    public Object changeAnnotationValue(Annotation annotation, String key, Object newValue) {
         Object handler = Proxy.getInvocationHandler(annotation);
         Field f;
 
@@ -35,7 +34,7 @@ public class LogEnabler {
         if (oldValue == null || oldValue.getClass() != newValue.getClass()) {
             throw new IllegalArgumentException();
         }
-        memberValues.put(key,newValue);
+        memberValues.put(key, newValue);
         return oldValue;
     }
 }

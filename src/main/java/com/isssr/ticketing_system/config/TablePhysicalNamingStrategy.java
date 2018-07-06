@@ -2,13 +2,11 @@ package com.isssr.ticketing_system.config;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;
-import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.Serializable;
-import java.util.Locale;
 
 @Configuration
 public class TablePhysicalNamingStrategy extends PhysicalNamingStrategyStandardImpl implements Serializable {

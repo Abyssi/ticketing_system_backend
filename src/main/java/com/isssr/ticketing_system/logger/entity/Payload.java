@@ -3,9 +3,10 @@ package com.isssr.ticketing_system.logger.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-//import org.json.JSONObject;
 
 import javax.persistence.*;
+
+//import org.json.JSONObject;
 
 @Entity
 @Getter
@@ -17,16 +18,16 @@ public class Payload {
     @GeneratedValue
     private Integer id;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String json;
 
     private String objectId;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String type;
 
     //l'oggetto è di input o di output
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String classType;
 
     @ManyToOne
