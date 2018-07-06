@@ -111,7 +111,6 @@ public class QueryController {
         }
 
 
-
         return CommonResponseEntity.OkResponseEntity("CREATED");
     }
 
