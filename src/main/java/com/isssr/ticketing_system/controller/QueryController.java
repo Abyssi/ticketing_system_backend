@@ -221,7 +221,8 @@ public class QueryController {
             List<Table> tables = this.dbMetadataExtractor.getTableMetadata(
                     dbConnectionInfo.getUrl(),
                     dbConnectionInfo.getUsername(),
-                    dbConnectionInfo.getPassword()
+                    dbConnectionInfo.getPassword(),
+                    dbConnectionInfo.getDriver()
             );
 
             return new ResponseEntity<List<Table>>(tables, HttpStatus.OK);
@@ -243,7 +244,8 @@ public class QueryController {
                     tableName,
                     dbConnectionInfo.getUrl(),
                     dbConnectionInfo.getUsername(),
-                    dbConnectionInfo.getPassword()
+                    dbConnectionInfo.getPassword(),
+                    dbConnectionInfo.getDriver()
             );
 
             return new ResponseEntity<List<Column>>(columns, HttpStatus.OK);

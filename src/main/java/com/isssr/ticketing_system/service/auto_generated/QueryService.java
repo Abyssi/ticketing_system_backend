@@ -109,6 +109,8 @@ public class QueryService {
         //if it is a db query retrieve db connection info
         if (updatingQuery instanceof DBScheduledQuery) {
 
+
+
             //save or retrieve db connection info
             DBConnectionInfo dbConnectionInfo = this.dbConnectionInfoService.findByUrlAndUsernameAndPassword(
                     ((DBScheduledQuery) updatingQuery).getDbConnectionInfo().getUrl(),

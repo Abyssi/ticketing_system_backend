@@ -51,11 +51,11 @@ public class UserSwitchService {
     @Autowired
     private LogEnabler logEnabler;
 
-    public <T> T doNotLog(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword) throws SQLException, DataAccessException {
+    public <T> T doNotLog(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword, String dbDriver) throws SQLException, DataAccessException {
 
         setLogOption(false);
 
-        return doQueryReadOnlyMode(query, returnType, dbURL, dbUsername, dbPassword);
+        return doQueryReadOnlyMode(query, returnType, dbURL, dbUsername, dbPassword, dbDriver);
 
     }
 
@@ -75,9 +75,9 @@ public class UserSwitchService {
 
     //Use a read only user to do job
     @LogOperation(tag = "QUERY_EXECUTE", inputArgs = {"query"})
-    public <T> T doQueryReadOnlyMode(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword) throws SQLException, DataAccessException {
+    public <T> T doQueryReadOnlyMode(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword, String dbDriver) throws SQLException, DataAccessException {
         //Go with the connection of a new user
-        this.jdbcTemplate.setDataSource(getDataSource(dbURL, dbUsername, dbPassword, DBConnectionModeEnum.READ_ONLY_MODE));
+        this.jdbcTemplate.setDataSource(getDataSource(dbURL, dbUsername, dbPassword, dbDriver, DBConnectionModeEnum.READ_ONLY_MODE));
         Connection connection;
         T result = null;
 
@@ -88,15 +88,15 @@ public class UserSwitchService {
         return result;
     }
 
-    public Connection getReadOnlyConnection(@Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword) throws SQLException {
+    public Connection getReadOnlyConnection(@Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword, @Nullable String dbDriver) throws SQLException {
 
-        this.jdbcTemplate.setDataSource(getDataSource(dbURL, dbUsername, dbPassword, DBConnectionModeEnum.READ_ONLY_MODE));
+        this.jdbcTemplate.setDataSource(getDataSource(dbURL, dbUsername, dbPassword, dbDriver, DBConnectionModeEnum.READ_ONLY_MODE));
 
         return this.jdbcTemplate.getDataSource().getConnection();
     }
 
     //Get Connection with a 'read only' user to db
-    private DataSource getDataSource(@Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword, DBConnectionModeEnum mode) {
+    private DataSource getDataSource(@Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword, @Nullable String dbDriver, DBConnectionModeEnum mode) {
 
         if (dbURL == null)
             dbURL = this.url; //set default url
@@ -121,7 +121,17 @@ public class UserSwitchService {
 
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driver);
+
+        if (dbDriver != null) {
+
+            dataSource.setDriverClassName(dbDriver);
+
+        } else {
+
+            dataSource.setDriverClassName(driver);
+
+        }
+
         dataSource.setUrl(dbURL);
 
         dataSource.setUsername(dbUsername);
