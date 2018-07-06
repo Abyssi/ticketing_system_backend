@@ -1,5 +1,7 @@
 package com.isssr.ticketing_system.model.auto_generated.query;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.TicketPriority;
@@ -36,7 +38,6 @@ import java.sql.SQLException;
 @DisallowConcurrentExecution //avoid race condition on persisted data
 @FilterDef(name = "deleted_filter", parameters = {@ParamDef(name = "value", type = "boolean")})
 @Filter(name = "deleted_filter", condition = "deleted = :value")
-@Component
 //@LogClass(idAttrs = {"id"})
 public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, ComparisonOperatorsEnum> {
 

@@ -121,12 +121,13 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
             this.configureTeams();
             this.configureEmail();
             this.generateTicket();
-            //this.generateQueries();
+            this.generateQueries();
             this.createReadOnlyUser();
 
             //Make db setup
             this.setAlreadySetup(true);
         }
+        this.generateQueries();
 
         if (this.firstSchedulingAlreadyDone) return;
 

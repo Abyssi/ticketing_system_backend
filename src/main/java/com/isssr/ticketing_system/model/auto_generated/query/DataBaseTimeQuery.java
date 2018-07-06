@@ -1,6 +1,8 @@
 package com.isssr.ticketing_system.model.auto_generated.query;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.logEnabler.LogEnabler;
@@ -387,7 +389,6 @@ public class DataBaseTimeQuery extends Observable implements Job, Serializable, 
 @DisallowConcurrentExecution //avoid race condition on persisted data
 @FilterDef(name = "deleted_filter", parameters = {@ParamDef(name = "value", type = "boolean")})
 @Filter(name = "deleted_filter", condition = "deleted = :value")
-@Component
 //@LogClass(idAttrs = {"id"})
 public class DataBaseTimeQuery extends DBScheduledQuery<BigInteger, ComparisonOperatorsEnum> {
 
