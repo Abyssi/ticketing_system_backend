@@ -46,7 +46,7 @@ public abstract class ScheduledQuery extends Query implements Job {
 
         ScheduledQuery upData = (ScheduledQuery) updatedData;
 
-        //super.updateMe(upData);
+        super.updateMe(upData);
 
         this.cron = upData.cron;
 

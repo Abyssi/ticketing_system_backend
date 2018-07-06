@@ -104,6 +104,8 @@ public class QueryService {
         //update query
         updatingQuery.updateMe(updatedData);
 
+        updatingQuery = this.initializeAndUnproxyQuery(updatingQuery);
+
         //if it is a db query retrieve db connection info
         if (updatingQuery instanceof DBScheduledQuery) {
 
@@ -329,7 +331,7 @@ public class QueryService {
 
     }
 
-    private Query initializeAndUnproxyQuery(Query entity) {
+    public Query initializeAndUnproxyQuery(Query entity) {
 
         if (entity == null) {
             throw new
