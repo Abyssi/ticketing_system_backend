@@ -6,6 +6,7 @@ import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.User;
 import com.isssr.ticketing_system.repository.UserRepository;
+import com.isssr.ticketing_system.utils.EntityMergeUtils;
 import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EntityMergeUtils entityMergeUtils;
 
     @Transactional
     public User create(User user) {
@@ -89,7 +93,7 @@ public class UserService {
         if (user.getPassword() != null)
             user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        return userRepository.save(user);
+        return userRepository.save(entityMergeUtils.merge(user));
     }
 
     @Transactional
@@ -119,7 +123,7 @@ public class UserService {
         if (user.getPassword() != null)
             user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        return userRepository.save(user);
+        return userRepository.save(entityMergeUtils.merge(user));
     }
 
     @Transactional

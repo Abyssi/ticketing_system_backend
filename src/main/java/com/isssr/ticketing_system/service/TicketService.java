@@ -7,6 +7,7 @@ import com.isssr.ticketing_system.model.SoftDelete.SoftDelete;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeleteKind;
 import com.isssr.ticketing_system.model.Ticket;
 import com.isssr.ticketing_system.repository.TicketRepository;
+import com.isssr.ticketing_system.utils.EntityMergeUtils;
 import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,9 @@ public class TicketService {
     @Autowired
     private PageableUtils pageableUtils;
 
+    @Autowired
+    private EntityMergeUtils entityMergeUtils;
+
     @Transactional
     @LogOperation(tag = "TICKET_CREATE", inputArgs = {"ticket"})
     public Ticket save(Ticket ticket) {
@@ -40,7 +44,7 @@ public class TicketService {
             throw new EntityNotFoundException("Ticket to update not found in DB, maybe you have to create a new one");
 
         ticket.setId(id);
-        return ticketRepository.save(ticket);
+        return ticketRepository.save(entityMergeUtils.merge(ticket));
     }
 
     @Transactional

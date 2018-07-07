@@ -22,7 +22,6 @@ import java.util.Collection;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@SelectBeforeUpdate
 @Table(name = "user")
 @LogClass(idAttrs = {"id"})
 public class User extends SoftDeletableEntity {

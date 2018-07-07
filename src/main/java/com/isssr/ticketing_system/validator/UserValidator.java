@@ -26,9 +26,9 @@ public class UserValidator implements Validator {
         if (user.getEmail() != null && (!validateEmail(user.getEmail())))
             errors.rejectValue("email", "Invalid email");
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.required", "Password required");
+        /*ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.required", "Password required");
         if (user.getPassword() != null && (user.getPassword().length() < 8 || user.getPassword().length() > 32))
-            errors.rejectValue("password", "Use a password between 8 and 32 chars");
+            errors.rejectValue("password", "Use a password between 8 and 32 chars");*/
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "firstName.required", "First name required");
         if (user.getFirstName() != null && (user.getFirstName().length() < 1))

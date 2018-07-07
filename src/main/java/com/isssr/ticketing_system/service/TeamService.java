@@ -7,6 +7,7 @@ import com.isssr.ticketing_system.model.SoftDelete.SoftDelete;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeleteKind;
 import com.isssr.ticketing_system.model.Team;
 import com.isssr.ticketing_system.repository.TeamRepository;
+import com.isssr.ticketing_system.utils.EntityMergeUtils;
 import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,9 @@ public class TeamService {
     @Autowired
     private PageableUtils pageableUtils;
 
+    @Autowired
+    private EntityMergeUtils entityMergeUtils;
+
     @Transactional
     @LogOperation(tag = "TEAM_CREATE", inputArgs = {"team"})
     public Team save(Team team) {
@@ -39,7 +43,7 @@ public class TeamService {
             throw new EntityNotFoundException("Team to update not found in DB, maybe you have to create a new one");
 
         team.setId(id);
-        return teamRepository.save(team);
+        return teamRepository.save(entityMergeUtils.merge(team));
     }
 
     @Transactional
