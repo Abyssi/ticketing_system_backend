@@ -2,6 +2,7 @@ package com.isssr.ticketing_system.service;
 
 import com.isssr.ticketing_system.model.Company;
 import com.isssr.ticketing_system.repository.CompanyRepository;
+import com.isssr.ticketing_system.utils.EntityMergeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,11 @@ public class CompanyService {
     @Transactional
     public Optional<Company> findByName(String name) {
         return this.companyRepository.findByName(name);
+    }
+
+    @Transactional
+    public Iterable<Company> findAll() {
+        return this.companyRepository.findAll();
     }
 
     @Transactional

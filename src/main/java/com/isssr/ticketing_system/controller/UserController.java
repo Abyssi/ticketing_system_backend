@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
+import com.isssr.ticketing_system.model.Company;
+import com.isssr.ticketing_system.model.Role;
 import com.isssr.ticketing_system.model.User;
-import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
-import com.isssr.ticketing_system.response_entity.JsonViews;
-import com.isssr.ticketing_system.response_entity.PageResponseEntityBuilder;
-import com.isssr.ticketing_system.response_entity.ResponseEntityBuilder;
+import com.isssr.ticketing_system.response_entity.*;
+import com.isssr.ticketing_system.service.CompanyService;
 import com.isssr.ticketing_system.service.RoleService;
 import com.isssr.ticketing_system.service.UserService;
 import com.isssr.ticketing_system.validator.UserValidator;
@@ -25,8 +25,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Validated
 @RestController
@@ -37,6 +40,9 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private CompanyService companyService;
 
     private UserValidator userValidator;
 
@@ -157,5 +163,18 @@ public class UserController {
         userService.deleteAll();
 
         return CommonResponseEntity.OkResponseEntity("DELETED");
+    }
+    @JsonView(JsonViews.Basic.class)
+    @RequestMapping(path = "metadata", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    public ResponseEntity metadata(@AuthenticationPrincipal Principal principal) {
+
+        Iterable<Role> roles = roleService.findAll();
+        Iterable<Company> companies = companyService.findAll();
+
+        return new HashMapResponseEntityBuilder(HttpStatus.OK)
+                .set("roles", StreamSupport.stream(roles.spliterator(), false).collect(Collectors.toList()))
+                .set("companies", StreamSupport.stream(companies.spliterator(), false).collect(Collectors.toList()))
+                .build();
     }
 }
