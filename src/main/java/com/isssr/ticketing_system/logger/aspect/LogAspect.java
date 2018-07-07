@@ -81,8 +81,6 @@ public class LogAspect {
 
         if (!isEnabled) return returnObject;
         else {
-            System.out.println("enabled");
-
             Record record;
 
             Payload[] payloads = new Payload[inputArgsNames.length + 1];//dim = argumens +1 (including return object)

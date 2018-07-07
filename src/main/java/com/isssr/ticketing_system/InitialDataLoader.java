@@ -21,8 +21,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.transform.Result;
 import java.math.BigInteger;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
@@ -105,6 +107,11 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
         //Check if db is already setup, Otherwise set up it
         if (!this.checkConfig()) {
+            //Create DB and users
+            this.createDB();
+            this.createReadOnlyUser();
+
+            //Create start table
             this.configureCompany();
             this.configurePrivileges();
             this.configureRoles();
@@ -121,7 +128,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
             this.configureEmail();
             this.generateTicket();
             //this.generateQueries();
-            this.createReadOnlyUser();
 
             //Make db setup
             this.setAlreadySetup(true);
@@ -133,6 +139,17 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
         this.firstSchedulingAlreadyDone = true;
 
+    }
+
+    private void createDB() {
+        try {
+            Connection connection = this.jdbcTemplate.getDataSource().getConnection();
+            Statement statement = connection.createStatement();
+            if (statement.execute("SELECT 1 FROM pg_database WHERE datname='ticketing_system_db';")) return;
+            else statement.execute("CREATE DATABASE ticketing_system_db;");
+        } catch (SQLException e) {
+            System.out.println("DB has been created");
+        }
     }
 
     private void setAlreadySetup(boolean b) {
@@ -154,9 +171,10 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private void configureEmail() {
         if (!this.mailService.existsByType("FORMAT"))
-            this.mailService.save(new Mail("Format error", "format not respected.", "FORMAT"));
+            this.mailService.save(new Mail("Format error", "Format not respected. In attachment you can find rules for opening tickets by e-mail.\n" +
+                    "You can also contact our help desk for more assistance.", "FORMAT"));
         if (!this.mailService.existsByType("TICKET_OPENED"))
-            this.mailService.save(new Mail("Ticket opened", "Ticket successfully created", "TICKET_OPENED"));
+            this.mailService.save(new Mail("Ticket opened", "Your ticket has been successfully created", "TICKET_OPENED"));
         if (!this.mailService.existsByType(this.wrongQueryMailType))
             this.mailService.save(new Mail("Wrong query", "A query with wrong behaviour has been executed. It has been disabled. \n\nCause:", this.wrongQueryMailType));
     }
@@ -241,7 +259,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                     "GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO Read_Only_User;");
             statement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("User has been created");
         }
     }
 
