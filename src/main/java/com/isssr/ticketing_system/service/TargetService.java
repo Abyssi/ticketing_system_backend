@@ -7,13 +7,17 @@ import com.isssr.ticketing_system.model.SoftDelete.SoftDelete;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeleteKind;
 import com.isssr.ticketing_system.model.Target;
 import com.isssr.ticketing_system.repository.TargetRepository;
+import com.isssr.ticketing_system.utils.EntityMergeUtils;
 import com.isssr.ticketing_system.utils.PageableUtils;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
@@ -26,11 +30,15 @@ public class TargetService {
     @Autowired
     private PageableUtils pageableUtils;
 
+    @Autowired
+    private EntityMergeUtils entityMergeUtils;
+
     @Transactional
     @LogOperation(tag = "TARGET_CREATE", inputArgs = {"target"})
     public Target save(Target target) {
         if (target.getId() == null && this.targetRepository.existsByName(target.getName()))
             target.setId(this.findByName(target.getName()).get().getId());
+
         return this.targetRepository.save(target);
     }
 
@@ -41,7 +49,7 @@ public class TargetService {
             throw new EntityNotFoundException("Target to update not found in DB, maybe you have to create a new one");
 
         target.setId(id);
-        return targetRepository.save(target);
+        return targetRepository.save(entityMergeUtils.merge(target));
     }
 
     @Transactional
