@@ -21,7 +21,6 @@ import java.util.Collection;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "company")
 public class Company extends SoftDeletableEntity {
 
     @JsonView(JsonViews.IdentifierOnly.class)

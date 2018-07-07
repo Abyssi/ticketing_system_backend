@@ -20,7 +20,6 @@ import java.time.Instant;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "ticket_attachment")
 public class TicketAttachment extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id

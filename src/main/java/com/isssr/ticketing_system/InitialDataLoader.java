@@ -200,7 +200,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private void configureUsers() {
         this.userService.save(new User("Admin", "Admin", "admin@admin.com", "password", this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
-        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi94@gmail.com", "password", this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
+        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi94@gmail.com", "password", this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
     }
 
     private void configurePriorities() {
@@ -273,6 +273,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 ticketCategoryService.findByName("SYSTEM").get(),
                 "Auto generated ticket",
                 "This is an auto generated ticket description",
+                userService.findByEmail("admin@admin.com").get(),
                 targetService.findByName("System").get(),
                 ticketPriorityService.findByName("HIGH").get(),
                 visibilityService.findByName("PRIVATE").get()

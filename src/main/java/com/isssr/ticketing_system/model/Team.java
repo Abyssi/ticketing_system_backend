@@ -20,7 +20,6 @@ import java.util.Collection;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "team")
 @LogClass(idAttrs = {"id"})
 public class Team extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
