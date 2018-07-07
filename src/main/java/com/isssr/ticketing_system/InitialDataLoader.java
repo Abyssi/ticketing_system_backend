@@ -145,8 +145,12 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         try {
             Connection connection = this.jdbcTemplate.getDataSource().getConnection();
             Statement statement = connection.createStatement();
-            if (statement.execute("SELECT 1 FROM pg_database WHERE datname='ticketing_system_db';")) return;
-            else statement.execute("CREATE DATABASE ticketing_system_db;");
+            statement.execute("CREATE DATABASE ticketing_system_db\n" +
+                    "    WITH \n" +
+                    "    OWNER = postgres\n" +
+                    "    ENCODING = 'UTF8'\n" +
+                    "    CONNECTION LIMIT = -1;");
+            statement.close();
         } catch (SQLException e) {
             System.out.println("DB has been created");
         }
