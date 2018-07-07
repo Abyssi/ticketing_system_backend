@@ -2,6 +2,7 @@ package com.isssr.ticketing_system.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.logger.aspect.LogClass;
+import com.isssr.ticketing_system.model.SoftDelete.SoftDeletableEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -20,9 +22,10 @@ import java.util.Collection;
 @Entity
 @DynamicInsert
 @DynamicUpdate
+@SelectBeforeUpdate
 @Table(name = "user")
 @LogClass(idAttrs = {"id"})
-public class User {
+public class User extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

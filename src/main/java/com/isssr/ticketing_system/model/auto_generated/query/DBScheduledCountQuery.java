@@ -1,7 +1,5 @@
 package com.isssr.ticketing_system.model.auto_generated.query;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.TicketPriority;
@@ -17,7 +15,6 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.PersistJobDataAfterExecution;
 import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -138,13 +135,15 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
 
         if (this.dbConnectionInfo == null) {
 
-            if (this.isEnable) return userSwitchService.doQueryReadOnlyMode(this.queryText, BigInteger.class, null, null, null, null);
+            if (this.isEnable)
+                return userSwitchService.doQueryReadOnlyMode(this.queryText, BigInteger.class, null, null, null, null);
 
             return userSwitchService.doNotLog(this.queryText, BigInteger.class, null, null, null, null);
 
         } else {
 
-            if (this.isEnable) return userSwitchService.doQueryReadOnlyMode(this.queryText, BigInteger.class, null, null, null, this.dbConnectionInfo.getDriver());
+            if (this.isEnable)
+                return userSwitchService.doQueryReadOnlyMode(this.queryText, BigInteger.class, null, null, null, this.dbConnectionInfo.getDriver());
 
             return userSwitchService.doNotLog(this.queryText, BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.dbConnectionInfo.getDriver());
 

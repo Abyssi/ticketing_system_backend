@@ -57,6 +57,6 @@ public class DBConnectionInfo {
 
         }
 
-        this.driver =  "org.postgresql.Driver";
+        this.driver = "org.postgresql.Driver";
     }
 }
