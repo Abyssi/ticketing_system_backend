@@ -3,11 +3,21 @@ package com.isssr.ticketing_system.controller.mailController;
 import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.Mail;
 import com.isssr.ticketing_system.service.MailService;
-import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.SimpleEmail;
+import org.apache.commons.mail.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+
+import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.io.File;
+import java.io.IOException;
 
 @Controller
 public class MailSenderController extends MailController {
@@ -16,14 +26,15 @@ public class MailSenderController extends MailController {
     private MailService mailService;
 
     @Override
-    @LogOperation(tag = "MAIL_SEND")
+    @LogOperation(tag = "MAIL_SEND", inputArgs = "mailType")
     public void sendMail(String address, String mailType) {
+
         try {
             //Query to db for retrieve subject and content email, by type
             Mail mail = this.mailService.findByType(mailType).get();
 
             //Build email
-            Email email = new SimpleEmail();
+            MultiPartEmail email = new MultiPartEmail();
             email.setSmtpPort(587);
             email.setAuthenticator(new DefaultAuthenticator(userName, password));
             email.setHostName("smtp.gmail.com");
@@ -32,6 +43,14 @@ public class MailSenderController extends MailController {
             email.setMsg(mail.getDescription());
             email.addTo(address);
             email.setTLS(true);
+
+            //Check email type for adding attach
+            if (mailType.equals("FORMAT")){
+                // Create the attachment
+                email.attach(new File(System.getProperty("user.dir") + saveDirectory + File.separator + attach));
+            }
+
+            //Send e-mail
             email.send();
             System.out.println("Response e-mail sent!");
         } catch (Exception e) {
@@ -39,8 +58,7 @@ public class MailSenderController extends MailController {
         }
     }
 
-
-    @LogOperation(tag = "MAIL_SEND")
+    @LogOperation(tag = "MAIL_SEND", inputArgs = "mailType")
     public void sendMail(String address, String mailType, String mailText) {
 
         try {

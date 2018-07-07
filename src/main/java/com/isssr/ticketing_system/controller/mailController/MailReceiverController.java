@@ -90,9 +90,9 @@ public class MailReceiverController extends MailController {
     }
 
     //Waiting for e-mails
-    //@Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 10000)
     public void receiveMail() {
-        //System.out.println("Reading emails...");
+        System.out.println("Reading emails...");
         Properties properties = getServerProperties(receiverHost, port);
         Session session = Session.getDefaultInstance(properties);
 
@@ -253,7 +253,7 @@ public class MailReceiverController extends MailController {
 
     //Switch between formatted and unformatted email
     private boolean isFormatted(String content) {
-        String[] ticketAttribute = new String[]{"descrizione", "categoria", "target", "priorita"};
+        String[] ticketAttribute = new String[]{"description", "category", "target", "priority"};
 
         //Avoid case sensitive match error
         content = content.toLowerCase();

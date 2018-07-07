@@ -37,6 +37,11 @@ public abstract class MailController implements IMailController {
     @Value("${mail.password}")
     protected String password;
 
+    //E-mail Attachment
+
+    @Value("${mail.attach.format}")
+    protected String attach;
+
     public abstract void sendMail(String address, String mailType);
 
     public abstract void receiveMail();
