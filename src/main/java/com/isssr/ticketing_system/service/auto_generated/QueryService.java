@@ -62,7 +62,7 @@ public class QueryService {
      **/
     @Transactional
     @LogOperation(tag = "QUERY_CREATED", inputArgs = {"query"})
-    private DBScheduledQuery createDBScheduledQuery(DBScheduledQuery query) {
+    public DBScheduledQuery createDBScheduledQuery(DBScheduledQuery query) {
 
         //save or retrieve db connection info
         DBConnectionInfo dbConnectionInfo = this.dbConnectionInfoService.findByUrlAndUsernameAndPassword(
@@ -72,7 +72,7 @@ public class QueryService {
         );
 
         //update query connection info with id value
-        ((DBScheduledQuery) query).setDbConnectionInfo(dbConnectionInfo);
+        query.setDbConnectionInfo(dbConnectionInfo);
 
         return this.queryRepository.save(query);
 
@@ -103,25 +103,6 @@ public class QueryService {
 
         //update query
         updatingQuery.updateMe(updatedData);
-
-        updatingQuery = this.initializeAndUnproxyQuery(updatingQuery);
-
-        //if it is a db query retrieve db connection info
-        if (updatingQuery instanceof DBScheduledQuery) {
-
-
-
-            //save or retrieve db connection info
-            DBConnectionInfo dbConnectionInfo = this.dbConnectionInfoService.findByUrlAndUsernameAndPassword(
-                    ((DBScheduledQuery) updatingQuery).getDbConnectionInfo().getUrl(),
-                    ((DBScheduledQuery) updatingQuery).getDbConnectionInfo().getUsername(),
-                    ((DBScheduledQuery) updatingQuery).getDbConnectionInfo().getPassword()
-            );
-
-            //update query connection info with id value
-            ((DBScheduledQuery) updatingQuery).setDbConnectionInfo(dbConnectionInfo);
-
-        }
 
         if (isActive) {
 
@@ -174,12 +155,18 @@ public class QueryService {
     }
 
     @Transactional
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long id) throws SchedulerException {
         boolean exists = this.existsById(id);
 
         if (exists) {
 
             Query query = this.queryRepository.getOne(id);
+
+            if (query.isActive()) {
+
+                this.disableQuery(query);
+
+            }
 
             if (query.isDeleted()) {
 

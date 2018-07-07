@@ -63,7 +63,7 @@ public class UserSwitchService {
     public void setLogOption(boolean flag) {
         Method method;
         try {
-            method = UserSwitchService.class.getMethod("doQueryReadOnlyMode", String.class, Class.class, String.class, String.class, String.class);
+            method = UserSwitchService.class.getMethod("doQueryReadOnlyMode", String.class, Class.class, String.class, String.class, String.class, String.class);
             LogOperation methodAnnotation = method.getAnnotation(LogOperation.class);
             logEnabler.changeAnnotationValue(methodAnnotation, "isEnabled", flag);
             System.out.println(methodAnnotation.isEnabled());
