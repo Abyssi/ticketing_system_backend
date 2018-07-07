@@ -143,7 +143,7 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
         } else {
 
             if (this.isEnable)
-                return userSwitchService.doQueryReadOnlyMode(this.queryText, BigInteger.class, null, null, null, this.dbConnectionInfo.getDriver());
+                return userSwitchService.doQueryReadOnlyMode(this.queryText, BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.dbConnectionInfo.getDriver());
 
             return userSwitchService.doNotLog(this.queryText, BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.dbConnectionInfo.getDriver());
 
