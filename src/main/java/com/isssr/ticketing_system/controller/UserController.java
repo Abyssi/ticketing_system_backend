@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -164,6 +163,7 @@ public class UserController {
 
         return CommonResponseEntity.OkResponseEntity("DELETED");
     }
+
     @JsonView(JsonViews.Basic.class)
     @RequestMapping(path = "metadata", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")

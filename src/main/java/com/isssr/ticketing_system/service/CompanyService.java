@@ -2,7 +2,6 @@ package com.isssr.ticketing_system.service;
 
 import com.isssr.ticketing_system.model.Company;
 import com.isssr.ticketing_system.repository.CompanyRepository;
-import com.isssr.ticketing_system.utils.EntityMergeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

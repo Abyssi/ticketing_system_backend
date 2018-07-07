@@ -3,21 +3,14 @@ package com.isssr.ticketing_system.controller.mailController;
 import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.Mail;
 import com.isssr.ticketing_system.service.MailService;
-import org.apache.commons.mail.*;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.MultiPartEmail;
+import org.apache.commons.mail.SimpleEmail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 
-import javax.mail.Multipart;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import java.io.File;
-import java.io.IOException;
 
 @Controller
 public class MailSenderController extends MailController {
@@ -45,7 +38,7 @@ public class MailSenderController extends MailController {
             email.setTLS(true);
 
             //Check email type for adding attach
-            if (mailType.equals("FORMAT")){
+            if (mailType.equals("FORMAT")) {
                 // Create the attachment
                 email.attach(new File(System.getProperty("user.dir") + saveDirectory + File.separator + attach));
             }
