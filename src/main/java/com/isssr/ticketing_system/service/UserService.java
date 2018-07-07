@@ -1,5 +1,6 @@
 package com.isssr.ticketing_system.service;
 
+import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.logger.aspect.LogOperation;
@@ -10,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
@@ -25,6 +26,9 @@ public class UserService {
     @Autowired
     private PageableUtils pageableUtils;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Transactional
     public User create(User user) {
         return this.userRepository.save(user);
@@ -35,6 +39,10 @@ public class UserService {
     public User save(User user) {
         if (user.getId() == null && this.userRepository.existsByEmail(user.getEmail()))
             user.setId(this.findByEmail(user.getEmail()).get().getId());
+
+        if (user.getPassword() != null)
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         return this.userRepository.save(user);
     }
 
@@ -71,19 +79,17 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUser(@NotNull Long id, @NotNull User user) throws EntityNotFoundException, UpdateException {
-
-        Optional<User> updatingUser = findById(id);
-
-        if (!updatingUser.isPresent())
+    @LogOperation(tag = "USER_UPDATE", inputArgs = {"user"})
+    public User updateById(@NotNull Long id, @NotNull User user) throws EntityNotFoundException {
+        if (!userRepository.existsById(id))
             throw new EntityNotFoundException("User to update not found in DB, maybe you have to create a new one");
 
-        User toUpdate = updatingUser.get();
+        user.setId(id);
 
-        toUpdate.updateMe(user);
+        if (user.getPassword() != null)
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        return this.userRepository.save(toUpdate);
-
+        return userRepository.save(user);
     }
 
     @Transactional
@@ -99,6 +105,21 @@ public class UserService {
     @Transactional
     public Optional<User> findByEmail(String email) {
         return this.userRepository.findByEmail(email);
+    }
+
+    @Transactional
+    @LogOperation(tag = "USER_UPDATE", inputArgs = {"user"})
+    public User updateByEmail(@NotNull String email, @NotNull User user) throws EntityNotFoundException {
+        if (!userRepository.existsByEmail(email))
+            throw new EntityNotFoundException("User to update not found in DB, maybe you have to create a new one");
+
+        Optional<User> foundUser = userRepository.findByEmail(email);
+        user.setId(foundUser.get().getId());
+
+        if (user.getPassword() != null)
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        return userRepository.save(user);
     }
 
     @Transactional
@@ -139,5 +160,16 @@ public class UserService {
                 return findByEmail(term);
         }
         return Optional.empty();
+    }
+
+
+    public User updateUser(String term, String type, User user) throws UpdateException, EntityNotFoundException {
+        switch (type) {
+            case "id":
+                return updateById(Long.parseLong(term), user);
+            case "email":
+                return updateByEmail(term, user);
+        }
+        throw new UpdateException("Bad term");
     }
 }

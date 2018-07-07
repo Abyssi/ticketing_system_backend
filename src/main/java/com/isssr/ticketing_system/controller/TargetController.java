@@ -3,8 +3,6 @@ package com.isssr.ticketing_system.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
-import com.isssr.ticketing_system.exception.UpdateException;
-
 import com.isssr.ticketing_system.model.Target;
 import com.isssr.ticketing_system.response_entity.CommonResponseEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
@@ -69,9 +67,7 @@ public class TargetController {
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseEntity update(@PathVariable Long id, @Valid @RequestBody Target target) {
         try {
-            targetService.updateOne(id, target);
-        } catch (UpdateException e) {
-            return CommonResponseEntity.BadRequestResponseEntity(e.getMessage());
+            targetService.updateById(id, target);
         } catch (EntityNotFoundException e) {
             return CommonResponseEntity.NotFoundResponseEntity(e.getMessage());
         }

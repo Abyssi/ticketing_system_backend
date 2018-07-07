@@ -25,23 +25,23 @@ public class DBMetadataExtractor {
 
     public List<Table> getTableMetadata() throws SQLException {
 
-        return this.getTableMetadata(null, null, null);
+        return this.getTableMetadata(null, null, null, null);
 
     }
 
     public List<Column> getTableColumns(String tableName) throws SQLException {
 
-       return this.getTableColumns(tableName, null, null, null);
+        return this.getTableColumns(tableName, null, null, null, null);
 
     }
 
 
-    public List<Table> getTableMetadata(@Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword) throws SQLException {
+    public List<Table> getTableMetadata(@Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword, @Nullable String dbDriver) throws SQLException {
 
         //if dbUrl is null, this is a default request
         boolean isDefault = dbURL == null;
 
-        Connection connection = this.userSwitchService.getReadOnlyConnection(dbURL, dbUsername, dbPassword);
+        Connection connection = this.userSwitchService.getReadOnlyConnection(dbURL, dbUsername, dbPassword, dbDriver);
 
         List<String> tableNames = this.customRepositoryImp.getTablesMetadata(connection, isDefault);
 
@@ -62,9 +62,9 @@ public class DBMetadataExtractor {
 
     }
 
-    public List<Column> getTableColumns(String tableName, @Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword) throws SQLException {
+    public List<Column> getTableColumns(String tableName, @Nullable String dbURL, @Nullable String dbUsername, @Nullable String dbPassword, @Nullable String dbDriver) throws SQLException {
 
-        Connection connection = this.userSwitchService.getReadOnlyConnection(dbURL, dbUsername, dbPassword);
+        Connection connection = this.userSwitchService.getReadOnlyConnection(dbURL, dbUsername, dbPassword, dbDriver);
 
         List<String> columnNames = this.customRepositoryImp.getTableColumnsMetadata(connection, tableName);
 

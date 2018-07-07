@@ -5,7 +5,6 @@ import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.model.*;
 import com.isssr.ticketing_system.model.auto_generated.enumeration.ComparisonOperatorsEnum;
 import com.isssr.ticketing_system.model.auto_generated.query.DBScheduledCountQuery;
-import com.isssr.ticketing_system.model.auto_generated.query.DataBaseTimeQuery;
 import com.isssr.ticketing_system.model.auto_generated.query.Query;
 import com.isssr.ticketing_system.model.auto_generated.query.QueryType;
 import com.isssr.ticketing_system.model.db_connection.DBConnectionInfo;
@@ -180,8 +179,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureUsers() {
-        this.userService.save(new User("Admin", "Admin", "admin@admin.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
-        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi94@gmail.com", passwordEncoder.encode("password"), this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
+        this.userService.save(new User("Admin", "Admin", "admin@admin.com", "password", this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
+        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi94@gmail.com", "password", this.companyService.findByName("test").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
     }
 
     private void configurePriorities() {
@@ -261,51 +260,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void generateQueries() {
-
-        DataBaseTimeQuery dataBaseTimeQuery = new DataBaseTimeQuery(
-                "DataBaseTimeQuery: This query check number of targets in target table, if it is grater than 1 generate alert ticket",
-                ticketPriorityService.findByName("HIGH").get(),
-                true,
-                this.userService.findByEmail("andrea.silvi94@gmail.com").get().getEmail(),
-                "*/5 * * * * ?",
-                "SELECT count(*) FROM ts_target",
-                new DBConnectionInfo(null, null, null),
-                QueryType.DATA_BASE_INSTANT_CHECK,
-                ComparisonOperatorsEnum.GREATER,
-                BigInteger.valueOf(1));
-
-        this.queryService.create(dataBaseTimeQuery);
-
-        dataBaseTimeQuery = new DataBaseTimeQuery(
-                "DataBaseTimeQuery: This query check number of teams in team table, if it is less than 1000 generate alert ticket",
-                ticketPriorityService.findByName("HIGH").get(),
-                false,
-                this.userService.findByEmail("andrea.silvi94@gmail.com").get().getEmail(),
-                "*/8 * * * * ?",
-                "SELECT count(*) FROM ts_team",
-                new DBConnectionInfo(null, null, null),
-                QueryType.DATA_BASE_INSTANT_CHECK,
-                ComparisonOperatorsEnum.LESS,
-                BigInteger.valueOf(1000)
-        );
-
-        this.queryService.create(dataBaseTimeQuery);
-
-        dataBaseTimeQuery = new DataBaseTimeQuery(
-                "DataBaseTimeQuery: This query check number of targets in target table, if it is growth of 1 or more generate alert ticket",
-                ticketPriorityService.findByName("HIGH").get(),
-                true,
-                this.userService.findByEmail("andrea.silvi94@gmail.com").get().getEmail(),
-                "0 */1 * * * ?",
-                "SELECT count(*) FROM ts_target",
-                new DBConnectionInfo(null, null, null),
-                QueryType.DATA_BASE_TABLE_MONITOR,
-                ComparisonOperatorsEnum.GREATER_EQUALS,
-                BigInteger.valueOf(1)
-
-        );
-
-        this.queryService.create(dataBaseTimeQuery);
 
         DBScheduledCountQuery dbScheduledCountQuery = new DBScheduledCountQuery(
                 "DBScheduledCountQuery: This query check number of targets in target table, if it is grater than 1 generate alert ticket",

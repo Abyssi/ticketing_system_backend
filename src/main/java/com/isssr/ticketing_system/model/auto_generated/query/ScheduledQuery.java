@@ -11,17 +11,14 @@ import lombok.RequiredArgsConstructor;
 import org.quartz.Job;
 import org.quartz.JobKey;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+@MappedSuperclass
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class ScheduledQuery extends Query implements Job {
 
     @Transient
@@ -43,10 +40,9 @@ public abstract class ScheduledQuery extends Query implements Job {
         this.cron = cron;
     }
 
-    @Override
     public void updateMe(Query updatedData) throws UpdateException {
 
-        if (! (updatedData instanceof ScheduledQuery))
+        if (!(updatedData instanceof ScheduledQuery))
             throw new UpdateException("Query class doesn't match");
 
         ScheduledQuery upData = (ScheduledQuery) updatedData;

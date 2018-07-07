@@ -2,7 +2,6 @@ package com.isssr.ticketing_system.service;
 
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
-import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDelete;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeleteKind;
@@ -35,15 +34,13 @@ public class TicketService {
     }
 
     @Transactional
-    public @NotNull Ticket updateOne(@NotNull Long id, @NotNull Ticket updatedData) throws UpdateException, EntityNotFoundException {
-        Ticket updatingTicket = ticketRepository.getOne(id);
-
-        if (updatingTicket == null)
+    @LogOperation(tag = "TICKET_UPDATE", inputArgs = {"ticket"})
+    public Ticket updateById(@NotNull Long id, @NotNull Ticket ticket) throws EntityNotFoundException {
+        if (!ticketRepository.existsById(id))
             throw new EntityNotFoundException("Ticket to update not found in DB, maybe you have to create a new one");
 
-        updatingTicket.updateMe(updatedData);
-
-        return ticketRepository.save(updatingTicket);
+        ticket.setId(id);
+        return ticketRepository.save(ticket);
     }
 
     @Transactional
@@ -75,19 +72,12 @@ public class TicketService {
     @LogOperation(tag = "TICKET_DELETE")
     public boolean deleteById(Long id) {
         boolean exists = this.ticketRepository.existsById(id);
-
         if (exists) {
-
             Ticket ticket = this.ticketRepository.getOne(id);
-
             if (ticket.isDeleted()) {
-
                 this.ticketRepository.deleteById(id);
-
             } else {
-
                 ticket.delete();
-
                 this.ticketRepository.save(ticket);
             }
         }
@@ -96,19 +86,13 @@ public class TicketService {
 
     @Transactional
     public Ticket restoreById(Long id) throws EntityNotFoundException {
-
         if (this.ticketRepository.existsById(id)) {
-
             Ticket ticket = this.ticketRepository.getOne(id);
-
             ticket.restore();
-
             return this.ticketRepository.save(ticket);
-
         } else {
             throw new EntityNotFoundException("Trying to restore Target not present in db");
         }
-
     }
 
     @Transactional

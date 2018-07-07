@@ -2,7 +2,6 @@ package com.isssr.ticketing_system.service;
 
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
-import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.logger.aspect.LogOperation;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDelete;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeleteKind;
@@ -27,8 +26,6 @@ public class TargetService {
     @Autowired
     private PageableUtils pageableUtils;
 
-
-
     @Transactional
     @LogOperation(tag = "TARGET_CREATE", inputArgs = {"target"})
     public Target save(Target target) {
@@ -38,15 +35,13 @@ public class TargetService {
     }
 
     @Transactional
-    public @NotNull Target updateOne(@NotNull Long id, @NotNull Target updatedData) throws UpdateException, EntityNotFoundException {
-        Target updatingTarget = targetRepository.getOne(id);
-
-        if (updatingTarget == null)
+    @LogOperation(tag = "TARGET_UPDATE", inputArgs = {"target"})
+    public Target updateById(@NotNull Long id, @NotNull Target target) throws EntityNotFoundException {
+        if (!targetRepository.existsById(id))
             throw new EntityNotFoundException("Target to update not found in DB, maybe you have to create a new one");
 
-        updatingTarget.updateMe(updatedData);
-
-        return targetRepository.save(updatingTarget);
+        target.setId(id);
+        return targetRepository.save(target);
     }
 
     @Transactional
@@ -77,19 +72,12 @@ public class TargetService {
     @Transactional
     public boolean deleteById(Long id) {
         boolean exists = this.targetRepository.existsById(id);
-
         if (exists) {
-
             Target target = this.targetRepository.getOne(id);
-
             if (target.isDeleted()) {
-
                 this.targetRepository.deleteById(id);
-
             } else {
-
                 target.delete();
-
                 this.targetRepository.save(target);
             }
         }

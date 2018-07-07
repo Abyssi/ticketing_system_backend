@@ -9,21 +9,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.*;
-import org.quartz.*;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.CascadeType;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
+@MappedSuperclass
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class DBScheduledQuery<T, S> extends ScheduledQuery {
 
     @Transient
@@ -44,14 +41,11 @@ public abstract class DBScheduledQuery<T, S> extends ScheduledQuery {
 
     @JsonView(JsonViews.Detailed.class)
     @NonNull
-    @Type(type = "java.lang.Enum")
     protected S comparisonOperator;
 
     @JsonView(JsonViews.Detailed.class)
-    @Type(type = "java.lang.Number")
     protected T referenceValue;
 
-    @Type(type = "java.lang.Number")
     protected T lastValue;
 
     public DBScheduledQuery(String description, TicketPriority queryPriority, boolean isEnable, String author, String cron, String queryText, DBConnectionInfo dbConnectionInfo, QueryType queryType, S comparisonOperator, T referenceValue) {
@@ -72,12 +66,14 @@ public abstract class DBScheduledQuery<T, S> extends ScheduledQuery {
         this.referenceValue = referenceValue;
     }
 
-    public String printQuery() { return this.queryText; }
+    public String printQuery() {
+        return this.queryText;
+    }
 
     @Override
     public void updateMe(Query updatedData) throws UpdateException {
 
-        if (! (updatedData instanceof DBScheduledQuery))
+        if (!(updatedData instanceof DBScheduledQuery))
             throw new UpdateException("Query class doesn't match");
 
         DBScheduledQuery upData = (DBScheduledQuery) updatedData;
@@ -85,8 +81,6 @@ public abstract class DBScheduledQuery<T, S> extends ScheduledQuery {
         super.updateMe(upData);
 
         this.queryText = upData.queryText;
-
-        this.dbConnectionInfo = upData.dbConnectionInfo;
 
         this.queryType = upData.queryType;
     }

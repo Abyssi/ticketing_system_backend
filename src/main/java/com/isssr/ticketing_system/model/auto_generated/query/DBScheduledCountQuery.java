@@ -9,14 +9,12 @@ import com.isssr.ticketing_system.service.UserSwitchService;
 import com.isssr.ticketing_system.service.auto_generated.QueryService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.*;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.PersistJobDataAfterExecution;
 import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -36,7 +34,6 @@ import java.sql.SQLException;
 @DisallowConcurrentExecution //avoid race condition on persisted data
 @FilterDef(name = "deleted_filter", parameters = {@ParamDef(name = "value", type = "boolean")})
 @Filter(name = "deleted_filter", condition = "deleted = :value")
-@Component
 //@LogClass(idAttrs = {"id"})
 public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, ComparisonOperatorsEnum> {
 
@@ -138,11 +135,17 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
 
         if (this.dbConnectionInfo == null) {
 
-            return userSwitchService.doNotLog(this.queryText , BigInteger.class, null, null, null, this.isEnable);
+            if (this.isEnable)
+                return userSwitchService.doQueryReadOnlyMode(this.queryText, BigInteger.class, null, null, null, null);
+
+            return userSwitchService.doNotLog(this.queryText, BigInteger.class, null, null, null, null);
 
         } else {
 
-            return userSwitchService.doNotLog(this.queryText , BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.isEnable);
+            if (this.isEnable)
+                return userSwitchService.doQueryReadOnlyMode(this.queryText, BigInteger.class, null, null, null, this.dbConnectionInfo.getDriver());
+
+            return userSwitchService.doNotLog(this.queryText, BigInteger.class, this.dbConnectionInfo.getUrl(), this.dbConnectionInfo.getUsername(), this.dbConnectionInfo.getPassword(), this.dbConnectionInfo.getDriver());
 
         }
 
@@ -206,7 +209,7 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
 
     /**
      * check @otherQuery has DBScheduledCountQuery class
-     * **/
+     **/
     @Override
     public boolean equalsByClass(Query otherQuery) {
 
@@ -219,7 +222,7 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
     @Override
     public void updateMe(Query updatedData) throws UpdateException {
 
-        if (! (updatedData instanceof DBScheduledCountQuery))
+        if (!(updatedData instanceof DBScheduledCountQuery))
             throw new UpdateException("Query class doesn't match");
 
         DBScheduledCountQuery upData = (DBScheduledCountQuery) updatedData;

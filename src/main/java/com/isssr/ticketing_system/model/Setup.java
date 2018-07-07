@@ -1,10 +1,12 @@
 package com.isssr.ticketing_system.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.isssr.ticketing_system.model.SoftDelete.SoftDeletableEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -15,13 +17,10 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 
 @Entity
-@Table(name = "setup")
 @DynamicInsert
 @DynamicUpdate
-@Setter
-@Getter
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Setup {
+@Table(name = "setup")
+public class Setup extends SoftDeletableEntity {
 
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id
@@ -31,5 +30,4 @@ public class Setup {
     @JsonView(JsonViews.Basic.class)
     @NonNull
     private boolean setup;
-
 }
