@@ -14,7 +14,7 @@ public class MailScheduler {
     private MailReceiverHandler mailReceiverHandler;
 
     @Scheduled(fixedDelay = 10000)
-    public void startMailScheduling(){
+    public void startMailScheduling() {
         mailReceiverHandler.receiveMail();
     }
 }

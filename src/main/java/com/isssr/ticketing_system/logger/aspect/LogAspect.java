@@ -28,13 +28,12 @@ public class LogAspect {
     @Autowired
     private RecordService recordService;
 
-    private static String serializeObject(Object object) throws Throwable {
+    private static String serializeObject(Object object, Class<?> jsonView) throws Throwable {
         String[] params = null;
         String[] idParams = null;
 
         params = ReflectUtils.getParameters(object);
         idParams = ReflectUtils.getIDParameters(object);
-
 
         String objectId = "";
 
@@ -44,10 +43,10 @@ public class LogAspect {
             // serializza tutti i parametri dell oggetto
             if (idParams == null) {
                 objectId = "no id";
-                serializedObject = ObjSer.objToJson(object);
+                serializedObject = ObjSer.objToJson(object, jsonView);
             } else {
                 objectId = ObjSer.buildIDJson(object, idParams);
-                serializedObject = ObjSer.objToJson(object);
+                serializedObject = ObjSer.objToJson(object, jsonView);
             }
 
         } else {
@@ -100,7 +99,7 @@ public class LogAspect {
 
             if (returnObjectName) {
                 try {
-                    serializedReturnObject = serializeObject(returnObject);
+                    serializedReturnObject = serializeObject(returnObject, annotation.jsonView());
                     String idJSON = ObjSer.buildIDJson(returnObject, ReflectUtils.getIDParameters(returnObject));
                     payloads[payloads.length - 1] = new Payload(serializedReturnObject, idJSON, "output", returnObject.getClass().getSimpleName(), record);
                 } catch (NullPointerException e) {
@@ -123,7 +122,7 @@ public class LogAspect {
                     try {
                         inputArgs[i] = ReflectUtils.getMethodParameter(inputArgsNames[i], signature, jp.getArgs());
                         //oggetto Serializzato
-                        serializedObject[i] = serializeObject(inputArgs[i]);
+                        serializedObject[i] = serializeObject(inputArgs[i], annotation.jsonView());
                         //id dell'oggetto serializzato
                         String idJSON = ObjSer.buildIDJson(inputArgs[i], ReflectUtils.getIDParameters(inputArgs[i]));
 

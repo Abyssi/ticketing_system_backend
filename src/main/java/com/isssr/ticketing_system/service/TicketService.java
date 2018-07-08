@@ -7,6 +7,7 @@ import com.isssr.ticketing_system.model.SoftDelete.SoftDelete;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeleteKind;
 import com.isssr.ticketing_system.model.Ticket;
 import com.isssr.ticketing_system.repository.TicketRepository;
+import com.isssr.ticketing_system.response_entity.JsonViews;
 import com.isssr.ticketing_system.utils.EntityMergeUtils;
 import com.isssr.ticketing_system.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class TicketService {
     private EntityMergeUtils entityMergeUtils;
 
     @Transactional
-    @LogOperation(tag = "TICKET_CREATE", inputArgs = {"ticket"})
+    @LogOperation(tag = "TICKET_CREATE", inputArgs = {"ticket"}, jsonView = JsonViews.DetailedTicket.class)
     public Ticket save(Ticket ticket) {
         return this.ticketRepository.save(ticket);
     }

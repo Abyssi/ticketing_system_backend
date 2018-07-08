@@ -1,5 +1,6 @@
 package com.isssr.ticketing_system.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.logger.aspect.LogClass;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeletableEntity;
@@ -60,6 +61,7 @@ public class User extends SoftDeletableEntity {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private Collection<Ticket> tickets;
