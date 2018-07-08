@@ -1,14 +1,15 @@
-package com.isssr.ticketing_system.controller.mailController;
+package com.isssr.ticketing_system.mail.mailHandler;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 @Configuration
 @Component
-@Controller
-public abstract class MailController implements IMailController {
+@Service
+public abstract class MailHandler implements IMailHandler, Runnable {
 
     //IMAP server settings -----------
 
@@ -37,12 +38,19 @@ public abstract class MailController implements IMailController {
     @Value("${mail.password}")
     protected String password;
 
-    //E-mail Attachment
+    //E-mail format ---------
+
+    @Value("${mail.format}")
+    protected String[] format;
+
+    //E-mail Attachment ----------
 
     @Value("${mail.attach.format}")
     protected String attach;
 
     public abstract void sendMail(String address, String mailType);
+
+    public abstract void sendMail(String address, String mailType, String text);
 
     public abstract void receiveMail();
 

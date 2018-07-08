@@ -1,8 +1,7 @@
-package com.isssr.ticketing_system.controller.mailController;
+package com.isssr.ticketing_system.mail.mailHandler;
 
-import com.isssr.ticketing_system.exception.FormatNotRespectedException;
-import com.isssr.ticketing_system.exception.MailRejectedException;
-import com.isssr.ticketing_system.logger.RecordService;
+import com.isssr.ticketing_system.mail.exception.FormatNotRespectedException;
+import com.isssr.ticketing_system.mail.exception.MailRejectedException;
 import com.isssr.ticketing_system.model.*;
 import com.isssr.ticketing_system.service.*;
 import lombok.NoArgsConstructor;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.Message.RecipientType;
@@ -24,13 +24,14 @@ import java.util.Optional;
 import java.util.Properties;
 
 @NoArgsConstructor
-@Controller
+@Service
 @EnableScheduling
-public class MailReceiverController extends MailController {
+public class MailReceiverHandler extends MailHandler {
 
     private MimeBodyPart bodyPart;
     private String fileName;
     private boolean flag;
+    private boolean isRunning;
 
     @Autowired
     private UserService userService;
@@ -63,10 +64,12 @@ public class MailReceiverController extends MailController {
     private TicketAttachmentService ticketAttachmentService;
 
     @Autowired
-    private MailSenderController mailSenderController;
+    private MailSenderHandler mailSenderController;
 
-    @Autowired
-    private RecordService recordService;
+    public void receiveMail(){
+        //start thread
+        (new Thread(this)).start();
+    }
 
     //Returns a Properties object which is configured for a IMAP server
     private Properties getServerProperties(String host, String port) {
@@ -88,9 +91,9 @@ public class MailReceiverController extends MailController {
     }
 
     //Waiting for e-mails
-    //@Scheduled(fixedDelay = 10000)
-    public void receiveMail() {
+    public void run() {
         System.out.println("Reading emails...");
+        this.isRunning = true;
         Properties properties = getServerProperties(receiverHost, port);
         Session session = Session.getDefaultInstance(properties);
 
@@ -188,6 +191,10 @@ public class MailReceiverController extends MailController {
         } catch (MailRejectedException e) {
             System.out.println("Email rejected");
         }
+        finally {
+            this.isRunning = false;
+            //Thread.currentThread().interrupt();
+        }
     }
 
     private boolean checkDomain(String from) {
@@ -249,7 +256,7 @@ public class MailReceiverController extends MailController {
 
     //Switch between formatted and unformatted email
     private boolean isFormatted(String content) {
-        String[] ticketAttribute = new String[]{"description", "category", "target", "priority"};
+        String[] ticketAttribute = format;
 
         //Avoid case sensitive match error
         content = content.toLowerCase();
@@ -324,6 +331,7 @@ public class MailReceiverController extends MailController {
             System.out.println("Email rejected, format not respected");
             return null;
         }
+        this.isRunning = false;
         return ticket;
     }
 
@@ -332,7 +340,11 @@ public class MailReceiverController extends MailController {
     }
 
     @Override
+    public void sendMail(String address, String mailType, String text) {
+    }
+
+    @Override
     public boolean isServerRunning() {
-        return true;
+        return isRunning;
     }
 }

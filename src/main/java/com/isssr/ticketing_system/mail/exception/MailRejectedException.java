@@ -1,4 +1,4 @@
-package com.isssr.ticketing_system.exception;
+package com.isssr.ticketing_system.mail.exception;
 
 public class MailRejectedException extends Exception {
     public MailRejectedException(String s) {

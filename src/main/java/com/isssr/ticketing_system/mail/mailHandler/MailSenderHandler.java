@@ -1,34 +1,39 @@
-package com.isssr.ticketing_system.controller.mailController;
+package com.isssr.ticketing_system.mail.mailHandler;
 
 import com.isssr.ticketing_system.logger.aspect.LogOperation;
-import com.isssr.ticketing_system.model.Mail;
-import com.isssr.ticketing_system.service.MailService;
+import com.isssr.ticketing_system.mail.model.Mail;
+import com.isssr.ticketing_system.mail.MailService;
 import org.apache.commons.mail.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
-import javax.mail.Multipart;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import java.io.File;
-import java.io.IOException;
 
-@Controller
-public class MailSenderController extends MailController {
+@Service
+public class MailSenderHandler extends MailHandler {
+
+    //Thread Attribute
+    private String address;
+    private String mailType;
+    private String mailText;
 
     @Autowired
     private MailService mailService;
 
-    @Override
     @LogOperation(tag = "MAIL_SEND", inputArgs = "mailType")
-    public void sendMail(String address, String mailType) {
+    public void sendMail(String address, String mailType){
+        //init attribute
+        this.address = address;
+        this.mailType = mailType;
+        this.mailText = null;
 
+        //Start thread
+        (new Thread(this)).start();
+    }
+
+    public void run() {
         try {
             //Query to db for retrieve subject and content email, by type
             Mail mail = this.mailService.findByType(mailType).get();
@@ -40,7 +45,8 @@ public class MailSenderController extends MailController {
             email.setHostName("smtp.gmail.com");
             email.setFrom(userName);
             email.setSubject(mail.getSubject());
-            email.setMsg(mail.getDescription());
+            if (mailText == null) email.setMsg(mail.getDescription());
+            else email.setMsg(mail.getDescription() + "\n\n" + mailText);
             email.addTo(address);
             email.setTLS(true);
 
@@ -60,26 +66,13 @@ public class MailSenderController extends MailController {
 
     @LogOperation(tag = "MAIL_SEND", inputArgs = "mailType")
     public void sendMail(String address, String mailType, String mailText) {
+        //init attribute
+        this.address = address;
+        this.mailType = mailType;
+        this.mailText = mailText;
 
-        try {
-            //Query to db for retrieve subject and content email, by type
-            Mail mail = this.mailService.findByType(mailType).get();
-
-            //Build email
-            Email email = new SimpleEmail();
-            email.setSmtpPort(587);
-            email.setAuthenticator(new DefaultAuthenticator(userName, password));
-            email.setHostName("smtp.gmail.com");
-            email.setFrom(userName);
-            email.setSubject(mail.getSubject());
-            email.setMsg(mail.getDescription() + "\n\n" + mailText);
-            email.addTo(address);
-            email.setTLS(true);
-            email.send();
-            System.out.println("Response e-mail sent!");
-        } catch (Exception e) {
-            System.out.println("Exception :: " + e);
-        }
+        //Start thread
+        (new Thread(this)).start();
     }
 
     @Override

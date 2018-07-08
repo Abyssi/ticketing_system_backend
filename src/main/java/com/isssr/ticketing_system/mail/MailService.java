@@ -1,7 +1,6 @@
-package com.isssr.ticketing_system.service;
+package com.isssr.ticketing_system.mail;
 
-import com.isssr.ticketing_system.model.Mail;
-import com.isssr.ticketing_system.repository.MailRepository;
+import com.isssr.ticketing_system.mail.model.Mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

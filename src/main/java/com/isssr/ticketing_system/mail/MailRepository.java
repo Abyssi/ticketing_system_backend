@@ -1,6 +1,6 @@
-package com.isssr.ticketing_system.repository;
+package com.isssr.ticketing_system.mail;
 
-import com.isssr.ticketing_system.model.Mail;
+import com.isssr.ticketing_system.mail.model.Mail;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

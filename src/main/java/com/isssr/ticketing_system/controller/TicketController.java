@@ -1,7 +1,7 @@
 package com.isssr.ticketing_system.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.isssr.ticketing_system.controller.mailController.MailSenderController;
+import com.isssr.ticketing_system.mail.mailHandler.MailSenderHandler;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.model.*;
@@ -55,7 +55,7 @@ public class TicketController {
     private TicketPriorityService priorityService;
 
     @Autowired
-    private MailSenderController mailSenderController;
+    private MailSenderHandler mailSenderController;
 
     private TicketValidator ticketValidator;
 
@@ -99,7 +99,7 @@ public class TicketController {
         ticket.setStatus(ticketStatusService.findByName("INITIALIZED").get());
         ticketService.save(ticket);
 
-        new Thread(() -> mailSenderController.sendMail(principal.getName(), "TICKET_OPENED")).start();
+        mailSenderController.sendMail(principal.getName(), "TICKET_OPENED");
 
         return CommonResponseEntity.OkResponseEntity("CREATED");
     }

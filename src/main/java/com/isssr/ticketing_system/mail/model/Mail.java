@@ -1,4 +1,4 @@
-package com.isssr.ticketing_system.model;
+package com.isssr.ticketing_system.mail.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeletableEntity;

@@ -1,4 +1,4 @@
-package com.isssr.ticketing_system.exception;
+package com.isssr.ticketing_system.mail.exception;
 
 public class FormatNotRespectedException extends Exception {
     public FormatNotRespectedException(String format_not_respected) {
