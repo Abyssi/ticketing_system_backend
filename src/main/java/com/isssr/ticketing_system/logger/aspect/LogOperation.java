@@ -17,4 +17,6 @@ public @interface LogOperation {
     String tag() default "";                    // default: no tag
 
     boolean isEnabled() default true;
+
+    Class<?> jsonView() default Object.class;
 }

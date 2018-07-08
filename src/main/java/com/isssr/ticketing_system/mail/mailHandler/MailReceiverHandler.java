@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.mail.*;
 import javax.mail.Message.RecipientType;
@@ -65,7 +65,7 @@ public class MailReceiverHandler extends MailHandler {
     @Autowired
     private MailSenderHandler mailSenderController;
 
-    public void receiveMail(){
+    public void receiveMail() {
         //start thread
         (new Thread(this)).start();
     }
@@ -189,8 +189,7 @@ public class MailReceiverHandler extends MailHandler {
             ex.printStackTrace();
         } catch (MailRejectedException e) {
             System.out.println("Email rejected");
-        }
-        finally {
+        } finally {
             this.isRunning = false;
             //Thread.currentThread().interrupt();
         }
@@ -282,7 +281,8 @@ public class MailReceiverHandler extends MailHandler {
             String[] lines = content.split("\n");
 
             //Get right formatted text
-            String productID = lines[1].substring(lines[1].indexOf(": ") + 1).toLowerCase();
+            String target = lines[1].substring(lines[1].indexOf(": ") + 1).toLowerCase();
+            target = StringUtils.capitalize(target);
             String category0 = lines[2].substring(lines[2].indexOf(": ") + 1).toLowerCase();
             String priority = lines[3].substring(lines[3].indexOf(": ") + 1).toLowerCase();
             String description = lines[4].substring(lines[4].indexOf(": ") + 1).toLowerCase();
@@ -297,7 +297,7 @@ public class MailReceiverHandler extends MailHandler {
             Optional<TicketPriority> ticketPriority = ticketPriorityService.findByName(priority.toUpperCase().trim());
             if (!ticketPriority.isPresent()) throw new FormatNotRespectedException("Format not respected");
 
-            Optional<Target> product = productService.findByName(productID.toLowerCase().trim());
+            Optional<Target> product = productService.findByName(target.toLowerCase().trim());
             if (!product.isPresent()) throw new FormatNotRespectedException("Format not respected");
 
             //Setting ticket's default values and retrieved ones

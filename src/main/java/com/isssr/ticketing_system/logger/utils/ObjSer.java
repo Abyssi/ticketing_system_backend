@@ -14,7 +14,7 @@ import static org.hibernate.proxy.HibernateProxyHelper.getClassWithoutInitializi
 public abstract class ObjSer {
 
 
-    public static String objToJson(Object object) {
+    public static String objToJson(Object object, Class<?> jsonView) {
 
         String jsonString = null;
         ObjectMapper objectMapper = new ObjectMapper();
@@ -26,7 +26,7 @@ public abstract class ObjSer {
 
             //  mapper.writeValue(System.out, object);
 
-            jsonString = objectMapper.writeValueAsString(object);
+            jsonString = ((jsonView == null || jsonView == Object.class) ? objectMapper.writer() : objectMapper.writerWithView(jsonView)).writeValueAsString(object);
 
         } catch (IOException e) {
             // TODO Auto-generated catch block

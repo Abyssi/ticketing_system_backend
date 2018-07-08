@@ -3,6 +3,7 @@ package com.isssr.ticketing_system;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.UpdateException;
 import com.isssr.ticketing_system.mail.MailService;
+import com.isssr.ticketing_system.mail.model.Mail;
 import com.isssr.ticketing_system.model.*;
 import com.isssr.ticketing_system.model.auto_generated.enumeration.ComparisonOperatorsEnum;
 import com.isssr.ticketing_system.model.auto_generated.query.DBScheduledCountQuery;
@@ -18,13 +19,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.transform.Result;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -152,7 +150,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private void createDB() {
         try {
-            Class.forName("com.postgres.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:postgres://localhost:3306/", ROOT_USERNAME, ROOT_PASSWORD);
             Statement statement = con.createStatement();
             statement.execute("CREATE DATABASE ticketing_system_db\n" +
@@ -253,7 +250,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private void configureProducts() {
         this.targetService.save(new Target("System", "1.0"));
-        this.targetService.save(new Target("system", "1.0"));
     }
 
     private void configureTeams() {

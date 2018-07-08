@@ -1,5 +1,6 @@
 package com.isssr.ticketing_system.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.isssr.ticketing_system.model.SoftDelete.SoftDeletableEntity;
 import com.isssr.ticketing_system.response_entity.JsonViews;
@@ -40,7 +41,8 @@ public class Company extends SoftDeletableEntity {
     @NonNull
     private String domain;
 
-    @JsonView(JsonViews.DetailedCompany.class)
+    //@JsonView(JsonViews.DetailedCompany.class)
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private Collection<User> members;

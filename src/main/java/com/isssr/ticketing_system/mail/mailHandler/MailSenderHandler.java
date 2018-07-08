@@ -1,12 +1,11 @@
 package com.isssr.ticketing_system.mail.mailHandler;
 
 import com.isssr.ticketing_system.logger.aspect.LogOperation;
-import com.isssr.ticketing_system.mail.model.Mail;
 import com.isssr.ticketing_system.mail.MailService;
-import org.apache.commons.mail.*;
+import com.isssr.ticketing_system.mail.model.Mail;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.MultiPartEmail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -23,7 +22,7 @@ public class MailSenderHandler extends MailHandler {
     private MailService mailService;
 
     @LogOperation(tag = "MAIL_SEND", inputArgs = "mailType")
-    public void sendMail(String address, String mailType){
+    public void sendMail(String address, String mailType) {
         //init attribute
         this.address = address;
         this.mailType = mailType;
@@ -51,7 +50,7 @@ public class MailSenderHandler extends MailHandler {
             email.setTLS(true);
 
             //Check email type for adding attach
-            if (mailType.equals("FORMAT")){
+            if (mailType.equals("FORMAT")) {
                 // Create the attachment
                 email.attach(new File(System.getProperty("user.dir") + saveDirectory + File.separator + attach));
             }

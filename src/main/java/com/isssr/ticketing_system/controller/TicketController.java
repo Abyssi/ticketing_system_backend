@@ -1,9 +1,9 @@
 package com.isssr.ticketing_system.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.isssr.ticketing_system.mail.mailHandler.MailSenderHandler;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
+import com.isssr.ticketing_system.mail.mailHandler.MailSenderHandler;
 import com.isssr.ticketing_system.model.*;
 import com.isssr.ticketing_system.model.UserFilter.UserFiltered;
 import com.isssr.ticketing_system.response_entity.*;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
