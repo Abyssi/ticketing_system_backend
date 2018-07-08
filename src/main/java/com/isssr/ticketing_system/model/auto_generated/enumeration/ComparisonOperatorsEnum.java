@@ -7,6 +7,8 @@ public enum ComparisonOperatorsEnum {
     LESS,
     EQUALS,
     GREATER_EQUALS,
-    LESS_EQUALS
+    LESS_EQUALS,
+    PERCENT_GROWTH,
+    PERCENT_DROP
 
 }

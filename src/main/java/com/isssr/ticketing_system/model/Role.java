@@ -20,7 +20,6 @@ import java.util.Collection;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "role")
 public class Role extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id

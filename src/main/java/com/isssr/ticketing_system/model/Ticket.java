@@ -8,10 +8,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +24,8 @@ import java.util.Collection;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "ticket")
+@FilterDef(name = "user_filter", parameters = {@ParamDef(name = "user_id", type = "long")})
+@Filter(name = "user_filter", condition = "customer_id = :user_id")
 @LogClass(idAttrs = {"id"})
 public class Ticket extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
@@ -70,6 +72,7 @@ public class Ticket extends SoftDeletableEntity {
 
     @JsonView(JsonViews.Basic.class)
     @ManyToOne
+    @NonNull
     private User customer;
 
     @JsonView(JsonViews.Basic.class)

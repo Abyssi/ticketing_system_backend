@@ -10,7 +10,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -22,7 +21,6 @@ import java.util.Collection;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "user")
 @LogClass(idAttrs = {"id"})
 public class User extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
@@ -61,5 +59,9 @@ public class User extends SoftDeletableEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    private Collection<Ticket> tickets;
 }
 

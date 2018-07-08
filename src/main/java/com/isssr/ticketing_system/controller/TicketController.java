@@ -5,6 +5,7 @@ import com.isssr.ticketing_system.mail.mailHandler.MailSenderHandler;
 import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.model.*;
+import com.isssr.ticketing_system.model.UserFilter.UserFiltered;
 import com.isssr.ticketing_system.response_entity.*;
 import com.isssr.ticketing_system.service.*;
 import com.isssr.ticketing_system.validator.TicketValidator;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -97,6 +99,7 @@ public class TicketController {
         ticket.setCreationTimestamp(Instant.now());
         ticket.setSource(ticketSourceService.findByName("CLIENT").get());
         ticket.setStatus(ticketStatusService.findByName("INITIALIZED").get());
+        ticket.setCustomer(userService.findByEmail(principal.getName()).get());
         ticketService.save(ticket);
 
         mailSenderController.sendMail(principal.getName(), "TICKET_OPENED");
@@ -107,7 +110,7 @@ public class TicketController {
     @JsonView(JsonViews.DetailedTicket.class)
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_TEAM_COORDINATOR')")
+    @UserFiltered
     public ResponseEntity get(@PathVariable Long id) {
         Optional<Ticket> ticket = ticketService.findById(id);
 
@@ -142,7 +145,7 @@ public class TicketController {
 
     @JsonView(JsonViews.DetailedTicket.class)
     @RequestMapping(path = "restore/{id}", method = RequestMethod.PUT)
-    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity restore(@PathVariable Long id) {
         try {
             Ticket restoredTicket = this.ticketService.restoreById(id);
@@ -155,6 +158,7 @@ public class TicketController {
     @JsonView(JsonViews.Basic.class)
     @RequestMapping(value = "all", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    @UserFiltered
     public ResponseEntity getAllPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         try {
             Page<Ticket> ticketPage = ticketService.findAll(page, pageSize);
@@ -167,6 +171,7 @@ public class TicketController {
     @JsonView(JsonViews.Basic.class)
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    @UserFiltered
     public ResponseEntity getAllNotDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         try {
             Page<Ticket> ticketPage = ticketService.findAllNotDeleted(page, pageSize);
@@ -179,6 +184,7 @@ public class TicketController {
     @JsonView(JsonViews.Basic.class)
     @RequestMapping(value = "deleted", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    @UserFiltered
     public ResponseEntity getAllDeletedPaginated(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         try {
             Page<Ticket> ticketPage = ticketService.findAllDeleted(page, pageSize);
@@ -191,6 +197,7 @@ public class TicketController {
     @JsonView(JsonViews.Basic.class)
     @RequestMapping(path = "search/{title}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    @UserFiltered
     public ResponseEntity searchByTitlePaginated(@PathVariable String title, @RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         try {
             Page<Ticket> ticketPage = ticketService.findByTitleContaining(title, page, pageSize);

@@ -19,7 +19,6 @@ import javax.persistence.*;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "ticket_relation")
 public class TicketRelation extends SoftDeletableEntity {
     @JsonView(JsonViews.IdentifierOnly.class)
     @Id
