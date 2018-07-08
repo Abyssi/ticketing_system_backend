@@ -179,7 +179,34 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
 
         }
 
+        // compute percent from value (this is a monitoring query
+        // so it is the difference between instant value and last value)
+        // and this.lastValue that has already been updated with last instant value
+        float percent = percent(value, this.lastValue);
+
+        switch (this.comparisonOperator) {
+            case PERCENT_GROWTH:
+
+                return percent >= this.referenceValue.floatValue();
+
+            case PERCENT_DROP:
+
+                return percent < this.referenceValue.floatValue();
+
+        }
+
         return false;
+
+    }
+
+    /**
+     * Returns a proportion (n out of a total) as a percentage, in a float.
+     */
+    private float percent(BigInteger n, BigInteger total) {
+
+        float ratio = (n.floatValue()) / (total.floatValue());
+
+        return ratio * 100;
 
     }
 
@@ -228,6 +255,8 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
         DBScheduledCountQuery upData = (DBScheduledCountQuery) updatedData;
 
         super.updateMe(upData);
+
+        this.comparisonOperator = upData.comparisonOperator;
 
     }
 
