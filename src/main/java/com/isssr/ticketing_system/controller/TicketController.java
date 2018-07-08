@@ -81,6 +81,7 @@ public class TicketController {
         Iterable<TicketCategory> categories = ticketCategoryService.findAll();
         Iterable<Target> targets = targetService.findAll();
         Iterable<TicketPriority> priorities = priorityService.findAll();
+        Iterable<TicketStatus> statuses = ticketStatusService.findAll();
 
         return new HashMapResponseEntityBuilder(HttpStatus.OK)
                 .set("visibilities", StreamSupport.stream(visibilities.spliterator(), false).collect(Collectors.toList()))
@@ -88,6 +89,7 @@ public class TicketController {
                 .set("categories", StreamSupport.stream(categories.spliterator(), false).collect(Collectors.toList()))
                 .set("targets", StreamSupport.stream(targets.spliterator(), false).collect(Collectors.toList()))
                 .set("priorities", StreamSupport.stream(priorities.spliterator(), false).collect(Collectors.toList()))
+                .set("statuses", StreamSupport.stream(statuses.spliterator(), false).collect(Collectors.toList()))
                 .build();
     }
 

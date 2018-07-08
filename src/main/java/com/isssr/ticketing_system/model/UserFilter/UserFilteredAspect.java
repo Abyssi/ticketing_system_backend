@@ -25,10 +25,12 @@ public class UserFilteredAspect {
     @Around("@annotation(userFiltered)")
     public Object userFilteredMethod(ProceedingJoinPoint joinPoint, UserFiltered userFiltered) throws Throwable {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (hasRole(authentication, "ROLE_ADMIN"))
+
+        if (hasPrivilege(authentication, "READ_ALL_PRIVILEGE"))
             return joinPoint.proceed();
 
         Session session = (Session) this.entityManager.getDelegate();
+
         try {
             if (session.isOpen()) {
                 Long id = userService.findByEmail(authentication.getName()).get().getId();
@@ -41,9 +43,9 @@ public class UserFilteredAspect {
         }
     }
 
-    private boolean hasRole(Authentication authentication, String role) {
+    private boolean hasPrivilege(Authentication authentication, String privilege) {
         for (GrantedAuthority auth : authentication.getAuthorities())
-            if (role.equals(auth.getAuthority()))
+            if (auth.getAuthority().equals(privilege))
                 return true;
 
         return false;

@@ -1,6 +1,5 @@
 package com.isssr.ticketing_system.controller;
 
-import com.isssr.ticketing_system.exception.EntityNotFoundException;
 import com.isssr.ticketing_system.exception.PageableQueryException;
 import com.isssr.ticketing_system.logger.RecordService;
 import com.isssr.ticketing_system.logger.entity.Record;
