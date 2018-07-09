@@ -104,7 +104,9 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
 
         } else {
 
-            BigInteger difference = count.andNot(this.lastValue);
+            BigInteger lastNeg = this.lastValue.multiply(BigInteger.valueOf(-1));
+
+            BigInteger difference = count.add(lastNeg);
 
             //update last value
             this.lastValue = count;
@@ -191,7 +193,7 @@ public class DBScheduledCountQuery extends DBScheduledQuery<BigInteger, Comparis
 
             case PERCENT_DROP:
 
-                return percent < this.referenceValue.floatValue();
+                return percent < this.referenceValue.multiply(BigInteger.valueOf(-1)).floatValue();
 
         }
 

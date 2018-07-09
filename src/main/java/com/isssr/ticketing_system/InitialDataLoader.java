@@ -44,6 +44,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     @Value("${root.mode.password}")
     private String ROOT_PASSWORD;
 
+    @Value("${admin.email}")
+    private String ADMIN_EMAIL;
+
     @Autowired
     private PrivilegeService privilegeService;
 
@@ -204,7 +207,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureUsers() {
-        this.userService.save(new User("Admin", "Admin", "admin@admin.com", "password", this.companyService.findByName("System").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
+        this.userService.save(new User("Admin", "Admin", ADMIN_EMAIL, "password", this.companyService.findByName("System").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_ADMIN").get()))));
     }
 
     private void configurePriorities() {
@@ -253,7 +256,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     private void configureTeams() {
-        Team systemTeam = this.teamService.save(new Team("System team", userService.findByEmail("admin@admin.com").get()));
+        Team systemTeam = this.teamService.save(new Team("System team", userService.findByEmail(ADMIN_EMAIL).get()));
         if (!this.teamService.existsByName(systemTeam.getName())) this.teamService.save(systemTeam);
     }
 
@@ -293,6 +296,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
      */
 
     private void demoInit() {
+        this.demoGenerateCompanies();
         this.demoGenerateUsers();
         this.demoGenerateTeams();
         this.demoGenerateQueries();
@@ -300,24 +304,29 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.demoGenerateTickets();
     }
 
+    private void demoGenerateCompanies() {
+        this.companyService.save(new Company("ISSSR", true, "gmail.com"));
+    }
+
     private void demoGenerateUsers() {
-        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi94@gmail.com", "password", this.companyService.findByName("System").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
-        this.userService.save(new User("Alessio", "Vintari", "alessio.vintari@gmail.com", "password", this.companyService.findByName("System").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
-        this.userService.save(new User("Luca", "Menzolini", "luca.menzolini@gmail.com", "password", this.companyService.findByName("System").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
-        this.userService.save(new User("Tiziano", "Ditoma", "tiziano.ditoma@gmail.com", "password", this.companyService.findByName("System").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
-        this.userService.save(new User("Simone", "Mancini", "simone.mancini@gmail.com", "password", this.companyService.findByName("System").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
-        this.userService.save(new User("Francesco", "Ottaviano", "francesco.ottaviano@gmail.com", "password", this.companyService.findByName("System").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Andrea", "Silvi", "andrea.silvi94@gmail.com", "password", this.companyService.findByName("ISSSR").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Alessio", "Vintari", "alessio.vintari@gmail.com", "password", this.companyService.findByName("ISSSR").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Luca", "Menzolini", "luca.menzolini@gmail.com", "password", this.companyService.findByName("ISSSR").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Tiziano", "Ditoma", "tiziano.ditoma@gmail.com", "password", this.companyService.findByName("ISSSR").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Simone", "Mancini", "2simonemancini5@gmail.com", "password", this.companyService.findByName("ISSSR").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
+        this.userService.save(new User("Francesco", "Ottaviano", "francesco.ottaviano@gmail.com", "password", this.companyService.findByName("ISSSR").get(), new ArrayList<>(Arrays.asList(roleService.findByName("ROLE_CUSTOMER").get()))));
     }
 
     private void demoGenerateTeams() {
         Team systemTeam = this.teamService.save(new Team("Team 2", userService.findByEmail("andrea.silvi94@gmail.com").get()));
+
         systemTeam.getMembers().add(this.userService.findByEmail("alessio.vintari@gmail.com").get());
         systemTeam.getMembers().add(this.userService.findByEmail("luca.menzolini@gmail.com").get());
         systemTeam.getMembers().add(this.userService.findByEmail("tiziano.ditoma@gmail.com").get());
-        systemTeam.getMembers().add(this.userService.findByEmail("simone.mancini@gmail.com").get());
+        systemTeam.getMembers().add(this.userService.findByEmail("2simonemancini5@gmail.com").get());
         systemTeam.getMembers().add(this.userService.findByEmail("francesco.ottaviano@gmail.com").get());
 
-        if (!this.teamService.existsByName(systemTeam.getName())) this.teamService.save(systemTeam);
+        this.teamService.save(systemTeam);
     }
 
     private void demoGenerateTargets() {
@@ -329,7 +338,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 "DBScheduledCountQuery: This query check number of targets in target table, if it is grater than 1 generate alert ticket",
                 ticketPriorityService.findByName("HIGH").get(),
                 true,
-                this.userService.findByEmail("admin@admin.com").get().getEmail(),
+                this.userService.findByEmail(ADMIN_EMAIL).get().getEmail(),
                 "*/5 * * * * ?",
                 "SELECT count(*) FROM ts_target",
                 new DBConnectionInfo(null, null, null),
@@ -341,7 +350,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 "DBScheduledCountQuery: This query check number of teams in team table, if it is less than 1 generate alert ticket",
                 ticketPriorityService.findByName("HIGH").get(),
                 false,
-                this.userService.findByEmail("admin@admin.com").get().getEmail(),
+                this.userService.findByEmail(ADMIN_EMAIL).get().getEmail(),
                 "*/8 * * * * ?",
                 "SELECT count(*) FROM ts_team",
                 new DBConnectionInfo(null, null, null),
@@ -354,13 +363,39 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 "DBScheduledCountQuery: This query check for post 'Hello world!' inside wordpress in order to find comments containing error keyword ",
                 ticketPriorityService.findByName("HIGH").get(),
                 true,
-                this.userService.findByEmail("admin@admin.com").get().getEmail(),
+                this.userService.findByEmail(ADMIN_EMAIL).get().getEmail(),
                 "*/10 * * * * ?",
                 "SELECT count(*) FROM wp_comments AS c JOIN wp_users AS u ON c.user_id = u.ID JOIN wp_posts AS p ON p.ID = c.comment_post_ID WHERE p.post_title = 'Hello world!' AND c.comment_content LIKE '%errore%'",
                 new DBConnectionInfo("jdbc:mysql://localhost:3306/wordpress?useSSL=false", "root", "password"),
                 QueryType.DATA_BASE_TABLE_MONITOR,
                 ComparisonOperatorsEnum.GREATER_EQUALS,
                 BigInteger.valueOf(1)
+        ));
+
+        this.queryService.create(new DBScheduledCountQuery(
+                "Rapporto ultimo minuto: è stato rilevato più di 1 commento sotto il post denominato 'Supporto' riguardante il sistema 'ISSSR blog demo' che riporta le parole errore, bug o crash",
+                ticketPriorityService.findByName("HIGH").get(),
+                true,
+                this.userService.findByEmail(ADMIN_EMAIL).get().getEmail(),
+                "0 */1 * * * ?",
+                "SELECT c.comment_content FROM wp_comments AS c JOIN wp_posts AS p ON p.ID = c.comment_post_ID WHERE p.post_title = 'Supporto'  AND c.comment_content LIKE 'ISSSR blog demo%' AND c.comment_content LIKE '%errore%'  OR '%bug%' OR '%crash%'",
+                new DBConnectionInfo("jdbc:mysql://localhost:3306/wordpress?useSSL=false", "root", "password"),
+                QueryType.DATA_BASE_TABLE_MONITOR,
+                ComparisonOperatorsEnum.GREATER,
+                BigInteger.valueOf(1)
+        ));
+
+        this.queryService.create(new DBScheduledCountQuery(
+                "DBScheduledCountQuery: This query check for post 'Hello world!' inside wordpress in order to find comments containing error keyword ",
+                ticketPriorityService.findByName("HIGH").get(),
+                true,
+                this.userService.findByEmail(ADMIN_EMAIL).get().getEmail(),
+                "0 */2 * * * ?",
+                "SELECT count(*) FROM ts_ticket AS t JOIN ts_ticketcategory AS tc ON t.category_id = tc.id WHERE tc.name = 'BUG'",
+                new DBConnectionInfo(null, null, null),
+                QueryType.DATA_BASE_TABLE_MONITOR,
+                ComparisonOperatorsEnum.PERCENT_DROP,
+                BigInteger.valueOf(20)
         ));
     }
 
@@ -371,8 +406,34 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 Instant.now(),
                 ticketCategoryService.findByName("BUG").get(),
                 "Found a bug!",
-                "Hi,\nI'm andrea, I would like you to inform that the system that you created is beautiful but there are some problems, you should fix all problems.\nSee you soon,\nAndrea",
+                "Hi,\nI'm Andrea, I would like you to inform that the system that you created is beautiful but there are some problems, you should fix all problems.\nSee you soon,\nAndrea",
                 userService.findByEmail("andrea.silvi94@gmail.com").get(),
+                targetService.findByName("ISSSR").get(),
+                ticketPriorityService.findByName("HIGH").get(),
+                visibilityService.findByName("PRIVATE").get()
+        ));
+
+        this.ticketService.save(new Ticket(
+                ticketStatusService.findByName("INITIALIZED").get(),
+                ticketSourceService.findByName("CLIENT").get(),
+                Instant.now(),
+                ticketCategoryService.findByName("ERROR").get(),
+                "Error found inside form",
+                "Hi,\nI'm Alessio, thanks for your amazing system, I'm experiencing some issues with your for during ticket creation.\nSee you soon,\nAlessio",
+                userService.findByEmail("alessio.vintari@gmail.com").get(),
+                targetService.findByName("ISSSR").get(),
+                ticketPriorityService.findByName("HIGH").get(),
+                visibilityService.findByName("PRIVATE").get()
+        ));
+
+        this.ticketService.save(new Ticket(
+                ticketStatusService.findByName("INITIALIZED").get(),
+                ticketSourceService.findByName("CLIENT").get(),
+                Instant.now(),
+                ticketCategoryService.findByName("FAILURE").get(),
+                "Failure of browser",
+                "Hi,\nI'm Luca, I would like you to inform that my browser crash instantly. Maybe the problem is my computer, I'm using Windows Vista and Internet explorer!\nSee you soon,\nLuca",
+                userService.findByEmail("luca.menzolini@gmail.com").get(),
                 targetService.findByName("ISSSR").get(),
                 ticketPriorityService.findByName("HIGH").get(),
                 visibilityService.findByName("PRIVATE").get()

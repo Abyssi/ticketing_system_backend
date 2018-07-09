@@ -9,7 +9,6 @@ import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.mail.*;
 import javax.mail.Message.RecipientType;
@@ -48,7 +47,7 @@ public class MailReceiverHandler extends MailHandler {
     private TicketPriorityService ticketPriorityService;
 
     @Autowired
-    private TargetService productService;
+    private TargetService targetService;
 
     @Autowired
     private TicketCategoryService ticketCategoryService;
@@ -281,8 +280,7 @@ public class MailReceiverHandler extends MailHandler {
             String[] lines = content.split("\n");
 
             //Get right formatted text
-            String target = lines[1].substring(lines[1].indexOf(": ") + 1).toLowerCase();
-            target = StringUtils.capitalize(target);
+            String target0 = lines[1].substring(lines[1].indexOf(": ") + 1);
             String category0 = lines[2].substring(lines[2].indexOf(": ") + 1).toLowerCase();
             String priority = lines[3].substring(lines[3].indexOf(": ") + 1).toLowerCase();
             String description = lines[4].substring(lines[4].indexOf(": ") + 1).toLowerCase();
@@ -297,14 +295,14 @@ public class MailReceiverHandler extends MailHandler {
             Optional<TicketPriority> ticketPriority = ticketPriorityService.findByName(priority.toUpperCase().trim());
             if (!ticketPriority.isPresent()) throw new FormatNotRespectedException("Format not respected");
 
-            Optional<Target> product = productService.findByName(target.toLowerCase().trim());
-            if (!product.isPresent()) throw new FormatNotRespectedException("Format not respected");
+            Optional<Target> target = targetService.findByName(target0.trim());
+            if (!target.isPresent()) throw new FormatNotRespectedException("Format not respected");
 
             //Setting ticket's default values and retrieved ones
             ticket.setTitle(subject);
             ticket.setDescription(description);
             ticket.setCustomerPriority(ticketPriority.get());
-            ticket.setTarget(product.get());
+            ticket.setTarget(target.get());
             ticket.setCategory(category.get());
             ticket.setStatus(ticketStatus);
             ticket.setSource(ticketSource);

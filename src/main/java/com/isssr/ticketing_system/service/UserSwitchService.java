@@ -75,14 +75,19 @@ public class UserSwitchService {
 
     //Use a read only user to do job
     @LogOperation(tag = "QUERY_EXECUTE", inputArgs = {"query"})
-    public <T> T doQueryReadOnlyMode(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword, String dbDriver) throws SQLException, DataAccessException {
+    public synchronized <T> T doQueryReadOnlyMode(String query, Class<T> returnType, String dbURL, String dbUsername, String dbPassword, String dbDriver) throws SQLException, DataAccessException {
         //Go with the connection of a new user
         this.jdbcTemplate.setDataSource(getDataSource(dbURL, dbUsername, dbPassword, dbDriver, DBConnectionModeEnum.READ_ONLY_MODE));
         Connection connection;
         T result = null;
 
         connection = this.jdbcTemplate.getDataSource().getConnection();
-        result = this.customRepository.customQuery(query, jdbcTemplate, returnType);
+        try {
+            result = this.customRepository.customQuery(query, jdbcTemplate, returnType);
+        } catch (Exception e) {
+            connection.close();
+            throw e;
+        }
         connection.close();
 
         return result;
