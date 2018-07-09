@@ -337,6 +337,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         this.queryService.create(new DBScheduledCountQuery(
                 "DBScheduledCountQuery: This query check number of targets in target table, if it is grater than 1 generate alert ticket",
                 ticketPriorityService.findByName("HIGH").get(),
+                false,
+                false,
                 true,
                 this.userService.findByEmail(ADMIN_EMAIL).get().getEmail(),
                 "*/5 * * * * ?",
@@ -350,6 +352,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 "DBScheduledCountQuery: This query check number of teams in team table, if it is less than 1 generate alert ticket",
                 ticketPriorityService.findByName("HIGH").get(),
                 false,
+                false,
+                false,
                 this.userService.findByEmail(ADMIN_EMAIL).get().getEmail(),
                 "*/8 * * * * ?",
                 "SELECT count(*) FROM ts_team",
@@ -360,12 +364,14 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         ));
 
         this.queryService.create(new DBScheduledCountQuery(
-                "DBScheduledCountQuery: This query check for post 'Hello world!' inside wordpress in order to find comments containing error keyword ",
+                "Rapporto ultimo minuto: sono stati rilevati 1 o più commenti che non siano sotto il post denominato 'Supporto' riguardante il sistema 'ISSSR blog demo' che riporta le parole errore, bug o crash",
                 ticketPriorityService.findByName("HIGH").get(),
+                false,
+                false,
                 true,
                 this.userService.findByEmail(ADMIN_EMAIL).get().getEmail(),
-                "*/10 * * * * ?",
-                "SELECT count(*) FROM wp_comments AS c JOIN wp_users AS u ON c.user_id = u.ID JOIN wp_posts AS p ON p.ID = c.comment_post_ID WHERE p.post_title = 'Hello world!' AND c.comment_content LIKE '%errore%'",
+                "*/30 * * * * ?",
+                "SELECT count(*) FROM wp_comments AS c JOIN wp_users AS u ON c.user_id = u.ID JOIN wp_posts AS p ON p.ID = c.comment_post_ID WHERE p.post_title != 'Supporto' AND c.comment_content LIKE '%errore%' OR '%bug%' OR '%crash%'",
                 new DBConnectionInfo("jdbc:mysql://localhost:3306/wordpress?useSSL=false", "root", "password"),
                 QueryType.DATA_BASE_TABLE_MONITOR,
                 ComparisonOperatorsEnum.GREATER_EQUALS,
@@ -373,28 +379,32 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         ));
 
         this.queryService.create(new DBScheduledCountQuery(
-                "Rapporto ultimo minuto: è stato rilevato più di 1 commento sotto il post denominato 'Supporto' riguardante il sistema 'ISSSR blog demo' che riporta le parole errore, bug o crash",
+                "Rapporto ultimo minuto: sono stati rilevati 1 o più commenti sotto il post denominato 'Supporto' riguardante il sistema 'ISSSR blog demo' che riporta le parole errore, bug o crash",
                 ticketPriorityService.findByName("HIGH").get(),
+                false,
+                false,
                 true,
                 this.userService.findByEmail(ADMIN_EMAIL).get().getEmail(),
-                "0 */1 * * * ?",
-                "SELECT c.comment_content FROM wp_comments AS c JOIN wp_posts AS p ON p.ID = c.comment_post_ID WHERE p.post_title = 'Supporto'  AND c.comment_content LIKE 'ISSSR blog demo%' AND c.comment_content LIKE '%errore%'  OR '%bug%' OR '%crash%'",
+                "*/10 * * * * ?",
+                "SELECT count(*) FROM wp_comments AS c JOIN wp_posts AS p ON p.ID = c.comment_post_ID WHERE p.post_title = 'Supporto'  AND c.comment_content LIKE 'ISSSR blog demo%' AND c.comment_content LIKE '%errore%' OR '%bug%' OR '%crash%'",
                 new DBConnectionInfo("jdbc:mysql://localhost:3306/wordpress?useSSL=false", "root", "password"),
                 QueryType.DATA_BASE_TABLE_MONITOR,
-                ComparisonOperatorsEnum.GREATER,
+                ComparisonOperatorsEnum.GREATER_EQUALS,
                 BigInteger.valueOf(1)
         ));
 
         this.queryService.create(new DBScheduledCountQuery(
-                "DBScheduledCountQuery: This query check for post 'Hello world!' inside wordpress in order to find comments containing error keyword ",
+                "Rapporto ultimi due minuti: è stata rilevato rilevato un incremento del 20% sul numero di ticket aperti con categoria bug",
                 ticketPriorityService.findByName("HIGH").get(),
+                false,
+                false,
                 true,
                 this.userService.findByEmail(ADMIN_EMAIL).get().getEmail(),
                 "0 */2 * * * ?",
                 "SELECT count(*) FROM ts_ticket AS t JOIN ts_ticketcategory AS tc ON t.category_id = tc.id WHERE tc.name = 'BUG'",
                 new DBConnectionInfo(null, null, null),
                 QueryType.DATA_BASE_TABLE_MONITOR,
-                ComparisonOperatorsEnum.PERCENT_DROP,
+                ComparisonOperatorsEnum.PERCENT_GROWTH,
                 BigInteger.valueOf(20)
         ));
     }
